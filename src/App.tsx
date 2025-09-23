@@ -41,16 +41,24 @@ function App() {
   };
 
   useEffect(() => {
+    const handleMouseUp = () => {
+      document.body.style.userSelect = '';
+      isResizing.current = false;
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!isResizing.current || !containerRef.current) return;
+
+      if ((e.buttons & 1) !== 1) {
+        handleMouseUp();
+        return;
+      }
+
+      document.body.style.userSelect = 'none';
 
       const containerLeft = containerRef.current.getBoundingClientRect().left;
       const newWidth = e.clientX - containerLeft;
       setSidebarWidth(Math.max(150, Math.min(newWidth, 500)));
-    };
-
-    const handleMouseUp = () => {
-      isResizing.current = false;
     };
 
     window.addEventListener('mousemove', handleMouseMove);
@@ -92,15 +100,16 @@ function App() {
           isResizing.current = true;
         }}
         style={{
-          width: '1px',
+          width: '4px',
           cursor: 'col-resize',
-          backgroundColor: '#555',
           zIndex: 100,
         }}
-      />
+      >
+        <div style={{ width: 1, height: '100%', backgroundColor: '#555', }}></div>
+      </div>
 
       {/* Editor area */}
-      <div style={{ flexGrow: 1, overflow: 'auto' }}>
+      <div style={{ width: '100%', overflowX: 'hidden', overflowY: 'auto' }}>
         <EditorView file={selectedFile} onChange={updateFile} />
       </div>
     </div>

@@ -33,7 +33,7 @@ function DirectoryList({
   depth: number;
 }) {
   return (
-    <ul style={{ padding: 0, listStyle: 'none', textAlign: 'left' }}>
+    <ul style={{ padding: 0, margin: 4, listStyle: 'none', textAlign: 'left' }}>
       {items.map((item) => {
         if ('nodes' in item) {
           return (
@@ -56,9 +56,8 @@ function DirectoryList({
               onClick={() => onSelect(item)}
             >
               <p style={{
-                padding: 2,
-                margin: 2,
-                marginLeft: `calc(${2 * depth} * .5em)`,
+                padding: 1,
+                margin: 1,
               }}>📄 {item.name}</p>
             </li>
           );
@@ -84,25 +83,28 @@ function FolderItem({
   return (
     <>
       <li>
-        <div
-          style={{ marginLeft: `calc(${depth} * .5em)`, cursor: 'pointer' }}
+        <p
           onClick={() => setOpen(!open)}
+          style={{
+            padding: 1,
+            margin: 1,
+            cursor: 'pointer',
+          }}
         >
-          <p style={{
-            padding: 2,
-            margin: 2,
-            marginLeft: `calc(${depth} * .5em)`,
-          }}>{open ? '📂' : '📁'} {folder.name}</p>
-        </div>
+          {open ? '📂' : '📁'} {folder.name}
+        </p>
+        
+        {open && (
+          <div style={{ margin: '.5em', borderLeft: '1px solid #555' }}>
+            <DirectoryList
+              items={folder.nodes}
+              selectedFileId={selectedFileId}
+              onSelect={onSelect}
+              depth={depth + 1}
+            />
+          </div>
+        )}
       </li>
-      {open && (
-        <DirectoryList
-          items={folder.nodes}
-          selectedFileId={selectedFileId}
-          onSelect={onSelect}
-          depth={depth + 1}
-        />
-      )}
     </>
   );
 }
