@@ -1,17 +1,23 @@
 import { useEffect, useRef, useState } from 'react'
 import { allItems } from './data/files';
-import FileExplorer, { moveItem, type DirectoryItem, type FileEntry } from './components/FileExplorer';
+import { moveItem, type DirectoryItem, type FileEntry } from './components/FileExplorer';
 import EditorView from './components/EditorView';
 // import reactLogo from './assets/react.svg' // <img src={reactLogo} className="logo react" alt="React logo" />
 // import viteLogo from '/vite.svg' // <img src={viteLogo} className="logo" alt="Vite logo" />
 import './App.css'
 import { sortDirectoryItems } from './utils/sortDirectoryItems';
+import Sidebar from './components/Sidebar';
+import SidebarSeparator from './components/SidebarSeparator';
 
 function App() {
   const [filesTree, setFilesTree] = useState<DirectoryItem[]>(sortDirectoryItems(allItems));
   const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
-  const [sidebarWidth, setSidebarWidth] = useState(240);
 
+  const setItems = (items: DirectoryItem[]) => setFilesTree(sortDirectoryItems(items));
+  const onSelect = (file: FileEntry) => setSelectedFileId(file.id);
+
+
+  const [sidebarWidth, setSidebarWidth] = useState(240);
   const isResizing = useRef(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -83,39 +89,19 @@ function App() {
         overflow: 'hidden',
       }}
     >
-      {/* Sidebar */}
-      <div
-        style={{
-          width: sidebarWidth,
-          height: '100vh', // or flex container height
-          overflowY: 'auto', // vertical scroll if content overflows
-          borderRight: '1px solid #333',
-          backgroundColor: '#393939',
-        }}
-      >
-        <FileExplorer
-          items={filesTree}
-          selectedFileId={selectedFileId}
-          onSelect={(file) => setSelectedFileId(file.id)}
-          onMove={handleMove}
-        />
-      </div>
-
-      {/* Resize handle */}
-      <div
+      <Sidebar
+        sidebarWidth={sidebarWidth}
+        items={filesTree}
+        selectedFileId={selectedFileId}
+        handleMove={handleMove}
+        setItems={setItems}
+        onSelect={onSelect}
+      />
+      <SidebarSeparator
         onMouseDown={() => {
           isResizing.current = true;
         }}
-        style={{
-          width: '4px',
-          cursor: 'col-resize',
-          zIndex: 100,
-        }}
-      >
-        <div style={{ width: 1, height: '100%', backgroundColor: '#555', }}></div>
-      </div>
-
-      {/* Editor area */}
+      />
       <div style={{ width: '100%', overflowX: 'hidden', overflowY: 'auto' }}>
         <EditorView file={selectedFile} onChange={updateFile} />
       </div>
