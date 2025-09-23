@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { allItems, type DirectoryItem, type FileEntry } from './data/files';
-import FileExplorer from './components/FileExplorer';
+import { allItems } from './data/files';
+import FileExplorer, { moveItem, type DirectoryItem, type FileEntry } from './components/FileExplorer';
 import EditorView from './components/EditorView';
 // import reactLogo from './assets/react.svg' // <img src={reactLogo} className="logo react" alt="React logo" />
 // import viteLogo from '/vite.svg' // <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -15,16 +15,9 @@ function App() {
   const isResizing = useRef(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Flatten file lookup (for content editing)
-  const flattenFiles = (items: DirectoryItem[]): FileEntry[] => {
-    return items.flatMap((item) => {
-      if ('nodes' in item) return flattenFiles(item.nodes);
-      return [item];
-    });
+  const handleMove = (itemId: string, targetDirId: string) => {
+    setFilesTree((prevItems) => sortDirectoryItems(moveItem(prevItems, itemId, targetDirId)));
   };
-
-  const allFiles = flattenFiles(filesTree);
-  const selectedFile = allFiles.find((f) => f.id === selectedFileId) ?? null;
 
   const updateFile = (updated: FileEntry) => {
     const updateTree = (items: DirectoryItem[]): DirectoryItem[] =>
@@ -39,6 +32,17 @@ function App() {
 
     setFilesTree(sortDirectoryItems(updateTree(filesTree)));
   };
+
+  // Flatten file lookup (for content editing)
+  const flattenFiles = (items: DirectoryItem[]): FileEntry[] => {
+    return items.flatMap((item) => {
+      if ('nodes' in item) return flattenFiles(item.nodes);
+      return [item];
+    });
+  };
+
+  const allFiles = flattenFiles(filesTree);
+  const selectedFile = allFiles.find((f) => f.id === selectedFileId) ?? null;
 
   useEffect(() => {
     const handleMouseUp = () => {
@@ -83,6 +87,8 @@ function App() {
       <div
         style={{
           width: sidebarWidth,
+          height: '100vh', // or flex container height
+          overflowY: 'auto', // vertical scroll if content overflows
           borderRight: '1px solid #333',
           backgroundColor: '#393939',
         }}
@@ -91,6 +97,7 @@ function App() {
           items={filesTree}
           selectedFileId={selectedFileId}
           onSelect={(file) => setSelectedFileId(file.id)}
+          onMove={handleMove}
         />
       </div>
 

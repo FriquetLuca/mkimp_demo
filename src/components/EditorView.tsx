@@ -30,8 +30,8 @@ export default function EditorView({ file, onChange }: Props) {
   );
 }
 */
-import { type FileEntry } from '../data/files';
 import { useState, useEffect } from 'react';
+import type { FileEntry } from './FileExplorer';
 
 type Props = {
   file: FileEntry | null;

@@ -1,16 +1,4 @@
-export type FileEntry = {
-  id: string;
-  name: string;
-  content: string;
-};
-
-export type DirectoryEntry = {
-  id: string;
-  name: string;
-  nodes: DirectoryItem[];
-};
-
-export type DirectoryItem = DirectoryEntry | FileEntry;
+import type { DirectoryItem } from "../components/FileExplorer";
 
 export const allItems: DirectoryItem[] = [
   { id: '1', name: 'index.html', content: '<h1>Hello World</h1>' },
