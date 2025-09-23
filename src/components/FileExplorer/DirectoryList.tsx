@@ -44,7 +44,9 @@ export function DirectoryList({
         padding: 0,
         listStyle: 'none',
         textAlign: 'left',
-        margin: 0,
+        margin: isRoot ? 0 : 4,
+        paddingLeft: isRoot ? 0 : '.5rem',
+        borderLeft: isRoot ? 'none' : '1px solid #555',
         ...style,
       }}
       onDragOver={handleRootDragOver}
@@ -66,7 +68,6 @@ export function DirectoryList({
             file={item}
             selectedFileId={selectedFileId}
             onSelect={onSelect}
-            depth={depth}
           />
         )
       )}

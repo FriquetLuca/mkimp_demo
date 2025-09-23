@@ -81,6 +81,8 @@ export default function FileExplorer({ items, selectedFileId, onSelect, onMove }
   return (
     <div
       style={{
+        paddingLeft: 4,
+        paddingRight: 4,
         display: 'flex',
         flexDirection: 'column',
         height: '100%',

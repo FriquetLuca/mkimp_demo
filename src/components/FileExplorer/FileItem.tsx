@@ -1,15 +1,14 @@
 import type { FileEntry } from ".";
+import { Item } from "./Item";
 
 export function FileItem({
   file,
   selectedFileId,
   onSelect,
-  depth,
 }: {
   file: FileEntry;
   selectedFileId: string | null;
   onSelect: (file: FileEntry) => void;
-  depth: number;
 }) {
   const handleDragStart = (e: React.DragEvent) => {
     e.dataTransfer.setData('application/json', JSON.stringify({ id: file.id, type: 'file' }));
@@ -23,11 +22,10 @@ export function FileItem({
       onClick={() => onSelect(file)}
       style={{
         cursor: 'pointer',
-        backgroundColor: selectedFileId === file.id ? '#333' : 'transparent',
-        marginLeft: `calc(${2 * depth} * .5em)`,
+        userSelect: 'none',
       }}
     >
-      <p style={{ padding: 2, margin: 2 }}>📄 {file.name}</p>
+      <Item icon={"📄"} name={file.name} isSelected={selectedFileId === file.id} />
     </li>
   );
 }

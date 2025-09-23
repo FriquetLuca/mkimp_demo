@@ -12,6 +12,18 @@ export const allItems: DirectoryItem[] = [
           },
         ] 
       },
+      { id: '8', name: 'src', nodes: [
+          { id: '9', name: 'app.tsx', content: 'console.log("App file");' },
+          { id: '10', name: 'assets', nodes: [
+              { id: '11', name: 'dunno.txt', content: 'Hello World' },
+              { id: '12', name: 'other', nodes: [
+                  { id: '13', name: 'file.txt', content: 'World' },
+                ] 
+              },
+            ] 
+          },
+        ] 
+      }
     ] 
   },
 ];
