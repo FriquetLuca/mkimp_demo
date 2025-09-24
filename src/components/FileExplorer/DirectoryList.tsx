@@ -76,7 +76,7 @@ export function DirectoryList({
           textAlign: 'left',
           margin: isRoot ? 0 : 4,
           paddingLeft: isRoot ? 0 : '.5rem',
-          borderLeft: isRoot ? 'none' : '1px solid #555',
+          borderLeft: isRoot ? 'none' : '1px solid var(--md-cspan-bg-color)',
           ...style,
         }}
         onDragOver={handleRootDragOver}

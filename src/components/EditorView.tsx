@@ -40,7 +40,7 @@ export default function EditorView({ file, onChange }: Props) {
         style={{
           fontSize: '1.2rem',
           fontWeight: 'bold',
-          border: '1px solid #555',
+          border: '1px solid var(--md-cspan-bg-color)',
           borderRadius: '4px',
           fontFamily: 'monospace',
         }}
@@ -53,7 +53,7 @@ export default function EditorView({ file, onChange }: Props) {
           height: '100%',
           fontFamily: 'monospace',
           resize: 'none',
-          border: '1px solid #555',
+          border: '1px solid var(--md-cspan-bg-color)',
           borderRadius: '4px',
           overflow: 'auto',
         }}

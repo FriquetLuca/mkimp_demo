@@ -15,7 +15,7 @@ export default function SidebarSeparator({
                 zIndex: 100,
             }}
         >
-            <div style={{ width: 1, height: '100%', backgroundColor: '#555', }}></div>
+            <div style={{ width: 1, height: '100%', backgroundColor: 'var(--md-cspan-bg-color)', }}></div>
         </div>
     );
 }

@@ -31,6 +31,7 @@ export default function FileItem({
         onDragStart={handleDragStart}
         onClick={() => onSelect(file)}
         onContextMenu={handleContextMenu}
+        className="hover-explorer-item"
         style={{
           cursor: "pointer",
         }}

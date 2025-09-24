@@ -10,8 +10,8 @@ type Props = {
 
 export default function FileExplorer({ items, selectedFileId, onSelect, onMove }: Props) {
   return (
-    <div style={{ paddingLeft: 4, paddingRight: 4, display: "flex", flexDirection: "column", height: "100%" }}>
-      <h3 style={{ textAlign: "center" }}>Files</h3>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      <h3 style={{ padding: 4 }}>Explorer</h3>
       <DirectoryList
         items={items}
         selectedFileId={selectedFileId}

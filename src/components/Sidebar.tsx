@@ -20,17 +20,14 @@ export default function Sidebar({
     handleMove,
     onSelect,
 }: SidebarProps) {
-    
-    
-
     return (
         <div
             style={{
                 width: sidebarWidth,
                 height: '100vh', // or flex container height
                 overflowY: 'auto', // vertical scroll if content overflows
-                borderRight: '1px solid #333',
-                backgroundColor: '#393939',
+                borderRight: '1px solid var(--md-bg-code-color)',
+                backgroundColor: 'var(--md-table-nth-child-bg-color)',
             }}
         >
             <ContextMenuProvider
@@ -39,8 +36,8 @@ export default function Sidebar({
                     setItems,
                 })}
                 style={{
-                    backgroundColor: "#333",
-                    border: "1px solid #555",
+                    backgroundColor: "var(--md-bg-code-color)",
+                    border: "1px solid var(--md-cspan-bg-color)",
                     padding: 4,
                     boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
                     zIndex: 1000,

@@ -58,7 +58,7 @@ export default function FolderItem({
     e.preventDefault();
     menuContext.setContextMenuPos({ x: e.clientX, y: e.clientY, target: { type: "directory", value: folder } });
   };
-
+  
   return (
     <>
       <li
@@ -68,9 +68,10 @@ export default function FolderItem({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onContextMenu={handleContextMenu}
+        className="hover-explorer-item"
         style={{
           cursor: "pointer",
-          backgroundColor: isOver ? "rgba(100, 100, 255, 0.2)" : "transparent",
+          backgroundColor: isOver ? "rgba(100, 100, 255, 0.2)" : undefined,
           transition: "background-color 0.2s ease",
         }}
       >

@@ -3,9 +3,22 @@
   line-height: 1.5;
   font-weight: 400;
 
+  --md-text-color: #000000;
+  --md-border-color: #d1d9e0b3;
+  --md-solid-border-color: #d1d9e0;
+  --md-bg-color: #ffffff;
+  --md-link-color: #096bda;
+  --md-footnote-color: #59636e;
+  --md-bg-code-color: #f6f8fa;
+  --md-bg-highlight-color: #fdf5ce;
+  --md-blockquote-color: #59636e;
+  --md-blockquote-border-color: #d1d9e0;
+  --md-table-nth-child-bg-color: #f6f8fa;
+  --md-cspan-bg-color: #818b981f;
+  
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--md-text-color);
+  background-color: var(--md-bg-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,13 +26,47 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --md-text-color: #f0f6fc;
+    --md-border-color: #3d444db3;
+    --md-solid-border-color: #3d444d;
+    --md-bg-color: #0d1117;
+    --md-link-color: #4493f8;
+    --md-footnote-color: #9198A1;
+    --md-bg-code-color: #151b23;
+    --md-bg-highlight-color: #fcf8e3;
+    --md-blockquote-color: #A8A095;
+    --md-blockquote-border-color: #756D60;
+    --md-table-nth-child-bg-color: #11161C;
+    --md-cspan-bg-color: #656C7633;
+  }
 }
-a:hover {
-  color: #535bf2;
+
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  scrollbar-color: var(--md-border-color) var(--md-bg-color);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--md-border-color); 
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--md-solid-border-color);
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 5px;
 }
 
 body {
@@ -28,4 +75,20 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+}
+
+.hover-explorer-item {
+  transition: background-color 0.1s;
+}
+
+.hover-explorer-item:hover {
+  background-color: var(--md-border-color);
+}
+
+.hover-explorer-folder {
+  transition: background-color 0.2s ease;
+}
+
+.hover-explorer-folder:hover {
+  background-color: rgba(100, 100, 255, 0.2);
 }
