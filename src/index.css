@@ -92,3 +92,7 @@ body {
 .hover-explorer-folder:hover {
   background-color: rgba(100, 100, 255, 0.2);
 }
+
+ul.explorer-menu:not(first-child) {
+  margin-left: .5em;
+}

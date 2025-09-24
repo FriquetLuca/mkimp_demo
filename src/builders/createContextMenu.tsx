@@ -26,17 +26,18 @@ export function createContextMenu({
           .map((item, i) => (
               <li
                   key={i}
+                  className="hover-explorer-item"
                   style={{ padding: "4px 8px", cursor: "pointer", ...item.style }}
                   onClick={async () => {
-                      await item.handler(target);
                       closeMenu();
+                      await item.handler(target);
                   }}
               >
                   {item.label}
               </li>
           ));
       return (
-          <ul style={{ listStyle: "none", margin: 0, padding: 4 }}>
+          <ul style={{ listStyle: "none", margin: 0, paddingTop: ".5em", paddingBottom: ".5em" }}>
               {liItems}
           </ul>
       )

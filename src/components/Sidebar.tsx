@@ -38,12 +38,11 @@ export default function Sidebar({
                 style={{
                     backgroundColor: "var(--md-bg-code-color)",
                     border: "1px solid var(--md-cspan-bg-color)",
-                    padding: 4,
                     boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
                     zIndex: 1000,
                     userSelect: "none",
                     minWidth: 120,
-                    color: "#fff",
+                    borderRadius: "8px",
                 }}
             >
                 <FileExplorer

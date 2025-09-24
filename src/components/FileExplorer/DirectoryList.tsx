@@ -70,11 +70,11 @@ export function DirectoryList({
   return (
     <>
       <ul
+        className="explorer-menu"
         style={{
           padding: 0,
           listStyle: 'none',
           textAlign: 'left',
-          margin: isRoot ? 0 : 4,
           paddingLeft: isRoot ? 0 : '.5rem',
           borderLeft: isRoot ? 'none' : '1px solid var(--md-cspan-bg-color)',
           ...style,
