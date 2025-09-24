@@ -99,6 +99,14 @@ export function moveDirectoryItem(
     location = fileParent;
   }
 
+  // Early return: target already in desired location (and not being renamed or merged)
+  const isSameLocation = location.id === originalParent.id;
+  const nameConflict = location.nodes.some(item => item.name === target.name && item.id !== target.id);
+
+  if (isSameLocation && !nameConflict) {
+    return { success: true, value: allItems };
+  }
+
   // Check for conflict
   const existing = location.nodes.find(item => item.name === target.name);
 
