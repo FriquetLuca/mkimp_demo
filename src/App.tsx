@@ -7,6 +7,7 @@ import SidebarSeparator from './components/SidebarSeparator';
 import { useResizableSidebarH } from './hooks/useResizableSidebar';
 import type { DirectoryItem, FileEntry } from './types/fileExplorer';
 import { moveDirectoryItem, sortDirectoryItems } from './utils/directoryItem';
+import { ModalProvider } from './provider/ModalProvider';
 
 function App() {
   const [filesTree, setFilesTree] = useState<DirectoryItem[]>(sortDirectoryItems(allItems));
@@ -57,41 +58,43 @@ function App() {
   const selectedFile = allFiles.find((f) => f.id === selectedFileId) ?? null;
 
   return (
-    <div
-      ref={containerRef}
-      style={{
-        display: 'flex',
-        height: '100vh',
-        width: '100vw',
-        overflow: 'hidden',
-      }}
-    >
+    <ModalProvider>
       <div
-        ref={sidebarRef}
+        ref={containerRef}
         style={{
-          width: `${sidebarWidth}px`,
-          minWidth: '150px',
-          maxWidth: '500px',
-          flexShrink: 0,
+          display: 'flex',
+          height: '100vh',
+          width: '100vw',
           overflow: 'hidden',
         }}
       >
-        <Sidebar
-          sidebarWidth={sidebarWidth}
-          items={filesTree}
-          selectedFileId={selectedFileId}
-          handleMove={handleMove}
-          setItems={setItems}
-          onSelect={onSelect}
-        />
-      </div>
+        <div
+          ref={sidebarRef}
+          style={{
+            width: `${sidebarWidth}px`,
+            minWidth: '150px',
+            maxWidth: '500px',
+            flexShrink: 0,
+            overflow: 'hidden',
+          }}
+        >
+          <Sidebar
+            sidebarWidth={sidebarWidth}
+            items={filesTree}
+            selectedFileId={selectedFileId}
+            handleMove={handleMove}
+            setItems={setItems}
+            onSelect={onSelect}
+          />
+        </div>
 
-      <SidebarSeparator onMouseDown={onSeparatorMouseDown} />
+        <SidebarSeparator onMouseDown={onSeparatorMouseDown} />
 
-      <div style={{ width: '100%', overflowX: 'hidden', overflowY: 'auto' }}>
-        <EditorView file={selectedFile} onChange={updateFile} />
+        <div style={{ width: '100%', overflowX: 'hidden', overflowY: 'auto' }}>
+          <EditorView file={selectedFile} onChange={updateFile} />
+        </div>
       </div>
-    </div>
+    </ModalProvider>
   );
 }
 

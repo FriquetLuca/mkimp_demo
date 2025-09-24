@@ -1,0 +1,9 @@
+- Modals
+    - Delete (file/dir)
+    - Create (file/dir)
+        - Hide delete checkbox
+- FixedModalProvider variant
+- Navbar for options (json/md/html/preview)
+- Code preview
+- Back / Forward redo explorer + context menu
+- Copy / Paste explorer + context menu

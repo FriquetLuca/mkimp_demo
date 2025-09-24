@@ -96,3 +96,84 @@ body {
 ul.explorer-menu:not(first-child) {
   margin-left: .5em;
 }
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* styles/modal.css */
+.modal {
+  background: var(--md-bg-color);
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  min-width: 300px;
+  max-width: 90vw;
+  min-height: 100px;
+  max-height: 90vh;
+  overflow: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-container {
+  flex: 1; /* Grow to fill the modal */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: transparent; /* Let parent handle background */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-close-button {
+  padding: .25rem;
+  padding-top: .1rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: transparent;
+  border: none;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s ease-in-out;
+}
+
+.modal-close-button:hover {
+  color: #333;
+}
+
+.modal-content {
+  flex: 1;
+  padding: .25rem;
+  padding-top: calc(.1rem + 1.5rem);
+  width: 100%;
+  height: 100%;
+}
+
+.confirm-btn {
+  background-color: color-mix(in srgb, var(--md-footnote-color) 80%, black 20%);
+  transition: background-color 0.2s ease;
+}
+
+.confirm-btn:hover {
+  background-color: color-mix(in srgb, var(--md-footnote-color) 60%, black 40%);
+}
+
+.md-codespan {
+    padding: .2em .4em;
+    margin: 0;
+    font-size: 85%;
+    white-space: break-spaces;
+    border-radius: 6px;
+    background-color: var(--md-cspan-bg-color);
+}

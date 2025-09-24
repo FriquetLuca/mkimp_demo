@@ -1,5 +1,9 @@
+import { useState } from "react";
+import Confirm from "../components/ContextMenuModals/Confirm";
+import RenameItemModal from "../components/ContextMenuModals/RenameItemModal";
+import { useModal } from "../hooks/useModal";
 import type { DirectoryEntry, DirectoryItem, FileEntry } from "../types/fileExplorer";
-import { createDirectory, createFile, deleteDirectoryItem, renameDirectoryItem } from "../utils/directoryItem";
+import { createDirectory, createFile, deleteDirectoryItem, isDirectory } from "../utils/directoryItem";
 
 type ContextMenuFile = {
     type: "file",
@@ -33,6 +37,8 @@ export function generateDirectoryItemHandlers({
     items,
     setItems,
 }: generateDirectoryItemHandlers): ContextMenuItem[] {
+    const [hideDelete, setHideDelete] = useState(false);
+    const { open, close } = useModal();
     const newFileItem = (ctx: ContextMenuValue) => {
         const name = prompt("Enter name for new file");
         if (!name) return;
@@ -58,27 +64,50 @@ export function generateDirectoryItemHandlers({
     }
 
     const renameItem = (target: ContextMenuValue) => {
-        if(target.type === "rootdir") return;
-        const newName = prompt("Enter new name:", target.value.name);
-        if (!newName) return;
+        if (target.type === "rootdir") return;
 
-        const result = renameDirectoryItem(target.value.id, newName, items);
-        if(result.success) {
-            setItems(result.value);
-        } else {
-            alert(result.error);
-        }
-    }
+        open(
+            <RenameItemModal
+                id={target.value.id}
+                items={items}
+                isDirectory={isDirectory(target.value)}
+                currentName={target.value.name}
+                onCancel={close}
+                onRename={(items) => {
+                    setItems(items);
+                    close();
+                }}
+            />,
+            { containerOnly: false }
+        );
+    };
 
     const deleteItem = (target: ContextMenuValue) => {
         if(target.type === "rootdir") return;
-        if (!confirm(`Delete '${target.value.name}'? This action cannot be undone.`)) return;
-
-        const result = deleteDirectoryItem(target.value.id, items);
-        if(result.success) {
-            setItems(result.value);
+        if(hideDelete) {
+            const result = deleteDirectoryItem(target.value.id, items);
+            if(result.success) {
+                setItems(result.value);
+                close();
+            } else {
+                alert(result.error);
+            }
         } else {
-            alert(result.error);
+            open((
+                <Confirm
+                    label={<span>Are you sure you want to delete <code aria-label="Code" className="md-codespan">{target.value.name}</code>?</span>}
+                    onYes={() => {
+                        const result = deleteDirectoryItem(target.value.id, items);
+                        if(result.success) {
+                            setItems(result.value);
+                            close();
+                        } else {
+                            alert(result.error);
+                        }
+                    }}
+                    onNo={() => close()}
+                />
+            ), { containerOnly: true, });
         }
     }
 

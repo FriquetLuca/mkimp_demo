@@ -1,6 +1,7 @@
+import { isDirectory } from "./isDirectory";
 import { sortDirectoryItems } from "./sortItems";
 import { createDirectory } from "./createDirectory";
-import { createFile  } from "./createFile";
+import { createFile } from "./createFile";
 import { deleteDirectoryItem } from "./deleteItem";
 import { renameDirectoryItem } from "./renameItem";
 import { moveDirectoryItem } from "./moveItem";
@@ -11,6 +12,7 @@ export type { RenameError } from "./renameItem";
 export type { MoveError } from "./moveItem";
 
 export {
+    isDirectory,
     sortDirectoryItems,
     createFile,
     createDirectory,
