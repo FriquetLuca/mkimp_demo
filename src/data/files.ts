@@ -1,4 +1,4 @@
-import type { DirectoryItem } from "../components/FileExplorer";
+import type { DirectoryItem } from "../types/fileExplorer";
 
 export const allItems: DirectoryItem[] = [
   { id: '1', name: 'index.html', content: '<h1>Hello World</h1>' },

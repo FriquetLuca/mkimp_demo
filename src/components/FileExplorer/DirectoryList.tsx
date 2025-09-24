@@ -1,5 +1,5 @@
-import type { DirectoryItem, FileEntry } from ".";
 import { useContextMenu } from "../../hooks/useContextMenu";
+import type { DirectoryItem, FileEntry } from "../../types/fileExplorer";
 import { FileItem, FolderItem } from "./items/index";
 
 export function DirectoryList({
@@ -42,7 +42,7 @@ export function DirectoryList({
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
-    menuContext.setContextMenuPos({ x: e.clientX, y: e.clientY, target: { id: '-1', name: 'root', nodes: items } });
+    menuContext.setContextMenuPos({ x: e.clientX, y: e.clientY, target: { type: "rootdir" } });
   };
 
   const MaybeEmpty = isRoot ? (

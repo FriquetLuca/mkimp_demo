@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { allItems } from './data/files';
-import { moveItem, type DirectoryItem, type FileEntry } from './components/FileExplorer';
 import EditorView from './components/EditorView';
 import './App.css';
-import { sortDirectoryItems } from './utils/sortDirectoryItems';
 import Sidebar from './components/Sidebar';
 import SidebarSeparator from './components/SidebarSeparator';
 import { useResizableSidebarH } from './hooks/useResizableSidebar';
+import type { DirectoryItem, FileEntry } from './types/fileExplorer';
+import { moveDirectoryItem, sortDirectoryItems } from './utils/directoryItem';
 
 function App() {
   const [filesTree, setFilesTree] = useState<DirectoryItem[]>(sortDirectoryItems(allItems));
@@ -25,7 +25,12 @@ function App() {
   });
 
   const handleMove = (itemId: string, targetDirId: string) => {
-    setFilesTree((prevItems) => sortDirectoryItems(moveItem(prevItems, itemId, targetDirId)));
+    const result = moveDirectoryItem(itemId, targetDirId, filesTree);
+    if(result.success) {
+      setItems(result.value);
+    } else {
+      alert(result.error);
+    }
   };
 
   const updateFile = (updated: FileEntry) => {
@@ -38,8 +43,7 @@ function App() {
         }
         return item;
       });
-
-    setFilesTree(sortDirectoryItems(updateTree(filesTree)));
+    setItems(updateTree(filesTree));
   };
 
   const flattenFiles = (items: DirectoryItem[]): FileEntry[] => {

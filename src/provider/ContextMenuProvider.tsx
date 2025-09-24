@@ -1,16 +1,16 @@
 import { useRef, useState } from "react";
 import { ContextMenuContext } from "../hooks/useContextMenu";
-import { ContextMenu, type ContextMenuState } from "../components/ContextMenu";
-import type { DirectoryItem } from "../components/FileExplorer";
+import type { ContextMenuValue } from "../handlers/contextMenu";
+import ContextMenuContainer, { type ContextMenuState } from "../components/ContextMenuContainer";
 
 type ContextMenuProviderProps = {
     children: React.ReactNode;
-    createMenu: (target: DirectoryItem, onClose: () => void) => React.JSX.Element;
+    createMenu: (target: ContextMenuValue, onClose: () => void) => React.JSX.Element;
     style?: React.CSSProperties | undefined;
 }
 
 export function ContextMenuProvider({ children, createMenu, style }: ContextMenuProviderProps) {
-    const contextMenu = useState<ContextMenuState<DirectoryItem> | null>(null);
+    const contextMenu = useState<ContextMenuState<ContextMenuValue> | null>(null);
     const [contextMenuPos, setContextMenuPos] = contextMenu;
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -25,7 +25,7 @@ export function ContextMenuProvider({ children, createMenu, style }: ContextMenu
         }}>
             {children}
             {contextMenuPos && (
-                <ContextMenu<DirectoryItem>
+                <ContextMenuContainer<ContextMenuValue>
                     x={contextMenuPos.x}
                     y={contextMenuPos.y}
                     menuRef={menuRef}

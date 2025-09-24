@@ -1,4 +1,4 @@
-import { type DirectoryItem } from '../data/files';
+import type { DirectoryItem } from "../../types/fileExplorer";
 
 /**
  * Sorts DirectoryItems:

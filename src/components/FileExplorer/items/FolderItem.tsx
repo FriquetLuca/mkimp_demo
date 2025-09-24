@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { DirectoryList } from "../DirectoryList";
-import type { DirectoryEntry, FileEntry } from "..";
 import Item from "./Item";
 import { useContextMenu } from "../../../hooks/useContextMenu";
+import type { DirectoryEntry, FileEntry } from "../../../types/fileExplorer";
 
 export default function FolderItem({
   folder,
@@ -56,7 +56,7 @@ export default function FolderItem({
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
-    menuContext.setContextMenuPos({ x: e.clientX, y: e.clientY, target: folder });
+    menuContext.setContextMenuPos({ x: e.clientX, y: e.clientY, target: { type: "directory", value: folder } });
   };
 
   return (

@@ -1,9 +1,9 @@
 import { createContext, useContext } from "react";
-import type { SetContextMenuState } from "../components/ContextMenu";
-import type { DirectoryItem } from "../components/FileExplorer";
+import type { ContextMenuValue } from "../handlers/contextMenu";
+import type { SetContextMenuState } from "../components/ContextMenuContainer";
 
 export type ContextMenuContextValue = {
-    setContextMenuPos: SetContextMenuState<DirectoryItem>;
+    setContextMenuPos: SetContextMenuState<ContextMenuValue>;
     onClose: () => void;
 };
 

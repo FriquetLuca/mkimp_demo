@@ -18,7 +18,7 @@ type ContextMenuProps<T, Ref = HTMLDivElement> = ContextMenuState<T> & {
   className?: string | undefined;
 };
 
-export function ContextMenu<T>({
+export default function ContextMenuContainer<T>({
   x,
   y,
   target,

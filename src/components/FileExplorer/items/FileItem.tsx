@@ -1,7 +1,7 @@
 import React from "react";
 import Item from "./Item";
-import type { FileEntry } from "..";
 import { useContextMenu } from "../../../hooks/useContextMenu";
+import type { FileEntry } from "../../../types/fileExplorer";
 
 export default function FileItem({
   file,
@@ -21,7 +21,7 @@ export default function FileItem({
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
-    menuContext.setContextMenuPos({ x: e.clientX, y: e.clientY, target: file });
+    menuContext.setContextMenuPos({ x: e.clientX, y: e.clientY, target: { type: "file", value: file } });
   };
 
   return (
