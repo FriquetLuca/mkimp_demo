@@ -1,13 +1,12 @@
 import type { DirectoryItem, FileEntry } from ".";
-import { FileItem } from "./FileItem";
-import { FolderItem } from "./FolderItem";
+import { useContextMenu } from "../../hooks/useContextMenu";
+import { FileItem, FolderItem } from "./items/index";
 
 export function DirectoryList({
   items,
   selectedFileId,
   onSelect,
   onMove,
-  setContextMenuPos,
   depth,
   style,
 }: {
@@ -17,8 +16,9 @@ export function DirectoryList({
   onMove: (itemId: string, targetDirId: string) => void;
   depth: number;
   style?: React.CSSProperties;
-  setContextMenuPos: React.Dispatch<React.SetStateAction<{ x: number; y: number, target: DirectoryItem } | null>>;
 }) {
+  const menuContext = useContextMenu();
+
   const isRoot = depth === 0;
 
   const handleRootDragOver = (e: React.DragEvent) => {
@@ -42,7 +42,7 @@ export function DirectoryList({
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
-    setContextMenuPos({ x: e.clientX, y: e.clientY, target: { id: '-1', name: 'root', nodes: items } });
+    menuContext.setContextMenuPos({ x: e.clientX, y: e.clientY, target: { id: '-1', name: 'root', nodes: items } });
   };
 
   const MaybeEmpty = isRoot ? (
@@ -91,7 +91,6 @@ export function DirectoryList({
               onSelect={onSelect}
               onMove={onMove}
               depth={depth}
-              setContextMenuPos={setContextMenuPos}
             />
           ) : (
             <FileItem
@@ -99,7 +98,6 @@ export function DirectoryList({
               file={item}
               selectedFileId={selectedFileId}
               onSelect={onSelect}
-              setContextMenuPos={setContextMenuPos}
             />
           )
         )}

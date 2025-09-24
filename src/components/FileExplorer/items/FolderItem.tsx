@@ -1,25 +1,26 @@
 import { useState } from "react";
-import { DirectoryList } from "./DirectoryList";
-import type { DirectoryEntry, DirectoryItem, FileEntry } from ".";
-import { Item } from "./Item";
+import { DirectoryList } from "../DirectoryList";
+import type { DirectoryEntry, FileEntry } from "..";
+import Item from "./Item";
+import { useContextMenu } from "../../../hooks/useContextMenu";
 
-export function FolderItem({
+export default function FolderItem({
   folder,
   selectedFileId,
   onSelect,
   onMove,
-  setContextMenuPos,
   depth,
 }: {
   folder: DirectoryEntry;
   selectedFileId: string | null;
   onSelect: (file: FileEntry) => void;
   onMove: (itemId: string, targetDirId: string) => void;
-  setContextMenuPos: React.Dispatch<React.SetStateAction<{ x: number; y: number, target: DirectoryItem } | null>>;
   depth: number;
 }) {
+  const menuContext = useContextMenu();
+  
   const [open, setOpen] = useState(false);
-  const [isOver, setIsOver] = useState(false); // 🆕 drag-over highlight
+  const [isOver, setIsOver] = useState(false); // drag-over
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -55,7 +56,7 @@ export function FolderItem({
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
-    setContextMenuPos({ x: e.clientX, y: e.clientY, target: folder });
+    menuContext.setContextMenuPos({ x: e.clientX, y: e.clientY, target: folder });
   };
 
   return (
@@ -84,7 +85,6 @@ export function FolderItem({
           onSelect={onSelect}
           onMove={onMove}
           depth={depth + 1}
-          setContextMenuPos={setContextMenuPos}
         />
       )}
     </>

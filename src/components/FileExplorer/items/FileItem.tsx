@@ -1,18 +1,19 @@
 import React from "react";
-import type { DirectoryItem, FileEntry } from ".";
-import { Item } from "./Item";
+import Item from "./Item";
+import type { FileEntry } from "..";
+import { useContextMenu } from "../../../hooks/useContextMenu";
 
-export function FileItem({
+export default function FileItem({
   file,
   selectedFileId,
   onSelect,
-  setContextMenuPos,
 }: {
   file: FileEntry;
   selectedFileId: string | null;
   onSelect: (file: FileEntry) => void;
-  setContextMenuPos: React.Dispatch<React.SetStateAction<{ x: number; y: number, target: DirectoryItem } | null>>;
 }) {
+  const menuContext = useContextMenu();
+
   const handleDragStart = (e: React.DragEvent) => {
     e.dataTransfer.setData("application/json", JSON.stringify({ id: file.id, type: "file" }));
     e.dataTransfer.effectAllowed = "move";
@@ -20,7 +21,7 @@ export function FileItem({
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
-    setContextMenuPos({ x: e.clientX, y: e.clientY, target: file });
+    menuContext.setContextMenuPos({ x: e.clientX, y: e.clientY, target: file });
   };
 
   return (

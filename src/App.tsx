@@ -1,13 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react';
 import { allItems } from './data/files';
 import { moveItem, type DirectoryItem, type FileEntry } from './components/FileExplorer';
 import EditorView from './components/EditorView';
-// import reactLogo from './assets/react.svg' // <img src={reactLogo} className="logo react" alt="React logo" />
-// import viteLogo from '/vite.svg' // <img src={viteLogo} className="logo" alt="Vite logo" />
-import './App.css'
+import './App.css';
 import { sortDirectoryItems } from './utils/sortDirectoryItems';
 import Sidebar from './components/Sidebar';
 import SidebarSeparator from './components/SidebarSeparator';
+import { useResizableSidebarH } from './hooks/useResizableSidebar';
 
 function App() {
   const [filesTree, setFilesTree] = useState<DirectoryItem[]>(sortDirectoryItems(allItems));
@@ -16,10 +15,14 @@ function App() {
   const setItems = (items: DirectoryItem[]) => setFilesTree(sortDirectoryItems(items));
   const onSelect = (file: FileEntry) => setSelectedFileId(file.id);
 
-
-  const [sidebarWidth, setSidebarWidth] = useState(240);
-  const isResizing = useRef(false);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const {
+    sidebarWidth,
+    sidebarRef,
+    containerRef,
+    onSeparatorMouseDown,
+  } = useResizableSidebarH({
+    maxWidth: 300,
+  });
 
   const handleMove = (itemId: string, targetDirId: string) => {
     setFilesTree((prevItems) => sortDirectoryItems(moveItem(prevItems, itemId, targetDirId)));
@@ -39,7 +42,6 @@ function App() {
     setFilesTree(sortDirectoryItems(updateTree(filesTree)));
   };
 
-  // Flatten file lookup (for content editing)
   const flattenFiles = (items: DirectoryItem[]): FileEntry[] => {
     return items.flatMap((item) => {
       if ('nodes' in item) return flattenFiles(item.nodes);
@@ -49,35 +51,6 @@ function App() {
 
   const allFiles = flattenFiles(filesTree);
   const selectedFile = allFiles.find((f) => f.id === selectedFileId) ?? null;
-
-  useEffect(() => {
-    const handleMouseUp = () => {
-      document.body.style.userSelect = '';
-      isResizing.current = false;
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isResizing.current || !containerRef.current) return;
-
-      if ((e.buttons & 1) !== 1) {
-        handleMouseUp();
-        return;
-      }
-
-      document.body.style.userSelect = 'none';
-
-      const containerLeft = containerRef.current.getBoundingClientRect().left;
-      const newWidth = e.clientX - containerLeft;
-      setSidebarWidth(Math.max(150, Math.min(newWidth, 500)));
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, []);
 
   return (
     <div
@@ -89,19 +62,28 @@ function App() {
         overflow: 'hidden',
       }}
     >
-      <Sidebar
-        sidebarWidth={sidebarWidth}
-        items={filesTree}
-        selectedFileId={selectedFileId}
-        handleMove={handleMove}
-        setItems={setItems}
-        onSelect={onSelect}
-      />
-      <SidebarSeparator
-        onMouseDown={() => {
-          isResizing.current = true;
+      <div
+        ref={sidebarRef}
+        style={{
+          width: `${sidebarWidth}px`,
+          minWidth: '150px',
+          maxWidth: '500px',
+          flexShrink: 0,
+          overflow: 'hidden',
         }}
-      />
+      >
+        <Sidebar
+          sidebarWidth={sidebarWidth}
+          items={filesTree}
+          selectedFileId={selectedFileId}
+          handleMove={handleMove}
+          setItems={setItems}
+          onSelect={onSelect}
+        />
+      </div>
+
+      <SidebarSeparator onMouseDown={onSeparatorMouseDown} />
+
       <div style={{ width: '100%', overflowX: 'hidden', overflowY: 'auto' }}>
         <EditorView file={selectedFile} onChange={updateFile} />
       </div>
@@ -109,4 +91,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

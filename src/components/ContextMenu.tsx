@@ -1,24 +1,33 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
-type ContextMenuProps = {
-  x: number;
-  y: number;
-  menuRef: React.RefObject<HTMLDivElement | null>;
-  onClose: () => void;
-  onCreate: () => void;
-  onRename: () => void;
-  onDelete: () => void;
+export type ContextMenuState<T> = {
+    x: number;
+    y: number;
+    target: T | null;
 };
 
-export function ContextMenu({
+export type GetContextMenuState<T> = ContextMenuState<T> | null;
+export type SetContextMenuState<T> = React.Dispatch<React.SetStateAction<ContextMenuState<T> | null>>;
+export type FullContextMenuState<T> = [GetContextMenuState<T>, SetContextMenuState<T>];
+
+type ContextMenuProps<T, Ref = HTMLDivElement> = ContextMenuState<T> & {
+  menuRef: React.RefObject<Ref | null>;
+  onClose: () => void;
+  createMenu: (target: T, onClose: () => void) => React.ReactNode;
+  style?: React.CSSProperties | undefined;
+  className?: string | undefined;
+};
+
+export function ContextMenu<T>({
   x,
   y,
+  target,
   menuRef,
+  style,
+  className,
+  createMenu,
   onClose,
-  onCreate,
-  onRename,
-  onDelete,
-}: ContextMenuProps) {
+}: ContextMenuProps<T>) {
   const [position, setPosition] = useState({ top: y, left: x });
   const localRef = useRef<HTMLDivElement>(null);
 
@@ -56,55 +65,23 @@ export function ContextMenu({
     };
   }, [onClose]);
 
+  const content = target ? createMenu(target, onClose) : null;
+
   return (
     <div
       ref={(el) => {
         localRef.current = el;
         if (menuRef) menuRef.current = el;
       }}
+      className={className}
       style={{
         position: "fixed",
         top: position.top,
         left: position.left,
-        backgroundColor: "#333",
-        border: "1px solid #555",
-        padding: 4,
-        boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-        zIndex: 1000,
-        userSelect: "none",
-        minWidth: 120,
-        color: "#fff",
+        ...style,
       }}
     >
-      <ul style={{ listStyle: "none", margin: 0, padding: 4 }}>
-        <li
-          style={{ padding: "4px 8px", cursor: "pointer" }}
-          onClick={() => {
-            onCreate();
-            onClose();
-          }}
-        >
-          Create
-        </li>
-        <li
-          style={{ padding: "4px 8px", cursor: "pointer" }}
-          onClick={() => {
-            onRename();
-            onClose();
-          }}
-        >
-          Rename
-        </li>
-        <li
-          style={{ padding: "4px 8px", cursor: "pointer", color: "red" }}
-          onClick={() => {
-            onDelete();
-            onClose();
-          }}
-        >
-          Delete
-        </li>
-      </ul>
+      {content}
     </div>
   );
 }
