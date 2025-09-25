@@ -32,10 +32,7 @@ export default function ContextModalContainer({
       >
         &times;
       </button>
-      <div
-        className="flex-1 p-1 w-full h-full"
-        style={{ paddingTop: 'calc(0.1rem + 1.5rem)' }}
-      >
+      <div className="flex-1 p-1 w-full h-full pt-[calc(0.1rem + 1.5rem)]">
         {children}
       </div>
     </div>

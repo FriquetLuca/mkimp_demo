@@ -90,16 +90,7 @@ export default function RenameItemModal({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{
-        padding: '0.5rem',
-        paddingTop: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '.25rem',
-      }}
-    >
+    <form onSubmit={handleSubmit} className="p-2 pt-0 flex flex-col gap-1">
       <label>
         {t('modal.renameItem.labels.input')}
         <input
@@ -107,29 +98,22 @@ export default function RenameItemModal({
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          className="w-full p-2 rounded-[4px] mt-1 bg-[var(--md-bg-code-color)] text-base"
           style={{
-            width: '100%',
-            padding: '0.5rem',
-            borderRadius: '4px',
             border:
               errorName !== null
                 ? '1px solid color-mix(in srgb, red 70%, black 30%)'
                 : '1px solid #333',
-            backgroundColor: 'var(--md-bg-code-color)',
-            marginTop: '0.25rem',
-            fontSize: '1rem',
           }}
         />
       </label>
 
-      <div
-        style={{ display: 'flex', alignContent: 'center', height: '1.25rem' }}
-      >
+      <div className="flex content-center h-5">
         {errorName && (
           <p
+            className="text-[0.9rem]"
             style={{
               color: 'color-mix(in srgb, red 70%, black 30%)',
-              fontSize: '0.9rem',
             }}
           >
             ⚠️ {errorName}
@@ -137,15 +121,10 @@ export default function RenameItemModal({
         )}
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+      <div className="flex justify-center gap-4">
         <button
           type="submit"
-          className="confirm-btn"
-          style={{
-            padding: '0.5rem 1.2rem',
-            borderColor: 'transparent',
-            borderRadius: '10px',
-          }}
+          className="px-[1.2rem] py-2.5 border-transparent rounded-[10px] confirm-btn"
         >
           {t('modal.renameItem.labels.button')}
         </button>

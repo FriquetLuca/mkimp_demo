@@ -9,7 +9,6 @@ export function DirectoryList({
   onMove,
   depth,
   className,
-  style,
 }: {
   items: DirectoryItem[];
   selectedFileId: string | null;
@@ -17,7 +16,6 @@ export function DirectoryList({
   onMove: (itemId: string, targetDirId: string) => void;
   depth: number;
   className?: string;
-  style?: React.CSSProperties;
 }) {
   const menuContext = useContextMenu();
 
@@ -83,7 +81,6 @@ export function DirectoryList({
             ? `explorer-menu ${className} ${currentStyle}`
             : `explorer-menu ${currentStyle}`
         }
-        style={style}
         onDragOver={handleRootDragOver}
         onDrop={handleRootDrop}
       >

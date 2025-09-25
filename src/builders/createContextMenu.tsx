@@ -15,8 +15,8 @@ export function createContextMenu({ items, setItems }: createContextMenu) {
     setItems,
   });
 
-  const hoverExplorerStyle =
-    'transition-colors duration-100 hover:bg-[var(--md-border-color)]';
+  const itemExplorerStyle =
+    'px-2 py-1 cursor-pointer transition-colors duration-100 hover:bg-[var(--md-border-color)]';
 
   return (target: ContextMenuValue, closeMenu: () => void) => {
     const liItems = menuItems
@@ -31,10 +31,9 @@ export function createContextMenu({ items, setItems }: createContextMenu) {
           key={i}
           className={
             item?.className
-              ? `${item.className} ${hoverExplorerStyle}`
-              : hoverExplorerStyle
+              ? `${item.className} ${itemExplorerStyle}`
+              : itemExplorerStyle
           }
-          style={{ padding: '4px 8px', cursor: 'pointer', ...item.style }}
           onClick={async () => {
             closeMenu();
             await item.handler(target);

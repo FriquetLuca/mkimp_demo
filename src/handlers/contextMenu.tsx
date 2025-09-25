@@ -39,7 +39,6 @@ export type ContextMenuItem = {
   filter?: (value: ContextMenuValue) => boolean;
   handler: (target: ContextMenuValue) => void | Promise<void>;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type generateDirectoryItemHandlers = {

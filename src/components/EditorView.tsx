@@ -34,10 +34,7 @@ export default function EditorView({ file, onChange }: Props) {
   };
 
   return (
-    <div
-      className="flex flex-col flex-1 p-[0.1rem] gap-[5px] overflow-hidden"
-      style={{ width: 'calc(100% - 0.5rem)', height: 'calc(100% - 5px)' }}
-    >
+    <div className="flex flex-col flex-1 p-[0.1rem] gap-[5px] overflow-hidden w-[calc(100% - 0.5rem)] h-[calc(100% - 5px)]">
       <input
         type="text"
         value={fileName}
