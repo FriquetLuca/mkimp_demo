@@ -27,6 +27,14 @@ export default function FileEditor({ file, onChange, lineHeight = 24 }: Props) {
     }
   };
 
+  const onLinesScroll = () => {
+    if (textareaRef.current && lineNumbersRef.current) {
+      const scrollTop = lineNumbersRef.current.scrollTop;
+      textareaRef.current.scrollTop = scrollTop;
+      setScrollTop(scrollTop);
+    }
+  };
+
   useLayoutEffect(() => {
     if (lineNumbersRef.current) {
       setContainerHeight(lineNumbersRef.current.clientHeight);
@@ -52,18 +60,17 @@ export default function FileEditor({ file, onChange, lineHeight = 24 }: Props) {
     (_, i) => i + startLine
   );
 
-  // Dynamically calculate line number width
   useLayoutEffect(() => {
     const maxLineNumber = totalLines;
     const lineNumberText = `${maxLineNumber}`;
-    const font = '12px monospace'; // match your tailwind font size if needed
+    const font = '12px monospace';
 
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     if (ctx) {
       ctx.font = font;
       const width = ctx.measureText(lineNumberText).width;
-      setLineNumberWidth(width + 16); // padding (8px left + 8px right)
+      setLineNumberWidth(width + 16);
     }
   }, [totalLines]);
 
@@ -71,7 +78,8 @@ export default function FileEditor({ file, onChange, lineHeight = 24 }: Props) {
     <div className="flex flex-1 border-t border-[var(--md-cspan-bg-color)] bg-transparent overflow-y-auto">
       <div
         ref={lineNumbersRef}
-        className="min-w-10 pt-2 overflow-x-hidden h-full px-2 border-r border-[var(--md-cspan-bg-color)] text-gray-400 bg-[var(--md-bg-code-color)] select-none overflow-y-hidden relative"
+        onScroll={onLinesScroll}
+        className="scrollbar-width-none pt-2 overflow-y-auto overflow-x-hidden h-full px-2 border-r border-[var(--md-cspan-bg-color)] text-gray-400 bg-[var(--md-bg-code-color)] select-none relative line-numbers"
         style={{
           width: `${1.1 * lineNumberWidth}px`,
           lineHeight: `${lineHeight}px`,

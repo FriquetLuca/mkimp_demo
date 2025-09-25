@@ -107,3 +107,8 @@ ul.explorer-menu:not(first-child) {
 .confirm-btn:hover {
   background-color: color-mix(in srgb, var(--md-footnote-color) 60%, black 40%);
 }
+
+.scrollbar-width-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
