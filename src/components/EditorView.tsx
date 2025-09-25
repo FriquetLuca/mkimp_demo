@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { FileEntry } from '../types/fileExplorer';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   file: FileEntry | null;
@@ -7,6 +8,7 @@ type Props = {
 };
 
 export default function EditorView({ file, onChange }: Props) {
+  const { t } = useTranslation();
   const [content, setContent] = useState('');
   const [fileName, setFileName] = useState('');
 
@@ -16,7 +18,7 @@ export default function EditorView({ file, onChange }: Props) {
   }, [file]);
 
   if (!file) {
-    return <div style={{ padding: '1rem' }}>Select a file to view/edit</div>;
+    return <div style={{ padding: '1rem' }}>{t("editorView.selectItem")}</div>;
   }
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

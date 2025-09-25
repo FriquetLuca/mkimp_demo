@@ -1,0 +1,29 @@
+{
+    "editorView": {
+        "selectItem": "Select a file to view/edit"
+    },
+    "modal": {
+        "renameItem": {
+            "labels": {
+                "input": "Rename:",
+                "button": "Rename"
+            },
+            "words": {
+                "file": "file",
+                "folder": "folder"
+            },
+            "errors": {
+                "empty": "The name is required",
+                "tooLong": "The name is too long",
+                "invalidName": "Invalid {{item}} name",
+                "name_exists": "The current {{item}} name already exist",
+                "target_not_found": "Unknown {{item}}"
+            }
+        }
+    },
+    "sidebar": {
+        "fileExplorer": {
+            "label": "Explorer"
+        }
+    }
+}

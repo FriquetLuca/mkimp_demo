@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { DirectoryItem, FileEntry } from '../../types/fileExplorer';
 import { DirectoryList } from './DirectoryList';
 
@@ -9,9 +10,10 @@ type Props = {
 };
 
 export default function FileExplorer({ items, selectedFileId, onSelect, onMove }: Props) {
+  const { t } = useTranslation();
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      <h3 style={{ padding: 4 }}>Explorer</h3>
+      <h3 style={{ padding: 4 }}>{t("sidebar.fileExplorer.label")}</h3>
       <DirectoryList
         items={items}
         selectedFileId={selectedFileId}

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { z } from "zod";
 import type { DirectoryItem } from "../../types/fileExplorer";
 import { renameDirectoryItem } from "../../utils/directoryItem";
+import { useTranslation } from "react-i18next";
 
 type RenameItemModalProps = {
     isDirectory: boolean;
@@ -20,20 +21,20 @@ const reservedWindowsNames = [
 ];
 
 export default function RenameItemModal({ isDirectory, id, items, currentName, onRename }: RenameItemModalProps) {
-  const itemTypeName = isDirectory ? "folder" : "file";
-  const invalidName = `Invalid ${itemTypeName} name`;
+  const { t } = useTranslation();
+  const itemTypeName = t(`modal.renameItem.words.${isDirectory ? "folder" : "file"}`);
+  const invalidName = t('modal.renameItem.errors.invalidName', { item: itemTypeName });
 
   const schema = z.object({
         name: z.string()
-            .min(1, "Name cannot be empty")
-            .max(100, "Name too long")
+            .min(1, t("modal.renameItem.errors.empty"))
+            .max(100, t("modal.renameItem.errors.tooLong"))
             .regex(validFileNameRegex, invalidName)
             .refine(
                 name => !reservedWindowsNames.includes(name.toUpperCase()),
                 { message: invalidName }
             ),
     });
-
   const [name, setName] = useState(currentName);
   const [errorName, setErrorName] = useState<string | null>(null);
 
@@ -51,24 +52,18 @@ export default function RenameItemModal({ isDirectory, id, items, currentName, o
         setErrorName(null);
         onRename(rename.value);
     } else {
-        switch(rename.error) {
-            case "invalid_name":
-                setErrorName(invalidName);
-                break;
-            case "name_exists":
-                setErrorName(`The current ${itemTypeName} name already exist`);
-                break;
-            case "target_not_found":
-                setErrorName(`Unknown ${itemTypeName}`);
-                break;
-        }
+      if(rename.error === "invalid_name") {
+        setErrorName(invalidName);
+      } else {
+        setErrorName(t(`modal.renameItem.errors.${rename.error}`))
+      }
     }
   };
 
   return (
     <form onSubmit={handleSubmit} style={{ padding: "0.5rem", paddingTop: 0, display: "flex", flexDirection: "column", gap: ".25rem" }}>
       <label>
-        Rename:
+        {t("modal.renameItem.labels.input")}
         <input
           autoFocus
           type="text"
@@ -92,7 +87,7 @@ export default function RenameItemModal({ isDirectory, id, items, currentName, o
 
       <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
         <button type="submit" className="confirm-btn" style={{ padding: "0.5rem 1.2rem", borderColor: 'transparent', borderRadius: "10px" }}>
-          Rename
+          {t("modal.renameItem.labels.button")}
         </button>
       </div>
     </form>
