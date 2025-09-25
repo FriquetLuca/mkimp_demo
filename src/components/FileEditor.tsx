@@ -2,6 +2,8 @@ import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import type { FileEntry } from '../types/fileExplorer';
 import { textAreaTab } from './FileViewer/textAreaTab';
 import { moveLine } from './FileViewer/moveLine';
+import { moveCursorToLineEdge } from './FileViewer/moveCursorToLineEdge';
+import { moveCursorWord } from './FileViewer/moveCursorWord';
 
 type FileEditorProps = {
   file: FileEntry;
@@ -33,6 +35,8 @@ export default function FileEditor({
 
     moveLine({ file, e, content, textarea, onChange, setContent });
     textAreaTab({ textarea, file, e, tabIndent, onChange, setContent });
+    moveCursorToLineEdge({ e, textarea });
+    moveCursorWord({ e, textarea, content });
   };
 
   const onAreaScroll = () => {
