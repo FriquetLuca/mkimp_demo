@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import type { FileEntry } from '../types/fileExplorer';
-import { WHITESPACE_CHARS } from '../utils/whitespaces';
+import { textAreaTab } from './FileViewer/textAreaTab';
+import { moveLine } from './FileViewer/moveLine';
 
-type Props = {
+type FileEditorProps = {
   file: FileEntry;
   lineHeight?: number;
   tabIndent?: number;
@@ -14,7 +15,7 @@ export default function FileEditor({
   onChange,
   lineHeight = 24,
   tabIndent = 4,
-}: Props) {
+}: FileEditorProps) {
   const [content, setContent] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const lineNumbersRef = useRef<HTMLDivElement>(null);
@@ -30,67 +31,8 @@ export default function FileEditor({
     const textarea = textareaRef.current;
     if (!textarea) return;
 
-    if (e.key === 'Tab') {
-      e.preventDefault();
-
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const value = textarea.value;
-
-      const before = value.slice(0, start);
-      const after = value.slice(end);
-      let newCaretPosition = start;
-
-      if (e.shiftKey) {
-        // Anti-tab (unindent)
-        let move = 0;
-        for (
-          let i = before.length - 1;
-          i >= before.length - tabIndent && i >= 0;
-          i--
-        ) {
-          if (!WHITESPACE_CHARS.has(before[i])) {
-            if (before[i] !== '\n') {
-              move--;
-            }
-            break;
-          }
-          move++;
-        }
-        if (move < 0) move = 0;
-
-        const newBefore = before.slice(0, start - move) + before.slice(start);
-        const newValue = newBefore + after;
-
-        newCaretPosition = start - move;
-        setContent(newValue);
-        onChange({ ...file, content: newValue });
-
-        requestAnimationFrame(() => {
-          textarea.selectionStart = textarea.selectionEnd = newCaretPosition;
-        });
-      } else {
-        // Regular tab (indent to next tab stop)
-        let column = 0;
-        for (let i = before.length - 1; i >= 0; i--) {
-          if (before[i] === '\n') break;
-          column++;
-        }
-
-        const move = tabIndent - (column % tabIndent);
-        const spaces = ' '.repeat(move);
-
-        const newValue = before + spaces + after;
-        newCaretPosition = start + move;
-
-        setContent(newValue);
-        onChange({ ...file, content: newValue });
-
-        requestAnimationFrame(() => {
-          textarea.selectionStart = textarea.selectionEnd = newCaretPosition;
-        });
-      }
-    }
+    moveLine({ file, e, content, textarea, onChange, setContent });
+    textAreaTab({ textarea, file, e, tabIndent, onChange, setContent });
   };
 
   const onAreaScroll = () => {
