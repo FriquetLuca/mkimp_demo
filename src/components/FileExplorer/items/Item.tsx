@@ -9,7 +9,7 @@ export default function Item({
 }) {
   return (
     <p
-      className={`px-2 pt-1 pb-1 ${
+      className={`px-1 pt-1 pb-1 ${
         isSelected ? 'bg-[var(--md-cspan-bg-color)]' : 'bg-transparent'
       }`}
     >

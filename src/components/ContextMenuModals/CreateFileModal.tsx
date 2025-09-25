@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { z } from 'zod';
 import type { DirectoryItem } from '../../types/fileExplorer';
-import { renameDirectoryItem } from '../../utils/directoryItem';
 import { useTranslation } from 'react-i18next';
+import { createFile } from '../../utils/directoryItem';
 import DisplayError from '../DisplayError';
 
-type RenameItemModalProps = {
-  isDirectory: boolean;
-  id: string;
-  currentName: string;
+type CreateFileModalProps = {
   items: DirectoryItem[];
-  onRename: (value: DirectoryItem[]) => void;
+  targetId: string;
+  onCreate: (newItems: DirectoryItem[]) => void;
   onCancel: () => void;
 };
 
@@ -40,33 +38,37 @@ const reservedWindowsNames = [
   'LPT9',
 ];
 
-export default function RenameItemModal({
-  isDirectory,
-  id,
+export default function CreateFileModal({
   items,
-  currentName,
-  onRename,
+  targetId,
+  onCreate,
   onCancel,
-}: RenameItemModalProps) {
+}: CreateFileModalProps) {
   const { t } = useTranslation();
-  const itemTypeName = t(
-    `modal.renameItem.words.${isDirectory ? 'folder' : 'file'}`
-  );
-  const invalidName = t('modal.renameItem.errors.invalidName', {
-    item: itemTypeName,
-  });
+
+  const invalidName = t('modal.createFile.errors.invalidName');
 
   const schema = z.object({
     name: z
       .string()
-      .min(1, t('modal.renameItem.errors.empty'))
-      .max(100, t('modal.renameItem.errors.tooLong'))
-      .regex(validFileNameRegex, invalidName)
-      .refine((name) => !reservedWindowsNames.includes(name.toUpperCase()), {
-        message: invalidName,
-      }),
+      .min(1, { message: t('modal.createFile.errors.empty') })
+      .max(100, { message: t('modal.createFile.errors.tooLong') })
+      .refine(
+        (name) =>
+          name
+            .split('/')
+            .filter(Boolean)
+            .map(
+              (name) =>
+                !reservedWindowsNames.includes(name.toUpperCase()) &&
+                validFileNameRegex.exec(name) !== null
+            )
+            .reduce((p, c) => p && c, true),
+        { message: invalidName }
+      ),
   });
-  const [name, setName] = useState(currentName);
+
+  const [name, setName] = useState('');
   const [errorName, setErrorName] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -78,25 +80,19 @@ export default function RenameItemModal({
       return;
     }
 
-    const rename = renameDirectoryItem(id, result.data.name, items);
-    if (rename.success) {
+    const created = createFile(result.data.name, '', targetId, items);
+    if (created.success) {
       setErrorName(null);
-      onRename(rename.value);
+      onCreate(created.value);
     } else {
-      if (rename.error === 'invalid_name') {
-        setErrorName(invalidName);
-      } else {
-        setErrorName(
-          t(`modal.renameItem.errors.${rename.error}`, { item: currentName })
-        );
-      }
+      setErrorName(t(`modal.createFile.errors.${created.error}`));
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="p-4 pt-2 flex flex-col gap-1">
       <label>
-        {t('modal.renameItem.labels.input')}
+        {t('modal.createFile.labels.input')}
         <input
           autoFocus
           type="text"
@@ -120,13 +116,13 @@ export default function RenameItemModal({
           onClick={onCancel}
           className="px-[1.2rem] py-2.5 border-transparent rounded-[10px] confirm-btn"
         >
-          {t('modal.renameItem.labels.cancelButton')}
+          {t('modal.createFile.labels.cancelButton')}
         </button>
         <button
           type="submit"
           className="px-[1.2rem] py-2.5 border-transparent rounded-[10px] confirm-btn"
         >
-          {t('modal.renameItem.labels.button')}
+          {t('modal.createFile.labels.button')}
         </button>
       </div>
     </form>

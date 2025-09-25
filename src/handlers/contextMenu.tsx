@@ -6,14 +6,11 @@ import type {
   DirectoryItem,
   FileEntry,
 } from '../types/fileExplorer';
-import {
-  createDirectory,
-  createFile,
-  deleteDirectoryItem,
-  isDirectory,
-} from '../utils/directoryItem';
+import { deleteDirectoryItem, isDirectory } from '../utils/directoryItem';
 import { useTranslation } from 'react-i18next';
 import DeleteItemModal from '../components/ContextMenuModals/DeleteItemModal';
+import CreateFileModal from '../components/ContextMenuModals/CreateFileModal';
+import CreateFolderModal from '../components/ContextMenuModals/CreateFolderModal';
 
 type ContextMenuFile = {
   type: 'file';
@@ -54,36 +51,33 @@ export function generateDirectoryItemHandlers({
   const [hideDelete, setHideDelete] = useState(false);
   const { open, close } = useModal();
   const newFileItem = (ctx: ContextMenuValue) => {
-    const name = prompt('Enter name for new file');
-    if (!name) return;
-
-    const result = createFile(
-      name,
-      '',
-      ctx.type === 'rootdir' ? 'root' : ctx.value.id,
-      items
+    open(
+      <CreateFileModal
+        items={items}
+        targetId={ctx.type === 'rootdir' ? 'root' : ctx.value.id}
+        onCreate={(items) => {
+          setItems(items);
+          close();
+        }}
+        onCancel={close}
+      />,
+      { containerOnly: false, static: true }
     );
-    if (result.success) {
-      setItems(result.value);
-    } else {
-      alert(result.error);
-    }
   };
 
   const newDirectoryItem = (ctx: ContextMenuValue) => {
-    const name = prompt('Enter name for new directory');
-    if (!name) return;
-
-    const result = createDirectory(
-      name,
-      ctx.type === 'rootdir' ? 'root' : ctx.value.id,
-      items
+    open(
+      <CreateFolderModal
+        items={items}
+        targetId={ctx.type === 'rootdir' ? 'root' : ctx.value.id}
+        onCreate={(items) => {
+          setItems(items);
+          close();
+        }}
+        onCancel={close}
+      />,
+      { containerOnly: false, static: true }
     );
-    if (result.success) {
-      setItems(result.value);
-    } else {
-      alert(result.error);
-    }
   };
 
   const renameItem = (target: ContextMenuValue) => {
@@ -101,7 +95,7 @@ export function generateDirectoryItemHandlers({
           close();
         }}
       />,
-      { containerOnly: false }
+      { containerOnly: false, static: true }
     );
   };
 
@@ -113,7 +107,7 @@ export function generateDirectoryItemHandlers({
         setItems(result.value);
         close();
       } else {
-        alert(result.error);
+        console.warn(result.error);
       }
     } else {
       open(
@@ -129,7 +123,7 @@ export function generateDirectoryItemHandlers({
             close();
           }}
         />,
-        { containerOnly: true }
+        { containerOnly: true, static: true }
       );
     }
   };
