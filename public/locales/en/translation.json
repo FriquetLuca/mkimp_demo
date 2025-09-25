@@ -25,5 +25,13 @@
     "fileExplorer": {
       "label": "Explorer"
     }
+  },
+  "contextMenu": {
+    "labels": {
+      "newFile": "New File...",
+      "newFolder": "New Folder...",
+      "renameItem": "Rename...",
+      "deleteItem": "Delete"
+    }
   }
 }

@@ -75,9 +75,8 @@ export default function ContextMenuContainer<T>({
         localRef.current = el;
         if (menuRef) menuRef.current = el;
       }}
-      className={className}
+      className={`fixed ${className}`}
       style={{
-        position: 'fixed',
         top: position.top,
         left: position.left,
         ...style,

@@ -17,19 +17,15 @@ export default function FileExplorer({
 }: Props) {
   const { t } = useTranslation();
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <h3 style={{ padding: 4 }}>{t('sidebar.fileExplorer.label')}</h3>
+    <div className="flex flex-col h-full">
+      <h3 className="p-[4px]">{t('sidebar.fileExplorer.label')}</h3>
       <DirectoryList
         items={items}
         selectedFileId={selectedFileId}
         onSelect={onSelect}
         onMove={onMove}
         depth={0}
-        style={{
-          overflowY: 'auto',
-          margin: 0,
-          padding: 0,
-        }}
+        className="overflow-y-auto m-0 p-0"
       />
     </div>
   );

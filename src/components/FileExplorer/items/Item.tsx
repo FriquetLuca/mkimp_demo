@@ -9,14 +9,9 @@ export default function Item({
 }) {
   return (
     <p
-      style={{
-        padding: 2,
-        paddingTop: '.25rem',
-        paddingBottom: '.25rem',
-        backgroundColor: isSelected
-          ? 'var(--md-cspan-bg-color)'
-          : 'transparent',
-      }}
+      className={`px-2 pt-1 pb-1 ${
+        isSelected ? 'bg-[var(--md-cspan-bg-color)]' : 'bg-transparent'
+      }`}
     >
       {icon} {name}
     </p>

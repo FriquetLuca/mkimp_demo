@@ -15,6 +15,9 @@ export function createContextMenu({ items, setItems }: createContextMenu) {
     setItems,
   });
 
+  const hoverExplorerStyle =
+    'transition-colors duration-100 hover:bg-[var(--md-border-color)]';
+
   return (target: ContextMenuValue, closeMenu: () => void) => {
     const liItems = menuItems
       .filter((item) => {
@@ -26,7 +29,11 @@ export function createContextMenu({ items, setItems }: createContextMenu) {
       .map((item, i) => (
         <li
           key={i}
-          className="hover-explorer-item"
+          className={
+            item?.className
+              ? `${item.className} ${hoverExplorerStyle}`
+              : hoverExplorerStyle
+          }
           style={{ padding: '4px 8px', cursor: 'pointer', ...item.style }}
           onClick={async () => {
             closeMenu();
@@ -36,17 +43,6 @@ export function createContextMenu({ items, setItems }: createContextMenu) {
           {item.label}
         </li>
       ));
-    return (
-      <ul
-        style={{
-          listStyle: 'none',
-          margin: 0,
-          paddingTop: '.5em',
-          paddingBottom: '.5em',
-        }}
-      >
-        {liItems}
-      </ul>
-    );
+    return <ul className="list-none m-0 py-2">{liItems}</ul>;
   };
 }

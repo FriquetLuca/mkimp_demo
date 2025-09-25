@@ -13,6 +13,7 @@ import {
   deleteDirectoryItem,
   isDirectory,
 } from '../utils/directoryItem';
+import { useTranslation } from 'react-i18next';
 
 type ContextMenuFile = {
   type: 'file';
@@ -37,6 +38,7 @@ export type ContextMenuItem = {
   label: string;
   filter?: (value: ContextMenuValue) => boolean;
   handler: (target: ContextMenuValue) => void | Promise<void>;
+  className?: string;
   style?: React.CSSProperties;
 };
 
@@ -49,6 +51,7 @@ export function generateDirectoryItemHandlers({
   items,
   setItems,
 }: generateDirectoryItemHandlers): ContextMenuItem[] {
+  const { t } = useTranslation();
   const [hideDelete, setHideDelete] = useState(false);
   const { open, close } = useModal();
   const newFileItem = (ctx: ContextMenuValue) => {
@@ -119,7 +122,10 @@ export function generateDirectoryItemHandlers({
           label={
             <span>
               Are you sure you want to delete{' '}
-              <code aria-label="Code" className="md-codespan">
+              <code
+                aria-label="Code"
+                className="px-[0.4em] py-[0.2em] m-0 text-[85%] whitespace-break-spaces rounded-[6px] bg-[var(--md-cspan-bg-color)]"
+              >
                 {target.value.name}
               </code>
               ?
@@ -143,25 +149,23 @@ export function generateDirectoryItemHandlers({
 
   return [
     {
-      label: 'New File...',
+      label: t('contextMenu.labels.newFile'),
       handler: (target) => newFileItem(target),
     },
     {
-      label: 'New Directory...',
+      label: t('contextMenu.labels.newFolder'),
       handler: (target) => newDirectoryItem(target),
     },
     {
-      label: 'Rename...',
+      label: t('contextMenu.labels.renameItem'),
       filter: (v) => v.type !== 'rootdir',
       handler: (target) => renameItem(target),
     },
     {
-      label: 'Delete',
+      label: t('contextMenu.labels.deleteItem'),
       filter: (v) => v.type !== 'rootdir',
       handler: (target) => deleteItem(target),
-      style: {
-        color: 'red',
-      },
+      className: 'text-red-500',
     },
   ];
 }

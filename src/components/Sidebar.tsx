@@ -22,12 +22,9 @@ export default function Sidebar({
 }: SidebarProps) {
   return (
     <div
+      className="h-screen overflow-y-auto border-r bg-[var(--md-table-nth-child-bg-color)] border-[var(--md-bg-code-color)]"
       style={{
         width: sidebarWidth,
-        height: '100vh', // or flex container height
-        overflowY: 'auto', // vertical scroll if content overflows
-        borderRight: '1px solid var(--md-bg-code-color)',
-        backgroundColor: 'var(--md-table-nth-child-bg-color)',
       }}
     >
       <ContextMenuProvider
@@ -35,15 +32,7 @@ export default function Sidebar({
           items,
           setItems,
         })}
-        style={{
-          backgroundColor: 'var(--md-bg-code-color)',
-          border: '1px solid var(--md-cspan-bg-color)',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-          zIndex: 1000,
-          userSelect: 'none',
-          minWidth: 120,
-          borderRadius: '8px',
-        }}
+        className="bg-[var(--md-bg-code-color)] border border-[var(--md-cspan-bg-color)] shadow-[0_2px_8px_rgba(0,0,0,0.15)] z-[1000] select-none min-w-[120px] rounded-[8px]"
       >
         <FileExplorer
           items={items}

@@ -75,12 +75,7 @@ export default function FolderItem({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onContextMenu={handleContextMenu}
-        className="hover-explorer-item"
-        style={{
-          cursor: 'pointer',
-          backgroundColor: isOver ? 'rgba(100, 100, 255, 0.2)' : undefined,
-          transition: 'background-color 0.2s ease',
-        }}
+        className={`hover:bg-[var(--md-border-color)] cursor-pointer transition-colors duration-200 ease-in-out ${isOver ? 'bg-[rgba(100,100,255,0.2)]' : ''}`}
       >
         <div onClick={() => setOpen(!open)}>
           <Item

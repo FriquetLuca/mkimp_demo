@@ -60,21 +60,13 @@ function App() {
     <ModalProvider>
       <div
         ref={containerRef}
-        style={{
-          display: 'flex',
-          height: '100vh',
-          width: '100vw',
-          overflow: 'hidden',
-        }}
+        className="flex h-screen w-screen overflow-hidden"
       >
         <div
           ref={sidebarRef}
+          className="min-w-[150px] max-w-[500px] flex-shrink-0 overflow-hidden"
           style={{
             width: `${sidebarWidth}px`,
-            minWidth: '150px',
-            maxWidth: '500px',
-            flexShrink: 0,
-            overflow: 'hidden',
           }}
         >
           <Sidebar
@@ -89,7 +81,7 @@ function App() {
 
         <SidebarSeparator onMouseDown={onSeparatorMouseDown} />
 
-        <div style={{ width: '100%', overflowX: 'hidden', overflowY: 'auto' }}>
+        <div className="w-full overflow-x-hidden overflow-y-auto">
           <EditorView file={selectedFile} onChange={updateFile} />
         </div>
       </div>

@@ -11,12 +11,14 @@ type ContextMenuProviderProps = {
     target: ContextMenuValue,
     onClose: () => void
   ) => React.JSX.Element;
+  className: string;
   style?: React.CSSProperties | undefined;
 };
 
 export function ContextMenuProvider({
   children,
   createMenu,
+  className,
   style,
 }: ContextMenuProviderProps) {
   const contextMenu = useState<ContextMenuState<ContextMenuValue> | null>(null);
@@ -43,6 +45,7 @@ export function ContextMenuProvider({
           onClose={onClose}
           target={contextMenuPos?.target}
           createMenu={createMenu}
+          className={className}
           style={style}
         />
       )}

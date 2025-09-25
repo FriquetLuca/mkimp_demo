@@ -31,12 +31,12 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
       {createPortal(
         modalContent ? (
           <div
-            className="modal-backdrop"
-            onClick={close} // Clicking backdrop triggers close
+            className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex justify-center items-center z-[1000]"
+            onClick={close}
           >
             <div
-              className="modal"
-              onClick={(e) => e.stopPropagation()} // Prevent close when clicking inside modal
+              className="bg-[var(--md-bg-color)] rounded-[8px] shadow-[0_10px_40px_rgba(0,0,0,0.2)] min-w-[300px] max-w-[90vw] min-h-[100px] max-h-[90vh] overflow-auto relative flex flex-col"
+              onClick={(e) => e.stopPropagation()}
             >
               {modalContent}
             </div>

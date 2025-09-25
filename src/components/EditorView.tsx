@@ -18,7 +18,7 @@ export default function EditorView({ file, onChange }: Props) {
   }, [file]);
 
   if (!file) {
-    return <div style={{ padding: '1rem' }}>{t('editorView.selectItem')}</div>;
+    return <div className="p-4">{t('editorView.selectItem')}</div>;
   }
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -35,41 +35,19 @@ export default function EditorView({ file, onChange }: Props) {
 
   return (
     <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        flex: 1,
-        padding: '0.1rem',
-        gap: 5,
-        width: 'calc(100% - 0.5rem)',
-        height: 'calc(100% - 5px)',
-        overflow: 'hidden',
-      }}
+      className="flex flex-col flex-1 p-[0.1rem] gap-[5px] overflow-hidden"
+      style={{ width: 'calc(100% - 0.5rem)', height: 'calc(100% - 5px)' }}
     >
       <input
         type="text"
         value={fileName}
         onChange={handleNameChange}
-        style={{
-          fontSize: '1.2rem',
-          fontWeight: 'bold',
-          border: '1px solid var(--md-cspan-bg-color)',
-          borderRadius: '4px',
-          fontFamily: 'monospace',
-        }}
+        className="text-[1.2rem] font-bold border border-[var(--md-cspan-bg-color)] rounded-[4px] font-mono"
       />
       <textarea
         value={content}
         onChange={handleContentChange}
-        style={{
-          flex: 1,
-          height: '100%',
-          fontFamily: 'monospace',
-          resize: 'none',
-          border: '1px solid var(--md-cspan-bg-color)',
-          borderRadius: '4px',
-          overflow: 'auto',
-        }}
+        className="flex-1 h-full font-mono resize-none border border-[var(--md-cspan-bg-color)] rounded-[4px] overflow-auto"
       />
     </div>
   );

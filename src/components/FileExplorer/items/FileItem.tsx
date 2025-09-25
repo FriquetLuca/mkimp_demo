@@ -38,10 +38,7 @@ export default function FileItem({
         onDragStart={handleDragStart}
         onClick={() => onSelect(file)}
         onContextMenu={handleContextMenu}
-        className="hover-explorer-item"
-        style={{
-          cursor: 'pointer',
-        }}
+        className="transition-colors duration-100 hover:bg-[var(--md-border-color)] cursor-pointer"
       >
         <Item
           icon={'📄'}

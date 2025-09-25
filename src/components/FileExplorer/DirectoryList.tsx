@@ -8,6 +8,7 @@ export function DirectoryList({
   onSelect,
   onMove,
   depth,
+  className,
   style,
 }: {
   items: DirectoryItem[];
@@ -15,6 +16,7 @@ export function DirectoryList({
   onSelect: (file: FileEntry) => void;
   onMove: (itemId: string, targetDirId: string) => void;
   depth: number;
+  className?: string;
   style?: React.CSSProperties;
 }) {
   const menuContext = useContextMenu();
@@ -51,6 +53,7 @@ export function DirectoryList({
 
   const MaybeEmpty = isRoot ? (
     <div
+      className="flex-grow"
       onContextMenu={handleContextMenu}
       onDragOver={(e) => {
         e.preventDefault();
@@ -67,22 +70,20 @@ export function DirectoryList({
           console.warn('Invalid drag data', err);
         }
       }}
-      style={{ flexGrow: 1 }}
     />
   ) : undefined;
+
+  const currentStyle = `p-0 list-none text-left ${isRoot ? 'pl-0 border-l-0' : 'pl-2 border-l border-[var(--md-cspan-bg-color)]'}`;
 
   return (
     <>
       <ul
-        className="explorer-menu"
-        style={{
-          padding: 0,
-          listStyle: 'none',
-          textAlign: 'left',
-          paddingLeft: isRoot ? 0 : '.5rem',
-          borderLeft: isRoot ? 'none' : '1px solid var(--md-cspan-bg-color)',
-          ...style,
-        }}
+        className={
+          className
+            ? `explorer-menu ${className} ${currentStyle}`
+            : `explorer-menu ${currentStyle}`
+        }
+        style={style}
         onDragOver={handleRootDragOver}
         onDrop={handleRootDrop}
       >
