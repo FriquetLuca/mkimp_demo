@@ -1,8 +1,8 @@
-import type { Result } from "../../types/defaults";
-import type { DirectoryItem, FileEntry } from "../../types/fileExplorer";
-import type { CreateError } from "./createFile";
-import { insertDirectory } from "./insertDirectory";
-import { isDirectory } from "./isDirectory";
+import type { Result } from '../../types/defaults';
+import type { DirectoryItem, FileEntry } from '../../types/fileExplorer';
+import type { CreateError } from './createFile';
+import { insertDirectory } from './insertDirectory';
+import { isDirectory } from './isDirectory';
 
 export function insertFile(
   path: string,
@@ -10,7 +10,7 @@ export function insertFile(
   target: DirectoryItem,
   override = false
 ): Result<FileEntry, CreateError> {
-  if (!isDirectory(target)) throw new Error("Target must be a directory");
+  if (!isDirectory(target)) throw new Error('Target must be a directory');
 
   const segments = path.split('/').filter(Boolean);
   const fileName = segments.pop()!;
@@ -22,7 +22,7 @@ export function insertFile(
 
   if (existingFile) {
     if (!override) {
-      return { success: false, error: "file_exists" };
+      return { success: false, error: 'file_exists' };
     } else {
       existingFile.content = content;
       return { success: true, value: existingFile };

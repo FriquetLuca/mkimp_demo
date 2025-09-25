@@ -75,7 +75,8 @@ export function useResizableSidebarH({
   const onSeparatorMouseDown = (e: React.MouseEvent) => {
     isResizing.current = true;
     dragStartX.current = e.clientX;
-    initialSidebarWidth.current = sidebarRef.current?.offsetWidth ?? sidebarWidth;
+    initialSidebarWidth.current =
+      sidebarRef.current?.offsetWidth ?? sidebarWidth;
   };
 
   return {
@@ -159,7 +160,8 @@ export function useResizableSidebarV({
   const onSeparatorMouseDown = (e: React.MouseEvent) => {
     isResizing.current = true;
     dragStartY.current = e.clientY;
-    initialSidebarHeight.current = sidebarRef.current?.offsetHeight ?? sidebarHeight;
+    initialSidebarHeight.current =
+      sidebarRef.current?.offsetHeight ?? sidebarHeight;
   };
 
   return {

@@ -1,18 +1,25 @@
-import React, { useCallback, useState } from "react";
-import { createPortal } from "react-dom";
-import { ModalContext, type ModalSettings } from "../hooks/useModal";
-import ContextModalContainer from "../components/ContextMenuModals/ContextModalContainer";
+import React, { useCallback, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { ModalContext, type ModalSettings } from '../hooks/useModal';
+import ContextModalContainer from '../components/ContextMenuModals/ContextModalContainer';
 
-export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [modalContent, setModalContent] = useState<React.ReactNode | null>(null);
+export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [modalContent, setModalContent] = useState<React.ReactNode | null>(
+    null
+  );
 
-  const open = useCallback((content: React.ReactNode, settings: Partial<ModalSettings> = {}) => {
-    setModalContent((
-      <ContextModalContainer containerOnly={settings?.containerOnly}>
-        {content}
-      </ContextModalContainer>
-    ));
-  }, []);
+  const open = useCallback(
+    (content: React.ReactNode, settings: Partial<ModalSettings> = {}) => {
+      setModalContent(
+        <ContextModalContainer containerOnly={settings?.containerOnly}>
+          {content}
+        </ContextModalContainer>
+      );
+    },
+    []
+  );
 
   const close = useCallback(() => {
     setModalContent(null);

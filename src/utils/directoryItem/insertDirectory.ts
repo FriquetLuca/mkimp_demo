@@ -1,8 +1,11 @@
-import type { DirectoryEntry, DirectoryItem } from "../../types/fileExplorer";
-import { isDirectory } from "./isDirectory";
+import type { DirectoryEntry, DirectoryItem } from '../../types/fileExplorer';
+import { isDirectory } from './isDirectory';
 
-export function insertDirectory(path: string, target: DirectoryItem): DirectoryEntry {
-  if (!isDirectory(target)) throw new Error("Target must be a directory");
+export function insertDirectory(
+  path: string,
+  target: DirectoryItem
+): DirectoryEntry {
+  if (!isDirectory(target)) throw new Error('Target must be a directory');
 
   const segments = path.split('/').filter(Boolean);
   let current = target;

@@ -1,6 +1,6 @@
-import { useContextMenu } from "../../hooks/useContextMenu";
-import type { DirectoryItem, FileEntry } from "../../types/fileExplorer";
-import { FileItem, FolderItem } from "./items/index";
+import { useContextMenu } from '../../hooks/useContextMenu';
+import type { DirectoryItem, FileEntry } from '../../types/fileExplorer';
+import { FileItem, FolderItem } from './items/index';
 
 export function DirectoryList({
   items,
@@ -42,30 +42,34 @@ export function DirectoryList({
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
-    menuContext.setContextMenuPos({ x: e.clientX, y: e.clientY, target: { type: "rootdir" } });
+    menuContext.setContextMenuPos({
+      x: e.clientX,
+      y: e.clientY,
+      target: { type: 'rootdir' },
+    });
   };
 
   const MaybeEmpty = isRoot ? (
-      <div
-        onContextMenu={handleContextMenu}
-        onDragOver={(e) => {
-          e.preventDefault();
-        }}
-        onDrop={(e) => {
-          e.preventDefault();
-          try {
-            const data = JSON.parse(e.dataTransfer.getData('application/json'));
-            const itemId = data.id;
-            if (itemId) {
-              onMove(itemId, 'root');
-            }
-          } catch (err) {
-            console.warn('Invalid drag data', err);
+    <div
+      onContextMenu={handleContextMenu}
+      onDragOver={(e) => {
+        e.preventDefault();
+      }}
+      onDrop={(e) => {
+        e.preventDefault();
+        try {
+          const data = JSON.parse(e.dataTransfer.getData('application/json'));
+          const itemId = data.id;
+          if (itemId) {
+            onMove(itemId, 'root');
           }
-        }}
-        style={{ flexGrow: 1, }}
-      />
-    ) : undefined;
+        } catch (err) {
+          console.warn('Invalid drag data', err);
+        }
+      }}
+      style={{ flexGrow: 1 }}
+    />
+  ) : undefined;
 
   return (
     <>
@@ -83,7 +87,7 @@ export function DirectoryList({
         onDrop={handleRootDrop}
       >
         {items.map((item) =>
-          "nodes" in item ? (
+          'nodes' in item ? (
             <FolderItem
               key={item.id}
               folder={item}

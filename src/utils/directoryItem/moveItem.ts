@@ -1,9 +1,9 @@
-import type { Result } from "../../types/defaults";
-import type { DirectoryEntry, DirectoryItem } from "../../types/fileExplorer";
-import { deepClone } from "../deepClone";
-import { findById } from "./findById";
-import { findParent } from "./findParent";
-import { isDirectory } from "./isDirectory";
+import type { Result } from '../../types/defaults';
+import type { DirectoryEntry, DirectoryItem } from '../../types/fileExplorer';
+import { deepClone } from '../deepClone';
+import { findById } from './findById';
+import { findParent } from './findParent';
+import { isDirectory } from './isDirectory';
 
 function mergeDirectories(
   targetDir: DirectoryEntry,
@@ -51,7 +51,9 @@ function getAvailableName(baseName: string, siblings: DirectoryItem[]): string {
     extension = baseName.slice(lastDot); // includes the dot
   }
 
-  const regex = new RegExp(`^${escapeRegExp(nameWithoutExt)}_Copy\\((\\d+)\\)${escapeRegExp(extension)}$`);
+  const regex = new RegExp(
+    `^${escapeRegExp(nameWithoutExt)}_Copy\\((\\d+)\\)${escapeRegExp(extension)}$`
+  );
   const usedNumbers = new Set<number>();
 
   for (const sibling of siblings) {
@@ -70,7 +72,7 @@ function getAvailableName(baseName: string, siblings: DirectoryItem[]): string {
   return `${nameWithoutExt}_Copy(${copyNumber})${extension}`;
 }
 
-export type MoveError = "target_not_found" | "location_not_found";
+export type MoveError = 'target_not_found' | 'location_not_found';
 
 export function moveDirectoryItem(
   targetId: string,
@@ -84,39 +86,42 @@ export function moveDirectoryItem(
   };
 
   const target = findById(targetId, root);
-  if (!target) return { success: false, error: "target_not_found" };
+  if (!target) return { success: false, error: 'target_not_found' };
 
   const originalParent = findParent(targetId, root);
-  if (!originalParent) return { success: false, error: "target_not_found" };
+  if (!originalParent) return { success: false, error: 'target_not_found' };
 
   let location = findById(locationId, root);
-  if (!location) return { success: false, error: "location_not_found" };
+  if (!location) return { success: false, error: 'location_not_found' };
 
   // If location is a file, use its parent
   if (!isDirectory(location)) {
     const fileParent = findParent(locationId, root);
-    if (!fileParent) return { success: false, error: "location_not_found" };
+    if (!fileParent) return { success: false, error: 'location_not_found' };
     location = fileParent;
   }
 
   // Early return: target already in desired location (and not being renamed or merged)
   const isSameLocation = location.id === originalParent.id;
-  const nameConflict = location.nodes.some(item => item.name === target.name && item.id !== target.id);
+  const nameConflict = location.nodes.some(
+    (item) => item.name === target.name && item.id !== target.id
+  );
 
   if (isSameLocation && !nameConflict) {
     return { success: true, value: allItems };
   }
 
   // Check for conflict
-  const existing = location.nodes.find(item => item.name === target.name);
+  const existing = location.nodes.find((item) => item.name === target.name);
 
   if (existing && isDirectory(existing) && isDirectory(target)) {
     // Merge directories
     mergeDirectories(existing, target);
-    
-    // Remove original directory
-    originalParent.nodes = originalParent.nodes.filter((item) => item.id !== targetId);
 
+    // Remove original directory
+    originalParent.nodes = originalParent.nodes.filter(
+      (item) => item.id !== targetId
+    );
   } else {
     // Clone and optionally rename
     const clonedItem = deepClone(target);
@@ -126,7 +131,9 @@ export function moveDirectoryItem(
     }
 
     // Remove from original
-    originalParent.nodes = originalParent.nodes.filter((item) => item.id !== targetId);
+    originalParent.nodes = originalParent.nodes.filter(
+      (item) => item.id !== targetId
+    );
 
     // Add to new location
     location.nodes.push(clonedItem);

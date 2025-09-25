@@ -18,7 +18,7 @@ export default function EditorView({ file, onChange }: Props) {
   }, [file]);
 
   if (!file) {
-    return <div style={{ padding: '1rem' }}>{t("editorView.selectItem")}</div>;
+    return <div style={{ padding: '1rem' }}>{t('editorView.selectItem')}</div>;
   }
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -34,7 +34,18 @@ export default function EditorView({ file, onChange }: Props) {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, padding: '0.1rem', gap: 5, width: 'calc(100% - 0.5rem)', height: 'calc(100% - 5px)', overflow: 'hidden' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1,
+        padding: '0.1rem',
+        gap: 5,
+        width: 'calc(100% - 0.5rem)',
+        height: 'calc(100% - 5px)',
+        overflow: 'hidden',
+      }}
+    >
       <input
         type="text"
         value={fileName}

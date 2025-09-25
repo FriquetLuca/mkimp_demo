@@ -1,57 +1,57 @@
-import { ContextMenuProvider } from "../provider/ContextMenuProvider";
-import type { DirectoryItem, FileEntry } from "../types/fileExplorer";
-import { createContextMenu } from "../builders/createContextMenu";
-import FileExplorer from "./FileExplorer";
+import { ContextMenuProvider } from '../provider/ContextMenuProvider';
+import type { DirectoryItem, FileEntry } from '../types/fileExplorer';
+import { createContextMenu } from '../builders/createContextMenu';
+import FileExplorer from './FileExplorer';
 
 type SidebarProps = {
-    sidebarWidth: number;
-    items: DirectoryItem[];
-    selectedFileId: string | null;
-    handleMove: (itemId: string, targetDirId: string) => void;
-    setItems: (newItems: DirectoryItem[]) => void;
-    onSelect: (file: FileEntry) => void;
+  sidebarWidth: number;
+  items: DirectoryItem[];
+  selectedFileId: string | null;
+  handleMove: (itemId: string, targetDirId: string) => void;
+  setItems: (newItems: DirectoryItem[]) => void;
+  onSelect: (file: FileEntry) => void;
 };
 
 export default function Sidebar({
-    sidebarWidth,
-    items,
-    setItems,
-    selectedFileId,
-    handleMove,
-    onSelect,
+  sidebarWidth,
+  items,
+  setItems,
+  selectedFileId,
+  handleMove,
+  onSelect,
 }: SidebarProps) {
-    return (
-        <div
-            style={{
-                width: sidebarWidth,
-                height: '100vh', // or flex container height
-                overflowY: 'auto', // vertical scroll if content overflows
-                borderRight: '1px solid var(--md-bg-code-color)',
-                backgroundColor: 'var(--md-table-nth-child-bg-color)',
-            }}
-        >
-            <ContextMenuProvider
-                createMenu={createContextMenu({
-                    items,
-                    setItems,
-                })}
-                style={{
-                    backgroundColor: "var(--md-bg-code-color)",
-                    border: "1px solid var(--md-cspan-bg-color)",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                    zIndex: 1000,
-                    userSelect: "none",
-                    minWidth: 120,
-                    borderRadius: "8px",
-                }}
-            >
-                <FileExplorer
-                    items={items}
-                    selectedFileId={selectedFileId}
-                    onSelect={onSelect}
-                    onMove={handleMove}
-                />
-            </ContextMenuProvider>
-        </div>
-    )
+  return (
+    <div
+      style={{
+        width: sidebarWidth,
+        height: '100vh', // or flex container height
+        overflowY: 'auto', // vertical scroll if content overflows
+        borderRight: '1px solid var(--md-bg-code-color)',
+        backgroundColor: 'var(--md-table-nth-child-bg-color)',
+      }}
+    >
+      <ContextMenuProvider
+        createMenu={createContextMenu({
+          items,
+          setItems,
+        })}
+        style={{
+          backgroundColor: 'var(--md-bg-code-color)',
+          border: '1px solid var(--md-cspan-bg-color)',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+          zIndex: 1000,
+          userSelect: 'none',
+          minWidth: 120,
+          borderRadius: '8px',
+        }}
+      >
+        <FileExplorer
+          items={items}
+          selectedFileId={selectedFileId}
+          onSelect={onSelect}
+          onMove={handleMove}
+        />
+      </ContextMenuProvider>
+    </div>
+  );
 }

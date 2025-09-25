@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { DirectoryList } from "../DirectoryList";
-import Item from "./Item";
-import { useContextMenu } from "../../../hooks/useContextMenu";
-import type { DirectoryEntry, FileEntry } from "../../../types/fileExplorer";
+import { useState } from 'react';
+import { DirectoryList } from '../DirectoryList';
+import Item from './Item';
+import { useContextMenu } from '../../../hooks/useContextMenu';
+import type { DirectoryEntry, FileEntry } from '../../../types/fileExplorer';
 
 export default function FolderItem({
   folder,
@@ -18,7 +18,7 @@ export default function FolderItem({
   depth: number;
 }) {
   const menuContext = useContextMenu();
-  
+
   const [open, setOpen] = useState(false);
   const [isOver, setIsOver] = useState(false); // drag-over
 
@@ -41,7 +41,10 @@ export default function FolderItem({
 
   const handleDragStart = (e: React.DragEvent) => {
     e.stopPropagation();
-    e.dataTransfer.setData('application/json', JSON.stringify({ id: folder.id, type: 'folder' }));
+    e.dataTransfer.setData(
+      'application/json',
+      JSON.stringify({ id: folder.id, type: 'folder' })
+    );
     e.dataTransfer.effectAllowed = 'move';
   };
 
@@ -56,9 +59,13 @@ export default function FolderItem({
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
-    menuContext.setContextMenuPos({ x: e.clientX, y: e.clientY, target: { type: "directory", value: folder } });
+    menuContext.setContextMenuPos({
+      x: e.clientX,
+      y: e.clientY,
+      target: { type: 'directory', value: folder },
+    });
   };
-  
+
   return (
     <>
       <li
@@ -70,13 +77,17 @@ export default function FolderItem({
         onContextMenu={handleContextMenu}
         className="hover-explorer-item"
         style={{
-          cursor: "pointer",
-          backgroundColor: isOver ? "rgba(100, 100, 255, 0.2)" : undefined,
-          transition: "background-color 0.2s ease",
+          cursor: 'pointer',
+          backgroundColor: isOver ? 'rgba(100, 100, 255, 0.2)' : undefined,
+          transition: 'background-color 0.2s ease',
         }}
       >
         <div onClick={() => setOpen(!open)}>
-          <Item icon={open ? "📂" : "📁"} name={folder.name} isSelected={selectedFileId === folder.id} />
+          <Item
+            icon={open ? '📂' : '📁'}
+            name={folder.name}
+            isSelected={selectedFileId === folder.id}
+          />
         </div>
       </li>
       {open && (

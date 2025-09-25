@@ -1,7 +1,7 @@
-import React from "react";
-import Item from "./Item";
-import { useContextMenu } from "../../../hooks/useContextMenu";
-import type { FileEntry } from "../../../types/fileExplorer";
+import React from 'react';
+import Item from './Item';
+import { useContextMenu } from '../../../hooks/useContextMenu';
+import type { FileEntry } from '../../../types/fileExplorer';
 
 export default function FileItem({
   file,
@@ -15,13 +15,20 @@ export default function FileItem({
   const menuContext = useContextMenu();
 
   const handleDragStart = (e: React.DragEvent) => {
-    e.dataTransfer.setData("application/json", JSON.stringify({ id: file.id, type: "file" }));
-    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData(
+      'application/json',
+      JSON.stringify({ id: file.id, type: 'file' })
+    );
+    e.dataTransfer.effectAllowed = 'move';
   };
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
-    menuContext.setContextMenuPos({ x: e.clientX, y: e.clientY, target: { type: "file", value: file } });
+    menuContext.setContextMenuPos({
+      x: e.clientX,
+      y: e.clientY,
+      target: { type: 'file', value: file },
+    });
   };
 
   return (
@@ -33,10 +40,14 @@ export default function FileItem({
         onContextMenu={handleContextMenu}
         className="hover-explorer-item"
         style={{
-          cursor: "pointer",
+          cursor: 'pointer',
         }}
       >
-        <Item icon={"📄"} name={file.name} isSelected={selectedFileId === file.id} />
+        <Item
+          icon={'📄'}
+          name={file.name}
+          isSelected={selectedFileId === file.id}
+        />
       </li>
     </>
   );

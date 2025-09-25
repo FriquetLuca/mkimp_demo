@@ -1,7 +1,10 @@
-import type { DirectoryEntry, DirectoryItem } from "../../types/fileExplorer";
-import { isDirectory } from "./isDirectory";
+import type { DirectoryEntry, DirectoryItem } from '../../types/fileExplorer';
+import { isDirectory } from './isDirectory';
 
-export function findParent(childId: string, node: DirectoryItem): DirectoryEntry | null {
+export function findParent(
+  childId: string,
+  node: DirectoryItem
+): DirectoryEntry | null {
   if (!isDirectory(node)) return null;
 
   for (const child of node.nodes) {

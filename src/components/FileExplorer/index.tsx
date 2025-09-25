@@ -9,11 +9,16 @@ type Props = {
   onMove: (itemId: string, targetDirId: string) => void;
 };
 
-export default function FileExplorer({ items, selectedFileId, onSelect, onMove }: Props) {
+export default function FileExplorer({
+  items,
+  selectedFileId,
+  onSelect,
+  onMove,
+}: Props) {
   const { t } = useTranslation();
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      <h3 style={{ padding: 4 }}>{t("sidebar.fileExplorer.label")}</h3>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <h3 style={{ padding: 4 }}>{t('sidebar.fileExplorer.label')}</h3>
       <DirectoryList
         items={items}
         selectedFileId={selectedFileId}
@@ -21,7 +26,7 @@ export default function FileExplorer({ items, selectedFileId, onSelect, onMove }
         onMove={onMove}
         depth={0}
         style={{
-          overflowY: "auto",
+          overflowY: 'auto',
           margin: 0,
           padding: 0,
         }}

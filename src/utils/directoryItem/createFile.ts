@@ -1,24 +1,30 @@
-import type { Result } from "../../types/defaults";
-import type { DirectoryItem } from "../../types/fileExplorer";
-import { deepClone } from "../deepClone";
-import { findById } from "./findById";
-import { findParent } from "./findParent";
-import { insertFile } from "./insertFile";
-import { isDirectory } from "./isDirectory";
+import type { Result } from '../../types/defaults';
+import type { DirectoryItem } from '../../types/fileExplorer';
+import { deepClone } from '../deepClone';
+import { findById } from './findById';
+import { findParent } from './findParent';
+import { insertFile } from './insertFile';
+import { isDirectory } from './isDirectory';
 
-export type CreateError = "target_not_found" | "file_exists";
+export type CreateError = 'target_not_found' | 'file_exists';
 
-export function createFile(path: string, content: string, targetId: string, allItems: DirectoryItem[], override?: boolean): Result<DirectoryItem[], CreateError> {
+export function createFile(
+  path: string,
+  content: string,
+  targetId: string,
+  allItems: DirectoryItem[],
+  override?: boolean
+): Result<DirectoryItem[], CreateError> {
   const root = {
     id: 'root',
     name: '',
     nodes: deepClone(allItems),
   };
   const target = findById(targetId, root);
-  if(target) {
-    if(isDirectory(target)) {
+  if (target) {
+    if (isDirectory(target)) {
       const result = insertFile(path, content, target, override);
-      if(result.success) {
+      if (result.success) {
         return {
           success: true,
           value: root.nodes,
@@ -27,9 +33,9 @@ export function createFile(path: string, content: string, targetId: string, allI
       return result;
     }
     const parent = findParent(targetId, root);
-    if(parent && isDirectory(parent)) {
+    if (parent && isDirectory(parent)) {
       const result = insertFile(path, content, parent, override);
-      if(result.success) {
+      if (result.success) {
         return {
           success: true,
           value: root.nodes,
@@ -40,6 +46,6 @@ export function createFile(path: string, content: string, targetId: string, allI
   }
   return {
     success: false,
-    error: "target_not_found",
-  }
+    error: 'target_not_found',
+  };
 }

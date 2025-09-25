@@ -1,13 +1,17 @@
-import type { Result } from "../../types/defaults";
-import type { DirectoryItem } from "../../types/fileExplorer";
-import { deepClone } from "../deepClone";
-import type { CreateError } from "./createFile";
-import { findById } from "./findById";
-import { findParent } from "./findParent";
-import { insertDirectory } from "./insertDirectory";
-import { isDirectory } from "./isDirectory";
+import type { Result } from '../../types/defaults';
+import type { DirectoryItem } from '../../types/fileExplorer';
+import { deepClone } from '../deepClone';
+import type { CreateError } from './createFile';
+import { findById } from './findById';
+import { findParent } from './findParent';
+import { insertDirectory } from './insertDirectory';
+import { isDirectory } from './isDirectory';
 
-export function createDirectory(path: string, targetId: string, allItems: DirectoryItem[]): Result<DirectoryItem[], CreateError> {
+export function createDirectory(
+  path: string,
+  targetId: string,
+  allItems: DirectoryItem[]
+): Result<DirectoryItem[], CreateError> {
   const root = {
     id: 'root',
     name: '',
@@ -15,7 +19,7 @@ export function createDirectory(path: string, targetId: string, allItems: Direct
   };
   const target = findById(targetId, root);
   if (target) {
-    if(isDirectory(target)) {
+    if (isDirectory(target)) {
       insertDirectory(path, target);
       return {
         success: true,
@@ -23,7 +27,7 @@ export function createDirectory(path: string, targetId: string, allItems: Direct
       };
     }
     const parent = findParent(targetId, root);
-    if(parent && isDirectory(parent)) {
+    if (parent && isDirectory(parent)) {
       insertDirectory(path, parent);
       return {
         success: true,
@@ -33,6 +37,6 @@ export function createDirectory(path: string, targetId: string, allItems: Direct
   }
   return {
     success: false,
-    error: "target_not_found",
+    error: 'target_not_found',
   };
 }

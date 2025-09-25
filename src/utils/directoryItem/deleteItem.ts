@@ -1,9 +1,9 @@
-import type { Result } from "../../types/defaults";
-import type { DirectoryItem } from "../../types/fileExplorer";
-import { deepClone } from "../deepClone";
-import { findParent } from "./findParent";
+import type { Result } from '../../types/defaults';
+import type { DirectoryItem } from '../../types/fileExplorer';
+import { deepClone } from '../deepClone';
+import { findParent } from './findParent';
 
-export type DeleteError = "target_not_found";
+export type DeleteError = 'target_not_found';
 
 export function deleteDirectoryItem(
   targetId: string,
@@ -19,10 +19,10 @@ export function deleteDirectoryItem(
   if (!parent) {
     return {
       success: false,
-      error: "target_not_found",
+      error: 'target_not_found',
     };
   }
-  
+
   parent.nodes = parent.nodes.filter((item) => item.id !== targetId);
 
   return {

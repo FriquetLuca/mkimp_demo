@@ -10,24 +10,23 @@ import { moveDirectoryItem, sortDirectoryItems } from './utils/directoryItem';
 import { ModalProvider } from './provider/ModalProvider';
 
 function App() {
-  const [filesTree, setFilesTree] = useState<DirectoryItem[]>(sortDirectoryItems(allItems));
+  const [filesTree, setFilesTree] = useState<DirectoryItem[]>(
+    sortDirectoryItems(allItems)
+  );
   const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
 
-  const setItems = (items: DirectoryItem[]) => setFilesTree(sortDirectoryItems(items));
+  const setItems = (items: DirectoryItem[]) =>
+    setFilesTree(sortDirectoryItems(items));
   const onSelect = (file: FileEntry) => setSelectedFileId(file.id);
 
-  const {
-    sidebarWidth,
-    sidebarRef,
-    containerRef,
-    onSeparatorMouseDown,
-  } = useResizableSidebarH({
-    maxWidth: 300,
-  });
+  const { sidebarWidth, sidebarRef, containerRef, onSeparatorMouseDown } =
+    useResizableSidebarH({
+      maxWidth: 300,
+    });
 
   const handleMove = (itemId: string, targetDirId: string) => {
     const result = moveDirectoryItem(itemId, targetDirId, filesTree);
-    if(result.success) {
+    if (result.success) {
       setItems(result.value);
     } else {
       alert(result.error);

@@ -1,14 +1,19 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 export type ContextMenuState<T> = {
-    x: number;
-    y: number;
-    target: T | null;
+  x: number;
+  y: number;
+  target: T | null;
 };
 
 export type GetContextMenuState<T> = ContextMenuState<T> | null;
-export type SetContextMenuState<T> = React.Dispatch<React.SetStateAction<ContextMenuState<T> | null>>;
-export type FullContextMenuState<T> = [GetContextMenuState<T>, SetContextMenuState<T>];
+export type SetContextMenuState<T> = React.Dispatch<
+  React.SetStateAction<ContextMenuState<T> | null>
+>;
+export type FullContextMenuState<T> = [
+  GetContextMenuState<T>,
+  SetContextMenuState<T>,
+];
 
 type ContextMenuProps<T, Ref = HTMLDivElement> = ContextMenuState<T> & {
   menuRef: React.RefObject<Ref | null>;
@@ -52,16 +57,13 @@ export default function ContextMenuContainer<T>({
 
   useEffect(() => {
     const handleMouseDown = (e: MouseEvent) => {
-      if (
-        localRef.current &&
-        !localRef.current.contains(e.target as Node)
-      ) {
+      if (localRef.current && !localRef.current.contains(e.target as Node)) {
         onClose();
       }
     };
-    document.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener('mousedown', handleMouseDown);
     return () => {
-      document.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener('mousedown', handleMouseDown);
     };
   }, [onClose]);
 
@@ -75,7 +77,7 @@ export default function ContextMenuContainer<T>({
       }}
       className={className}
       style={{
-        position: "fixed",
+        position: 'fixed',
         top: position.top,
         left: position.left,
         ...style,

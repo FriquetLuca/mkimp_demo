@@ -1,4 +1,4 @@
-import type { DirectoryItem } from "../../types/fileExplorer";
+import type { DirectoryItem } from '../../types/fileExplorer';
 
 /**
  * Sorts DirectoryItems:
@@ -8,7 +8,7 @@ import type { DirectoryItem } from "../../types/fileExplorer";
  */
 export function sortDirectoryItems(items: DirectoryItem[]): DirectoryItem[] {
   return items
-    .map(item => {
+    .map((item) => {
       // Recursively sort children if it's a directory
       if ('nodes' in item) {
         return {

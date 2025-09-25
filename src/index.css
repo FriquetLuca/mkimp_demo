@@ -15,7 +15,7 @@
   --md-blockquote-border-color: #d1d9e0;
   --md-table-nth-child-bg-color: #f6f8fa;
   --md-cspan-bg-color: #818b981f;
-  
+
   color-scheme: light dark;
   color: var(--md-text-color);
   background-color: var(--md-bg-color);
@@ -33,19 +33,19 @@
     --md-solid-border-color: #3d444d;
     --md-bg-color: #0d1117;
     --md-link-color: #4493f8;
-    --md-footnote-color: #9198A1;
+    --md-footnote-color: #9198a1;
     --md-bg-code-color: #151b23;
     --md-bg-highlight-color: #fcf8e3;
-    --md-blockquote-color: #A8A095;
-    --md-blockquote-border-color: #756D60;
-    --md-table-nth-child-bg-color: #11161C;
-    --md-cspan-bg-color: #656C7633;
+    --md-blockquote-color: #a8a095;
+    --md-blockquote-border-color: #756d60;
+    --md-table-nth-child-bg-color: #11161c;
+    --md-cspan-bg-color: #656c7633;
   }
 }
 
 * {
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   padding: 0;
   margin: 0;
   scrollbar-color: var(--md-border-color) var(--md-bg-color);
@@ -53,20 +53,20 @@
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--md-border-color); 
-    border-radius: 10px;
+  background: var(--md-border-color);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--md-solid-border-color);
+  background: var(--md-solid-border-color);
 }
 
 ::-webkit-scrollbar-track {
-    border-radius: 5px;
+  border-radius: 5px;
 }
 
 body {
@@ -94,7 +94,7 @@ body {
 }
 
 ul.explorer-menu:not(first-child) {
-  margin-left: .5em;
+  margin-left: 0.5em;
 }
 
 .modal-backdrop {
@@ -134,8 +134,8 @@ ul.explorer-menu:not(first-child) {
 }
 
 .modal-close-button {
-  padding: .25rem;
-  padding-top: .1rem;
+  padding: 0.25rem;
+  padding-top: 0.1rem;
   position: absolute;
   top: 0;
   right: 0;
@@ -154,8 +154,8 @@ ul.explorer-menu:not(first-child) {
 
 .modal-content {
   flex: 1;
-  padding: .25rem;
-  padding-top: calc(.1rem + 1.5rem);
+  padding: 0.25rem;
+  padding-top: calc(0.1rem + 1.5rem);
   width: 100%;
   height: 100%;
 }
@@ -170,10 +170,10 @@ ul.explorer-menu:not(first-child) {
 }
 
 .md-codespan {
-    padding: .2em .4em;
-    margin: 0;
-    font-size: 85%;
-    white-space: break-spaces;
-    border-radius: 6px;
-    background-color: var(--md-cspan-bg-color);
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  white-space: break-spaces;
+  border-radius: 6px;
+  background-color: var(--md-cspan-bg-color);
 }
