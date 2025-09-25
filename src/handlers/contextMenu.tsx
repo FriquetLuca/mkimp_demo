@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Confirm from '../components/ContextMenuModals/Confirm';
 import RenameItemModal from '../components/ContextMenuModals/RenameItemModal';
 import { useModal } from '../hooks/useModal';
 import type {
@@ -14,6 +13,7 @@ import {
   isDirectory,
 } from '../utils/directoryItem';
 import { useTranslation } from 'react-i18next';
+import DeleteItemModal from '../components/ContextMenuModals/DeleteItemModal';
 
 type ContextMenuFile = {
   type: 'file';
@@ -117,29 +117,17 @@ export function generateDirectoryItemHandlers({
       }
     } else {
       open(
-        <Confirm
-          label={
-            <span>
-              Are you sure you want to delete{' '}
-              <code
-                aria-label="Code"
-                className="px-[0.4em] py-[0.2em] m-0 text-[85%] whitespace-break-spaces rounded-[6px] bg-[var(--md-cspan-bg-color)]"
-              >
-                {target.value.name}
-              </code>
-              ?
-            </span>
-          }
-          onYes={() => {
-            const result = deleteDirectoryItem(target.value.id, items);
-            if (result.success) {
-              setItems(result.value);
-              close();
-            } else {
-              alert(result.error);
-            }
+        <DeleteItemModal
+          id={target.value.id}
+          items={items}
+          currentName={target.value.name}
+          dontAskAgain={hideDelete}
+          onCancel={close}
+          onDelete={(items, del) => {
+            setItems(items);
+            setHideDelete(del);
+            close();
           }}
-          onNo={() => close()}
         />,
         { containerOnly: true }
       );

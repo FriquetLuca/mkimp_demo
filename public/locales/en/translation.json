@@ -19,6 +19,17 @@
         "name_exists": "The current {{item}} name already exist",
         "target_not_found": "Unknown {{item}}"
       }
+    },
+    "deleteItem": {
+      "errors": {
+        "target_not_found": "Unknown item"
+      },
+      "labels": {
+        "confirm": "Confirm",
+        "doNotAskAgain": "Do not ask again",
+        "cancel": "Cancel",
+        "confirmButton": "Delete"
+      }
     }
   },
   "sidebar": {
