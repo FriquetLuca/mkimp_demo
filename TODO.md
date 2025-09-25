@@ -1,7 +1,7 @@
 - Modals
-    - Delete (file/dir)
-    - Create (file/dir)
-        - Hide delete checkbox
+  - Delete (file/dir)
+  - Create (file/dir)
+    - Hide delete checkbox
 - FixedModalProvider variant
 - Navbar for options (json/md/html/preview)
 - Code preview
