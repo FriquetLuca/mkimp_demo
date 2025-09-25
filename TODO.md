@@ -1,6 +1,3 @@
-- Modals
-  - Create (file/dir)
-- FixedModalProvider variant
 - Navbar for options (json/md/html/preview)
 - Code preview
 - Back / Forward redo explorer + context menu

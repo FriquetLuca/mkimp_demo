@@ -123,7 +123,7 @@ export function generateDirectoryItemHandlers({
             close();
           }}
         />,
-        { containerOnly: true, static: true }
+        { containerOnly: false, static: true }
       );
     }
   };

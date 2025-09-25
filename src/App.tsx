@@ -81,7 +81,7 @@ function App() {
 
         <SidebarSeparator onMouseDown={onSeparatorMouseDown} />
 
-        <div className="w-full overflow-x-hidden overflow-y-auto">
+        <div className="w-full overflow-x-hidden overflow-y-hidden">
           <EditorView file={selectedFile} onChange={updateFile} />
         </div>
       </div>

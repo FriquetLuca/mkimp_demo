@@ -1,0 +1,112 @@
+import { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import type { FileEntry } from '../types/fileExplorer';
+
+type Props = {
+  file: FileEntry;
+  lineHeight?: number;
+  onChange: (updated: FileEntry) => void;
+};
+
+export default function FileEditor({ file, onChange, lineHeight = 24 }: Props) {
+  const [content, setContent] = useState('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const lineNumbersRef = useRef<HTMLDivElement>(null);
+  const [scrollTop, setScrollTop] = useState(0);
+  const [containerHeight, setContainerHeight] = useState(0);
+  const [lineNumberWidth, setLineNumberWidth] = useState(0);
+
+  useEffect(() => {
+    setContent(file.content);
+  }, [file]);
+
+  const onAreaScroll = () => {
+    if (textareaRef.current && lineNumbersRef.current) {
+      const scrollTop = textareaRef.current.scrollTop;
+      lineNumbersRef.current.scrollTop = scrollTop;
+      setScrollTop(scrollTop);
+    }
+  };
+
+  useLayoutEffect(() => {
+    if (lineNumbersRef.current) {
+      setContainerHeight(lineNumbersRef.current.clientHeight);
+    }
+  }, [content]);
+
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const updatedContent = e.target.value;
+    setContent(updatedContent);
+    onChange({ ...file, content: updatedContent });
+  };
+
+  const lines = content.split('\n');
+  const totalLines = lines.length;
+
+  const startLine = Math.floor(scrollTop / lineHeight);
+  const visibleLinesCount = Math.min(
+    totalLines - startLine,
+    Math.ceil(containerHeight / lineHeight) + 1
+  );
+  const visibleLineNumbers = Array.from(
+    { length: visibleLinesCount },
+    (_, i) => i + startLine
+  );
+
+  // Dynamically calculate line number width
+  useLayoutEffect(() => {
+    const maxLineNumber = totalLines;
+    const lineNumberText = `${maxLineNumber}`;
+    const font = '12px monospace'; // match your tailwind font size if needed
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      ctx.font = font;
+      const width = ctx.measureText(lineNumberText).width;
+      setLineNumberWidth(width + 16); // padding (8px left + 8px right)
+    }
+  }, [totalLines]);
+
+  return (
+    <div className="flex flex-1 border-t border-[var(--md-cspan-bg-color)] bg-transparent overflow-y-auto">
+      <div
+        ref={lineNumbersRef}
+        className="min-w-10 pt-2 overflow-x-hidden h-full px-2 border-r border-[var(--md-cspan-bg-color)] text-gray-400 bg-[var(--md-bg-code-color)] select-none overflow-y-hidden relative"
+        style={{
+          width: `${1.1 * lineNumberWidth}px`,
+          lineHeight: `${lineHeight}px`,
+        }}
+      >
+        <div
+          className="relative"
+          style={{
+            height: totalLines * lineHeight,
+          }}
+        >
+          {visibleLineNumbers.map((lineIndex) => (
+            <div
+              key={lineIndex}
+              className="absolute right-0 left-0 w-full text-right"
+              style={{
+                top: lineIndex * lineHeight,
+                height: lineHeight,
+              }}
+            >
+              {lineIndex + 1}
+            </div>
+          ))}
+        </div>
+      </div>
+      <textarea
+        ref={textareaRef}
+        value={content}
+        onChange={handleContentChange}
+        onScroll={onAreaScroll}
+        className="pt-2 font-mono whitespace-pre flex-1 px-2 resize-none focus:outline-none bg-transparent"
+        style={{
+          lineHeight: `${lineHeight}px`,
+        }}
+      />
+    </div>
+  );
+}
