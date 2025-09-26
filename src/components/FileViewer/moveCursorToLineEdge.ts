@@ -7,7 +7,12 @@ export function moveCursorToLineEdge({
   e,
   textarea,
 }: moveCursorToLineEdgeProps) {
-  if (!e.altKey || (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight')) return;
+  if (
+    e.ctrlKey ||
+    !e.altKey ||
+    (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight')
+  )
+    return;
 
   e.preventDefault();
   const { selectionStart, selectionEnd, value } = textarea;
