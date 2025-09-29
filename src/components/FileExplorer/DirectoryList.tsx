@@ -5,6 +5,7 @@ import { FileItem, FolderItem } from './items/index';
 export function DirectoryList({
   items,
   selectedFileId,
+  onOpen,
   onSelect,
   onMove,
   depth,
@@ -12,6 +13,7 @@ export function DirectoryList({
 }: {
   items: DirectoryItem[];
   selectedFileId: string | null;
+  onOpen: (file: FileEntry) => void;
   onSelect: (file: FileEntry) => void;
   onMove: (itemId: string, targetDirId: string) => void;
   depth: number;
@@ -91,6 +93,7 @@ export function DirectoryList({
               folder={item}
               selectedFileId={selectedFileId}
               onSelect={onSelect}
+              onOpen={onOpen}
               onMove={onMove}
               depth={depth}
             />
@@ -100,6 +103,7 @@ export function DirectoryList({
               file={item}
               selectedFileId={selectedFileId}
               onSelect={onSelect}
+              onOpen={onOpen}
             />
           )
         )}

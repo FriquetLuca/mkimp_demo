@@ -7,10 +7,12 @@ export default function FileItem({
   file,
   selectedFileId,
   onSelect,
+  onOpen,
 }: {
   file: FileEntry;
   selectedFileId: string | null;
   onSelect: (file: FileEntry) => void;
+  onOpen: (file: FileEntry) => void;
 }) {
   const menuContext = useContextMenu();
 
@@ -37,6 +39,7 @@ export default function FileItem({
         draggable
         onDragStart={handleDragStart}
         onClick={() => onSelect(file)}
+        onDoubleClick={() => onOpen(file)}
         onContextMenu={handleContextMenu}
         className="transition-colors duration-100 hover:bg-[var(--md-border-color)] cursor-pointer"
       >

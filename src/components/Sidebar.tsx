@@ -9,6 +9,7 @@ type SidebarProps = {
   selectedFileId: string | null;
   handleMove: (itemId: string, targetDirId: string) => void;
   setItems: (newItems: DirectoryItem[]) => void;
+  onOpen: (file: FileEntry) => void;
   onSelect: (file: FileEntry) => void;
 };
 
@@ -19,6 +20,7 @@ export default function Sidebar({
   selectedFileId,
   handleMove,
   onSelect,
+  onOpen,
 }: SidebarProps) {
   return (
     <div
@@ -38,6 +40,7 @@ export default function Sidebar({
           items={items}
           selectedFileId={selectedFileId}
           onSelect={onSelect}
+          onOpen={onOpen}
           onMove={handleMove}
         />
       </ContextMenuProvider>

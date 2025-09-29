@@ -14,10 +14,20 @@ function App() {
     sortDirectoryItems(allItems)
   );
   const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
+  const [openedFileId, setOpenedFileId] = useState<string | null>(null);
 
   const setItems = (items: DirectoryItem[]) =>
     setFilesTree(sortDirectoryItems(items));
-  const onSelect = (file: FileEntry) => setSelectedFileId(file.id);
+  const onSelect = (file: FileEntry) => {
+    if (selectedFileId !== file.id) {
+      setSelectedFileId(file.id);
+    }
+  };
+  const onOpen = (file: FileEntry) => {
+    if (openedFileId !== file.id) {
+      setOpenedFileId(file.id);
+    }
+  };
 
   const { sidebarWidth, sidebarRef, containerRef, onSeparatorMouseDown } =
     useResizableSidebarH({
@@ -54,7 +64,7 @@ function App() {
   };
 
   const allFiles = flattenFiles(filesTree);
-  const selectedFile = allFiles.find((f) => f.id === selectedFileId) ?? null;
+  const selectedFile = allFiles.find((f) => f.id === openedFileId) ?? null;
 
   return (
     <ModalProvider>
@@ -76,6 +86,7 @@ function App() {
             handleMove={handleMove}
             setItems={setItems}
             onSelect={onSelect}
+            onOpen={onOpen}
           />
         </div>
 

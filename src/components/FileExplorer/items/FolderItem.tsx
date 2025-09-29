@@ -8,12 +8,14 @@ export default function FolderItem({
   folder,
   selectedFileId,
   onSelect,
+  onOpen,
   onMove,
   depth,
 }: {
   folder: DirectoryEntry;
   selectedFileId: string | null;
   onSelect: (file: FileEntry) => void;
+  onOpen: (file: FileEntry) => void;
   onMove: (itemId: string, targetDirId: string) => void;
   depth: number;
 }) {
@@ -90,6 +92,7 @@ export default function FolderItem({
           items={folder.nodes}
           selectedFileId={selectedFileId}
           onSelect={onSelect}
+          onOpen={onOpen}
           onMove={onMove}
           depth={depth + 1}
         />
