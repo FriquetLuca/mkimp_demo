@@ -3,7 +3,6 @@ import { allItems } from './data/files';
 import EditorView from './components/EditorView';
 import './App.css';
 import Sidebar from './components/Sidebar';
-import SidebarSeparator from './components/SidebarSeparator';
 import { useResizableSidebar } from './hooks/useResizableSidebar';
 import type { DirectoryItem, FileEntry } from './types/fileExplorer';
 import { moveDirectoryItem, sortDirectoryItems } from './utils/directoryItem';
@@ -73,26 +72,17 @@ function App() {
         ref={containerRef}
         className="flex h-screen w-screen overflow-hidden"
       >
-        <div
-          ref={sidebarRef}
-          className="flex-shrink-0 overflow-hidden"
-          style={{
-            width: `${sidebarWidth}px`,
-          }}
-        >
-          <Sidebar
-            sidebarWidth={sidebarWidth}
-            items={filesTree}
-            selectedFileId={selectedFileId}
-            handleMove={handleMove}
-            setItems={setItems}
-            onSelect={onSelect}
-            onOpen={onOpen}
-          />
-        </div>
-
-        <SidebarSeparator onMouseDown={onSeparatorMouseDown} />
-
+        <Sidebar
+          sidebarWidth={sidebarWidth}
+          sidebarRef={sidebarRef}
+          items={filesTree}
+          selectedFileId={selectedFileId}
+          handleMove={handleMove}
+          setItems={setItems}
+          onSelect={onSelect}
+          onOpen={onOpen}
+          onSeparatorMouseDown={onSeparatorMouseDown}
+        />
         <div className="w-full overflow-x-hidden overflow-y-hidden">
           <EditorView file={selectedFile} onChange={updateFile} />
         </div>
