@@ -4,7 +4,7 @@ import EditorView from './components/EditorView';
 import './App.css';
 import Sidebar from './components/Sidebar';
 import SidebarSeparator from './components/SidebarSeparator';
-import { useResizableSidebarH } from './hooks/useResizableSidebar';
+import { useResizableSidebar } from './hooks/useResizableSidebar';
 import type { DirectoryItem, FileEntry } from './types/fileExplorer';
 import { moveDirectoryItem, sortDirectoryItems } from './utils/directoryItem';
 import { ModalProvider } from './provider/ModalProvider';
@@ -30,8 +30,9 @@ function App() {
   };
 
   const { sidebarWidth, sidebarRef, containerRef, onSeparatorMouseDown } =
-    useResizableSidebarH({
-      maxWidth: 300,
+    useResizableSidebar({
+      mode: 'calc',
+      maxWidth: 250,
     });
 
   const handleMove = (itemId: string, targetDirId: string) => {
@@ -74,7 +75,7 @@ function App() {
       >
         <div
           ref={sidebarRef}
-          className="min-w-[150px] max-w-[500px] flex-shrink-0 overflow-hidden"
+          className="flex-shrink-0 overflow-hidden"
           style={{
             width: `${sidebarWidth}px`,
           }}
