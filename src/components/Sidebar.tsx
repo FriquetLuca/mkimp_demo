@@ -7,9 +7,11 @@ import SidebarSeparator from './SidebarSeparator';
 type SidebarProps = {
   sidebarWidth: number;
   sidebarRef: React.RefObject<HTMLDivElement | null>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
   direction?: 'left' | 'right';
   items: DirectoryItem[];
   selectedFileId: string | null;
+  children: React.ReactNode;
   handleMove: (itemId: string, targetDirId: string) => void;
   setItems: (newItems: DirectoryItem[]) => void;
   onOpen: (file: FileEntry) => void;
@@ -20,6 +22,7 @@ type SidebarProps = {
 export default function Sidebar({
   sidebarWidth,
   sidebarRef,
+  containerRef,
   items,
   setItems,
   selectedFileId,
@@ -28,6 +31,7 @@ export default function Sidebar({
   onOpen,
   onSeparatorMouseDown,
   direction = 'left',
+  children,
 }: SidebarProps) {
   const sidebar = (
     <div
@@ -62,18 +66,28 @@ export default function Sidebar({
     </div>
   );
 
-  if (direction === 'right') {
+  const getChild = () => {
+    if (direction === 'right') {
+      return (
+        <>
+          {children}
+          <SidebarSeparator onMouseDown={onSeparatorMouseDown} />
+          {sidebar}
+        </>
+      );
+    }
     return (
       <>
-        <SidebarSeparator onMouseDown={onSeparatorMouseDown} />
         {sidebar}
+        <SidebarSeparator onMouseDown={onSeparatorMouseDown} />
+        {children}
       </>
     );
-  }
+  };
+
   return (
-    <>
-      {sidebar}
-      <SidebarSeparator onMouseDown={onSeparatorMouseDown} />
-    </>
+    <div ref={containerRef} className="flex h-screen w-screen overflow-hidden">
+      {getChild()}
+    </div>
   );
 }

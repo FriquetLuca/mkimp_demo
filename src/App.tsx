@@ -28,11 +28,10 @@ function App() {
     }
   };
 
-  const { sidebarWidth, sidebarRef, containerRef, onSeparatorMouseDown } =
-    useResizableSidebar({
-      mode: 'calc',
-      maxWidth: 250,
-    });
+  const sidebarProps = useResizableSidebar({
+    mode: 'calc',
+    maxWidth: 250,
+  });
 
   const handleMove = (itemId: string, targetDirId: string) => {
     const result = moveDirectoryItem(itemId, targetDirId, filesTree);
@@ -68,25 +67,19 @@ function App() {
 
   return (
     <ModalProvider>
-      <div
-        ref={containerRef}
-        className="flex h-screen w-screen overflow-hidden"
+      <Sidebar
+        items={filesTree}
+        selectedFileId={selectedFileId}
+        handleMove={handleMove}
+        setItems={setItems}
+        onSelect={onSelect}
+        onOpen={onOpen}
+        {...sidebarProps}
       >
-        <Sidebar
-          sidebarWidth={sidebarWidth}
-          sidebarRef={sidebarRef}
-          items={filesTree}
-          selectedFileId={selectedFileId}
-          handleMove={handleMove}
-          setItems={setItems}
-          onSelect={onSelect}
-          onOpen={onOpen}
-          onSeparatorMouseDown={onSeparatorMouseDown}
-        />
         <div className="w-full overflow-x-hidden overflow-y-hidden">
           <EditorView file={selectedFile} onChange={updateFile} />
         </div>
-      </div>
+      </Sidebar>
     </ModalProvider>
   );
 }
