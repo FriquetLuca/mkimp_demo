@@ -36,6 +36,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.0",
     "prettier": "^3.6.2",
+    "tailwind-scrollbar-hide": "^4.0.0",
     "tailwindcss": "^4.1.13",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.44.0",

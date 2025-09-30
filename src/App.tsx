@@ -7,6 +7,7 @@ import { useResizableSidebar } from './hooks/useResizableSidebar';
 import type { DirectoryItem, FileEntry } from './types/fileExplorer';
 import { moveDirectoryItem, sortDirectoryItems } from './utils/directoryItem';
 import { ModalProvider } from './provider/ModalProvider';
+import Tabs from './components/Tabs';
 
 function App() {
   const [filesTree, setFilesTree] = useState<DirectoryItem[]>(
@@ -14,18 +15,24 @@ function App() {
   );
   const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
   const [openedFileId, setOpenedFileId] = useState<string | null>(null);
+  const [openedFiles, setOpenedFiles] = useState<FileEntry[]>([]);
 
   const setItems = (items: DirectoryItem[]) =>
     setFilesTree(sortDirectoryItems(items));
+
   const onSelect = (file: FileEntry) => {
     if (selectedFileId !== file.id) {
       setSelectedFileId(file.id);
     }
   };
+
   const onOpen = (file: FileEntry) => {
-    if (openedFileId !== file.id) {
-      setOpenedFileId(file.id);
-    }
+    setOpenedFileId(file.id);
+    setSelectedFileId(file.id);
+    setOpenedFiles((prev) => {
+      if (prev.find((f) => f.id === file.id)) return prev;
+      return [...prev, file];
+    });
   };
 
   const sidebarProps = useResizableSidebar({
@@ -53,17 +60,22 @@ function App() {
         return item;
       });
     setItems(updateTree(filesTree));
+
+    // Update the file in openedFiles too
+    setOpenedFiles((prev) =>
+      prev.map((f) => (f.id === updated.id ? updated : f))
+    );
   };
 
-  const flattenFiles = (items: DirectoryItem[]): FileEntry[] => {
-    return items.flatMap((item) => {
-      if ('nodes' in item) return flattenFiles(item.nodes);
-      return [item];
-    });
-  };
+  const handleCloseTab = (file: FileEntry) => {
+    setOpenedFiles((prev) => prev.filter((f) => f.id !== file.id));
 
-  const allFiles = flattenFiles(filesTree);
-  const selectedFile = allFiles.find((f) => f.id === openedFileId) ?? null;
+    // If the closed tab is the active one, switch to another or null
+    if (openedFileId === file.id) {
+      const remaining = openedFiles.filter((f) => f.id !== file.id);
+      setOpenedFileId(remaining.length > 0 ? remaining[0].id : null);
+    }
+  };
 
   return (
     <ModalProvider>
@@ -76,8 +88,18 @@ function App() {
         onOpen={onOpen}
         {...sidebarProps}
       >
-        <div className="w-full overflow-x-hidden overflow-y-hidden">
-          <EditorView file={selectedFile} onChange={updateFile} />
+        <div className="w-full h-full overflow-hidden flex flex-col flex-1 font-mono text-sm">
+          <Tabs<FileEntry>
+            items={openedFiles}
+            activeTabId={openedFileId}
+            setActiveTabId={setOpenedFileId}
+            setItems={setOpenedFiles}
+            getName={(item) => item.name}
+            getContent={(item) =>
+              item ? <EditorView file={item} onChange={updateFile} /> : null
+            }
+            onClose={handleCloseTab}
+          />
         </div>
       </Sidebar>
     </ModalProvider>

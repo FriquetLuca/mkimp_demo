@@ -128,13 +128,13 @@ export default function Tabs<T extends { id: string }>({
         onWheel={handleWheel} // ← handle scroll on wheel
       >
         <div
-          className="relative inline-flex items-center border-b border-[#333] overflow-x-hidden pr-[3px]"
+          className="scrollbar-hide relative inline-flex items-center overflow-x-hidden pr-[3px]"
           ref={tabsHeaderRef}
         >
           {items.map((item, index) => (
             <React.Fragment key={item.id}>
               <div
-                className={`flex shrink-0 items-center px-3 py-[6px] border-r border-[#333] cursor-pointer relative select-none ${item.id === activeTabId ? 'active' : ''}`}
+                className={`flex shrink-0 items-center px-3 py-2 border-r border-[#333] cursor-pointer relative select-none ${item.id === activeTabId ? 'text-green-700' : ''}`}
                 onClick={() => setActiveTabId(item.id)}
                 draggable
                 onDragStart={(e) => onDragStart(e, item.id)}

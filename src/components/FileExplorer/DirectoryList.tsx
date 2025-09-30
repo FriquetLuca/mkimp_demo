@@ -73,7 +73,7 @@ export function DirectoryList({
     />
   ) : undefined;
 
-  const currentStyle = `p-0 list-none text-left ${isRoot ? 'pl-0 border-l-0' : 'pl-2 border-l border-[var(--md-cspan-bg-color)]'}`;
+  const currentStyle = `p-0 list-none text-left ${isRoot ? 'pl-0 border-l-0 scrollbar-thin' : 'pl-2 border-l border-[var(--md-cspan-bg-color)]'}`;
 
   return (
     <>

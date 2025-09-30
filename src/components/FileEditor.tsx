@@ -99,7 +99,7 @@ export default function FileEditor({
       <div
         ref={lineNumbersRef}
         onScroll={onLinesScroll}
-        className="scrollbar-width-none pt-2 overflow-y-auto overflow-x-hidden h-full px-2 border-r border-[var(--md-cspan-bg-color)] text-gray-400 bg-[var(--md-bg-code-color)] select-none relative line-numbers"
+        className="scrollbar-hide pt-2 overflow-y-auto overflow-x-hidden h-full px-2 border-r border-[var(--md-cspan-bg-color)] text-gray-400 bg-[var(--md-bg-code-color)] select-none relative line-numbers"
         style={{
           width: `${1.1 * lineNumberWidth}px`,
           lineHeight: `${lineHeight}px`,
@@ -131,7 +131,7 @@ export default function FileEditor({
         onChange={handleContentChange}
         onScroll={onAreaScroll}
         onKeyDown={handleKeyDown}
-        className="pt-2 font-mono whitespace-pre flex-1 px-2 resize-none focus:outline-none bg-transparent"
+        className="pt-2 font-mono whitespace-pre flex-1 px-2 resize-none focus:outline-none bg-transparent scrollbar-thin"
         style={{
           lineHeight: `${lineHeight}px`,
         }}

@@ -14,11 +14,5 @@ export default function EditorView({ file, onChange }: Props) {
     return <div className="p-4">{t('editorView.selectItem')}</div>;
   }
 
-  return (
-    <div className="flex flex-col flex-1 gap-[5px] w-[calc(100% - 0.5rem)] h-full font-mono text-sm">
-      {file.name}
-
-      <FileEditor file={file} onChange={onChange} />
-    </div>
-  );
+  return <FileEditor file={file} onChange={onChange} />;
 }
