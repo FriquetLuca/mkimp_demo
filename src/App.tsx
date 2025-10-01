@@ -95,9 +95,9 @@ function App() {
             setActiveTabId={setOpenedFileId}
             setItems={setOpenedFiles}
             getName={(item) => item.name}
-            getContent={(item) =>
-              item ? <EditorView file={item} onChange={updateFile} /> : null
-            }
+            getContent={(item) => (
+              <EditorView file={item ?? null} onChange={updateFile} />
+            )}
             onClose={handleCloseTab}
           />
         </div>
