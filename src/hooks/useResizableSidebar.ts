@@ -6,7 +6,7 @@ export type ResizableSidebarOptions = {
   maxWidth?: number;
   resizeThreshold?: number;
   mode?: 'fixed' | 'calc';
-  position?: 'left' | 'right';
+  direction?: 'left' | 'right';
 };
 
 export function useResizableSidebar({
@@ -15,7 +15,7 @@ export function useResizableSidebar({
   maxWidth = 500,
   resizeThreshold = 3,
   mode = 'fixed',
-  position = 'left',
+  direction = 'left',
 }: ResizableSidebarOptions = {}) {
   const [sidebarWidth, setSidebarWidth] = useState(initialWidth);
 
@@ -52,7 +52,7 @@ export function useResizableSidebar({
         if (dragStartX.current === null) return;
 
         const deltaX = e.clientX - dragStartX.current;
-        const adjustedDelta = position === 'left' ? deltaX : -deltaX;
+        const adjustedDelta = direction === 'left' ? deltaX : -deltaX;
 
         if (Math.abs(adjustedDelta) < resizeThreshold) return;
 
@@ -61,7 +61,7 @@ export function useResizableSidebar({
         // Clamp in fixed mode
         newWidth = Math.max(minWidth, Math.min(newWidth, maxWidth));
       } else if (mode === 'calc') {
-        if (position === 'left') {
+        if (direction === 'left') {
           newWidth = e.clientX - containerRect.left;
         } else {
           newWidth = containerRect.right - e.clientX;
@@ -103,7 +103,7 @@ export function useResizableSidebar({
         cancelAnimationFrame(animationFrameId);
       }
     };
-  }, [mode, position, minWidth, maxWidth, resizeThreshold, sidebarWidth]);
+  }, [mode, direction, minWidth, maxWidth, resizeThreshold, sidebarWidth]);
 
   const onSeparatorMouseDown = (e: React.MouseEvent) => {
     isResizing.current = true;

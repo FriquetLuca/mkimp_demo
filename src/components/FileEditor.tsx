@@ -95,7 +95,7 @@ export default function FileEditor({
   }, [totalLines]);
 
   return (
-    <div className="flex flex-1 border-t border-[var(--md-cspan-bg-color)] bg-transparent overflow-y-auto">
+    <div className="h-full flex flex-1 border-t border-[var(--md-cspan-bg-color)] overflow-y-auto bg-[var(--md-table-nth-child-bg-color)]">
       <div
         ref={lineNumbersRef}
         onScroll={onLinesScroll}

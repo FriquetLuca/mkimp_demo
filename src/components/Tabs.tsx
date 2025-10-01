@@ -7,6 +7,7 @@ type TabsProps<T> = {
   setActiveTabId: (id: string | null) => void;
   setItems: (items: T[]) => void;
   getName: (item: T) => string;
+  tabMenu: () => React.ReactNode;
   getContent: (item: T | undefined) => React.ReactNode;
   onClose: (item: T) => void;
 };
@@ -17,6 +18,7 @@ export default function Tabs<T extends { id: string }>({
   activeTabId,
   setActiveTabId,
   getName,
+  tabMenu,
   getContent,
   onClose,
 }: TabsProps<T>) {
@@ -118,50 +120,53 @@ export default function Tabs<T extends { id: string }>({
 
   return (
     <>
-      <div
-        className="overflow-x-auto overflow-y-hidden whitespace-nowrap cursor-grab active:cursor-grabbing scrollbar-hide"
-        ref={tabsWrapperRef}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onWheel={handleWheel} // ← handle scroll on wheel
-      >
+      <div className="flex justify-between items-center bg-[var(--md-table-nth-child-bg-color)]">
         <div
-          className="scrollbar-hide relative inline-flex items-center overflow-x-hidden pr-[3px]"
-          ref={tabsHeaderRef}
+          className="overflow-x-auto overflow-y-hidden whitespace-nowrap cursor-grab active:cursor-grabbing scrollbar-hide"
+          ref={tabsWrapperRef}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          onWheel={handleWheel} // ← handle scroll on wheel
         >
-          {items.map((item, index) => (
-            <React.Fragment key={item.id}>
-              <div
-                className={`flex shrink-0 items-center px-3 py-2 border-r border-[#333] cursor-pointer relative select-none ${item.id === activeTabId ? 'text-green-700' : ''}`}
-                onClick={() => setActiveTabId(item.id)}
-                draggable
-                onDragStart={(e) => onDragStart(e, item.id)}
-                onDragOver={(e) => onDragOver(e, index)}
-                onDrop={onDrop}
-                onDragLeave={onDragLeave}
-              >
-                <span className="mr-2">{getName(item)}</span>
-                <button
-                  className="bg-transparent border-none cursor-pointer text-[14px] leading-none hover:text-red-500"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onClose(item);
-                  }}
+          <div
+            className="scrollbar-hide relative inline-flex items-center overflow-x-hidden pr-[3px]"
+            ref={tabsHeaderRef}
+          >
+            {items.map((item, index) => (
+              <React.Fragment key={item.id}>
+                <div
+                  className={`flex shrink-0 items-center px-3 py-2 border-r border-[#333] cursor-pointer relative select-none ${item.id === activeTabId ? 'bg-[var(--md-cspan-bg-color)]' : ''}`}
+                  onClick={() => setActiveTabId(item.id)}
+                  draggable
+                  onDragStart={(e) => onDragStart(e, item.id)}
+                  onDragOver={(e) => onDragOver(e, index)}
+                  onDrop={onDrop}
+                  onDragLeave={onDragLeave}
                 >
-                  ×
-                </button>
-              </div>
-            </React.Fragment>
-          ))}
-          {dropIndicatorLeft !== null && (
-            <div
-              className="absolute w-[2px] h-[36px] bg-[dodgerblue] pointer-events-none z-10"
-              style={{ left: `${dropIndicatorLeft}px` }}
-            />
-          )}
+                  <span className="mr-2">{getName(item)}</span>
+                  <button
+                    className="bg-transparent border-none cursor-pointer text-[14px] leading-none hover:text-red-500"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onClose(item);
+                    }}
+                  >
+                    ×
+                  </button>
+                </div>
+              </React.Fragment>
+            ))}
+            {dropIndicatorLeft !== null && (
+              <div
+                className="absolute w-[2px] h-[36px] bg-[dodgerblue] pointer-events-none z-10"
+                style={{ left: `${dropIndicatorLeft}px` }}
+              />
+            )}
+          </div>
         </div>
+        {items.length > 0 ? tabMenu() : null}
       </div>
       {getContent(openItem)}
     </>

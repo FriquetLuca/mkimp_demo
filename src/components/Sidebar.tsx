@@ -1,21 +1,13 @@
-import { ContextMenuProvider } from '../provider/ContextMenuProvider';
-import type { DirectoryItem, FileEntry } from '../types/fileExplorer';
-import { createContextMenu } from '../builders/createContextMenu';
-import FileExplorer from './FileExplorer';
 import SidebarSeparator from './SidebarSeparator';
 
 type SidebarProps = {
   sidebarWidth: number;
   sidebarRef: React.RefObject<HTMLDivElement | null>;
   containerRef: React.RefObject<HTMLDivElement | null>;
+  sidebarContent: React.ReactNode;
   direction?: 'left' | 'right';
-  items: DirectoryItem[];
-  selectedFileId: string | null;
+  size?: 'full' | 'screen';
   children: React.ReactNode;
-  handleMove: (itemId: string, targetDirId: string) => void;
-  setItems: (newItems: DirectoryItem[]) => void;
-  onOpen: (file: FileEntry) => void;
-  onSelect: (file: FileEntry) => void;
   onSeparatorMouseDown: (e: React.MouseEvent) => void;
 };
 
@@ -23,14 +15,10 @@ export default function Sidebar({
   sidebarWidth,
   sidebarRef,
   containerRef,
-  items,
-  setItems,
-  selectedFileId,
-  handleMove,
-  onSelect,
-  onOpen,
+  sidebarContent,
   onSeparatorMouseDown,
   direction = 'left',
+  size = 'screen',
   children,
 }: SidebarProps) {
   const sidebar = (
@@ -42,26 +30,12 @@ export default function Sidebar({
       }}
     >
       <div
-        className="h-screen overflow-y-auto border-r bg-[var(--md-table-nth-child-bg-color)] border-[var(--md-bg-code-color)]"
+        className={`${size === 'screen' ? 'h-screen' : 'h-full'} overflow-y-auto border-r border-[var(--md-bg-code-color)]`}
         style={{
           width: sidebarWidth,
         }}
       >
-        <ContextMenuProvider
-          createMenu={createContextMenu({
-            items,
-            setItems,
-          })}
-          className="bg-[var(--md-bg-code-color)] border border-[var(--md-cspan-bg-color)] shadow-[0_2px_8px_rgba(0,0,0,0.15)] z-[1000] select-none min-w-[120px] rounded-[8px]"
-        >
-          <FileExplorer
-            items={items}
-            selectedFileId={selectedFileId}
-            onSelect={onSelect}
-            onOpen={onOpen}
-            onMove={handleMove}
-          />
-        </ContextMenuProvider>
+        {sidebarContent}
       </div>
     </div>
   );
@@ -86,7 +60,10 @@ export default function Sidebar({
   };
 
   return (
-    <div ref={containerRef} className="flex h-screen w-screen overflow-hidden">
+    <div
+      ref={containerRef}
+      className={`flex ${size === 'screen' ? 'h-screen w-screen' : 'w-full h-full'} overflow-hidden`}
+    >
       {getChild()}
     </div>
   );

@@ -8,12 +8,11 @@ export default function Item({
   isSelected: boolean;
 }) {
   return (
-    <p
-      className={`px-1 pt-1 pb-1 ${
-        isSelected ? 'bg-[var(--md-cspan-bg-color)]' : 'bg-transparent'
-      }`}
+    <div
+      className={`flex items-center py-1 ${isSelected ? 'bg-[var(--md-cspan-bg-color)]' : 'bg-transparent'}`}
     >
-      {icon} {name}
-    </p>
+      {icon}
+      <p className="px-1">{name}</p>
+    </div>
   );
 }

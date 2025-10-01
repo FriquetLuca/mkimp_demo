@@ -8,14 +8,16 @@ import type { DirectoryItem, FileEntry } from './types/fileExplorer';
 import { moveDirectoryItem, sortDirectoryItems } from './utils/directoryItem';
 import { ModalProvider } from './provider/ModalProvider';
 import Tabs from './components/Tabs';
+import EditorLayout from './components/EditorLayout';
 
-function App() {
+export default function App() {
   const [filesTree, setFilesTree] = useState<DirectoryItem[]>(
     sortDirectoryItems(allItems)
   );
   const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
   const [openedFileId, setOpenedFileId] = useState<string | null>(null);
   const [openedFiles, setOpenedFiles] = useState<FileEntry[]>([]);
+  const [isSidebarVisible, setSidebarVisible] = useState(false);
 
   const setItems = (items: DirectoryItem[]) =>
     setFilesTree(sortDirectoryItems(items));
@@ -35,9 +37,13 @@ function App() {
     });
   };
 
+  const editorSidebarProps = useResizableSidebar();
+
   const sidebarProps = useResizableSidebar({
     mode: 'calc',
-    maxWidth: 250,
+    direction: 'right',
+    minWidth: 50,
+    maxWidth: 200,
   });
 
   const handleMove = (itemId: string, targetDirId: string) => {
@@ -79,14 +85,14 @@ function App() {
 
   return (
     <ModalProvider>
-      <Sidebar
+      <EditorLayout
         items={filesTree}
         selectedFileId={selectedFileId}
-        handleMove={handleMove}
+        onMove={handleMove}
         setItems={setItems}
         onSelect={onSelect}
         onOpen={onOpen}
-        {...sidebarProps}
+        {...editorSidebarProps}
       >
         <div className="w-full h-full overflow-hidden flex flex-col flex-1 font-mono text-sm">
           <Tabs<FileEntry>
@@ -95,15 +101,42 @@ function App() {
             setActiveTabId={setOpenedFileId}
             setItems={setOpenedFiles}
             getName={(item) => item.name}
-            getContent={(item) => (
-              <EditorView file={item ?? null} onChange={updateFile} />
+            tabMenu={() => (
+              <div className="px-1 flex items-center h-full gap-1">
+                <button
+                  className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSidebarVisible(!isSidebarVisible);
+                  }}
+                >
+                  👁️
+                </button>
+              </div>
             )}
+            getContent={(item) => {
+              if (isSidebarVisible) {
+                return (
+                  <Sidebar
+                    {...sidebarProps}
+                    direction="right"
+                    size="full"
+                    sidebarContent={
+                      <div className="border-t border-[var(--md-cspan-bg-color)]">
+                        Hello
+                      </div>
+                    }
+                  >
+                    <EditorView file={item ?? null} onChange={updateFile} />
+                  </Sidebar>
+                );
+              }
+              return <EditorView file={item ?? null} onChange={updateFile} />;
+            }}
             onClose={handleCloseTab}
           />
         </div>
-      </Sidebar>
+      </EditorLayout>
     </ModalProvider>
   );
 }
-
-export default App;
