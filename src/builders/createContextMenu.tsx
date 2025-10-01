@@ -4,10 +4,10 @@ import {
 } from '../handlers/contextMenu';
 import type { DirectoryItem } from '../types/fileExplorer';
 
-type createContextMenu = {
+interface createContextMenu {
   items: DirectoryItem[];
   setItems: (newItems: DirectoryItem[]) => void;
-};
+}
 
 export function createContextMenu({ items, setItems }: createContextMenu) {
   const menuItems = generateDirectoryItemHandlers({

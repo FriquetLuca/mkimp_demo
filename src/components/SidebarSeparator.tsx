@@ -1,6 +1,6 @@
-type SidebarSeparatorProps = {
+interface SidebarSeparatorProps {
   onMouseDown?: React.MouseEventHandler<HTMLDivElement> | undefined;
-};
+}
 
 export default function SidebarSeparator({
   onMouseDown,

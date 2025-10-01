@@ -36,11 +36,11 @@ export function moveCursorWordLeft(text: string, cursorPos: number): number {
   return i;
 }
 
-type MoveCursorWordProps = {
+interface MoveCursorWordProps {
   e: React.KeyboardEvent<HTMLTextAreaElement>;
   textarea: HTMLTextAreaElement;
   content: string;
-};
+}
 
 export function moveCursorWord({ e, textarea, content }: MoveCursorWordProps) {
   if (!e.ctrlKey || e.altKey || e.metaKey) return;

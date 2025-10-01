@@ -1,10 +1,10 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-export type ContextMenuState<T> = {
+export interface ContextMenuState<T> {
   x: number;
   y: number;
   target: T | null;
-};
+}
 
 export type GetContextMenuState<T> = ContextMenuState<T> | null;
 export type SetContextMenuState<T> = React.Dispatch<

@@ -5,12 +5,12 @@ import { moveLine } from './FileViewer/moveLine';
 import { moveCursorToLineEdge } from './FileViewer/moveCursorToLineEdge';
 import { moveCursorWord } from './FileViewer/moveCursorWord';
 
-type FileEditorProps = {
+interface FileEditorProps {
   file: FileEntry;
   lineHeight?: number;
   tabIndent?: number;
   onChange: (updated: FileEntry) => void;
-};
+}
 
 export default function FileEditor({
   file,
@@ -127,6 +127,7 @@ export default function FileEditor({
       </div>
       <textarea
         ref={textareaRef}
+        spellCheck={false}
         value={content}
         onChange={handleContentChange}
         onScroll={onAreaScroll}

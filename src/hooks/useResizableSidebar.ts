@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
-export type ResizableSidebarOptions = {
+export interface ResizableSidebarOptions {
   initialWidth?: number;
   minWidth?: number;
   maxWidth?: number;
   resizeThreshold?: number;
   mode?: 'fixed' | 'calc';
   direction?: 'left' | 'right';
-};
+}
 
 export function useResizableSidebar({
   initialWidth = 240,

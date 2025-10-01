@@ -2,13 +2,13 @@ import { useTranslation } from 'react-i18next';
 import type { DirectoryItem, FileEntry } from '../../types/fileExplorer';
 import { DirectoryList } from './DirectoryList';
 
-type Props = {
+interface FileExplorerProps {
   items: DirectoryItem[];
   selectedFileId: string | null;
   onOpen: (file: FileEntry) => void;
   onSelect: (file: FileEntry) => void;
   onMove: (itemId: string, targetDirId: string) => void;
-};
+}
 
 export default function FileExplorer({
   items,
@@ -16,7 +16,7 @@ export default function FileExplorer({
   onSelect,
   onOpen,
   onMove,
-}: Props) {
+}: FileExplorerProps) {
   const { t } = useTranslation();
   return (
     <div className="w-full flex flex-col h-full bg-[var(--md-table-nth-child-bg-color)]">

@@ -1,6 +1,6 @@
 import SidebarSeparator from './SidebarSeparator';
 
-type SidebarProps = {
+interface SidebarProps {
   sidebarWidth: number;
   sidebarRef: React.RefObject<HTMLDivElement | null>;
   containerRef: React.RefObject<HTMLDivElement | null>;
@@ -9,7 +9,7 @@ type SidebarProps = {
   size?: 'full' | 'screen';
   children: React.ReactNode;
   onSeparatorMouseDown: (e: React.MouseEvent) => void;
-};
+}
 
 export default function Sidebar({
   sidebarWidth,

@@ -1,6 +1,6 @@
-type DisplayErrorProps = {
+interface DisplayErrorProps {
   error: string | null;
-};
+}
 
 export default function DisplayError({ error }: DisplayErrorProps) {
   return (

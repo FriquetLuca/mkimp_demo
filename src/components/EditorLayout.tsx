@@ -4,7 +4,7 @@ import { createContextMenu } from '../builders/createContextMenu';
 import FileExplorer from './FileExplorer';
 import Sidebar from './Sidebar';
 
-type EditorLayoutProps = {
+interface EditorLayoutProps {
   sidebarWidth: number;
   sidebarRef: React.RefObject<HTMLDivElement | null>;
   containerRef: React.RefObject<HTMLDivElement | null>;
@@ -17,7 +17,7 @@ type EditorLayoutProps = {
   onOpen: (file: FileEntry) => void;
   onSelect: (file: FileEntry) => void;
   onSeparatorMouseDown: (e: React.MouseEvent) => void;
-};
+}
 
 export default function EditorLayout({
   items,

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { allItems } from './data/files';
 import EditorView from './components/EditorView';
-import './App.css';
 import Sidebar from './components/Sidebar';
 import { useResizableSidebar } from './hooks/useResizableSidebar';
 import type { DirectoryItem, FileEntry } from './types/fileExplorer';

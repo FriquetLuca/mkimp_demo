@@ -1,7 +1,7 @@
-type moveCursorToLineEdgeProps = {
+interface moveCursorToLineEdgeProps {
   e: React.KeyboardEvent<HTMLTextAreaElement>;
   textarea: HTMLTextAreaElement;
-};
+}
 
 export function moveCursorToLineEdge({
   e,

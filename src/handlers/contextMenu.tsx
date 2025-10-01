@@ -12,36 +12,36 @@ import DeleteItemModal from '../components/ContextMenuModals/DeleteItemModal';
 import CreateFileModal from '../components/ContextMenuModals/CreateFileModal';
 import CreateFolderModal from '../components/ContextMenuModals/CreateFolderModal';
 
-type ContextMenuFile = {
+interface ContextMenuFile {
   type: 'file';
   value: FileEntry;
-};
+}
 
-type ContextMenuDirectory = {
+interface ContextMenuDirectory {
   type: 'directory';
   value: DirectoryEntry;
-};
+}
 
-type ContextMenuRootDir = {
+interface ContextMenuRootDir {
   type: 'rootdir';
-};
+}
 
 export type ContextMenuValue =
   | ContextMenuFile
   | ContextMenuDirectory
   | ContextMenuRootDir;
 
-export type ContextMenuItem = {
+export interface ContextMenuItem {
   label: string;
   filter?: (value: ContextMenuValue) => boolean;
   handler: (target: ContextMenuValue) => void | Promise<void>;
   className?: string;
-};
+}
 
-type generateDirectoryItemHandlers = {
+interface generateDirectoryItemHandlers {
   items: DirectoryItem[];
   setItems: (newItems: DirectoryItem[]) => void;
-};
+}
 
 export function generateDirectoryItemHandlers({
   items,

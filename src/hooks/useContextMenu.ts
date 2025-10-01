@@ -2,10 +2,10 @@ import { createContext, useContext } from 'react';
 import type { ContextMenuValue } from '../handlers/contextMenu';
 import type { SetContextMenuState } from '../components/ContextMenuContainer';
 
-export type ContextMenuContextValue = {
+export interface ContextMenuContextValue {
   setContextMenuPos: SetContextMenuState<ContextMenuValue>;
   onClose: () => void;
-};
+}
 
 export const ContextMenuContext = createContext<
   ContextMenuContextValue | undefined

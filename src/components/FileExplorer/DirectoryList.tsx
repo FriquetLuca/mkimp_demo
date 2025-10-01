@@ -2,6 +2,16 @@ import { useContextMenu } from '../../hooks/useContextMenu';
 import type { DirectoryItem, FileEntry } from '../../types/fileExplorer';
 import { FileItem, FolderItem } from './items/index';
 
+interface DirectoryListProps {
+  items: DirectoryItem[];
+  selectedFileId: string | null;
+  onOpen: (file: FileEntry) => void;
+  onSelect: (file: FileEntry) => void;
+  onMove: (itemId: string, targetDirId: string) => void;
+  depth: number;
+  className?: string;
+}
+
 export function DirectoryList({
   items,
   selectedFileId,
@@ -10,15 +20,7 @@ export function DirectoryList({
   onMove,
   depth,
   className,
-}: {
-  items: DirectoryItem[];
-  selectedFileId: string | null;
-  onOpen: (file: FileEntry) => void;
-  onSelect: (file: FileEntry) => void;
-  onMove: (itemId: string, targetDirId: string) => void;
-  depth: number;
-  className?: string;
-}) {
+}: DirectoryListProps) {
   const menuContext = useContextMenu();
 
   const isRoot = depth === 0;
@@ -73,7 +75,7 @@ export function DirectoryList({
     />
   ) : undefined;
 
-  const currentStyle = `w-min bg-[var(--md-table-nth-child-bg-color)] overflow-hidden p-0 list-none text-left ${isRoot ? 'pl-0 border-l-0' : 'pl-2 border-l border-[var(--md-cspan-bg-color)]'}`;
+  const currentStyle = `min-w-[calc(100%-8px)] w-max bg-[var(--md-table-nth-child-bg-color)] overflow-hidden p-0 list-none text-left ${isRoot ? 'pl-0 border-l-0' : 'pl-2 border-l border-[var(--md-cspan-bg-color)]'}`;
 
   return (
     <>

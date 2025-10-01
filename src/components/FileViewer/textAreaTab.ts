@@ -2,14 +2,14 @@ import type { FileEntry } from '../../types/fileExplorer';
 import { antiTabulation } from './antiTabulation';
 import { tabulation } from './tabulation';
 
-type textAreaTabProps = {
+interface textAreaTabProps {
   file: FileEntry;
   e: React.KeyboardEvent<HTMLTextAreaElement>;
   tabIndent: number;
   textarea: HTMLTextAreaElement;
   onChange: (updated: FileEntry) => void;
   setContent: (content: string) => void;
-};
+}
 
 export function textAreaTab({
   textarea,

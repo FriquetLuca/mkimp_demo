@@ -1,15 +1,8 @@
 import type { DirectoryItem } from '../../types/fileExplorer';
 
-/**
- * Sorts DirectoryItems:
- * - Directories first
- * - Alphabetically by name
- * - Recursively sorts nested folders
- */
 export function sortDirectoryItems(items: DirectoryItem[]): DirectoryItem[] {
   return items
     .map((item) => {
-      // Recursively sort children if it's a directory
       if ('nodes' in item) {
         return {
           ...item,

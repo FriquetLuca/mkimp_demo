@@ -1,13 +1,13 @@
 import type { FileEntry } from '../../types/fileExplorer';
 
-type moveLineProps = {
+interface moveLineProps {
   file: FileEntry;
   e: React.KeyboardEvent<HTMLTextAreaElement>;
   textarea: HTMLTextAreaElement;
   content: string;
   onChange: (updated: FileEntry) => void;
   setContent: (content: string) => void;
-};
+}
 
 // Alt+Up/Down to move line(s)
 export function moveLine({

@@ -3,17 +3,19 @@ import Item from './Item';
 import { useContextMenu } from '../../../hooks/useContextMenu';
 import type { FileEntry } from '../../../types/fileExplorer';
 
+interface FileItemProps {
+  file: FileEntry;
+  selectedFileId: string | null;
+  onSelect: (file: FileEntry) => void;
+  onOpen: (file: FileEntry) => void;
+}
+
 export default function FileItem({
   file,
   selectedFileId,
   onSelect,
   onOpen,
-}: {
-  file: FileEntry;
-  selectedFileId: string | null;
-  onSelect: (file: FileEntry) => void;
-  onOpen: (file: FileEntry) => void;
-}) {
+}: FileItemProps) {
   const menuContext = useContextMenu();
 
   const handleDragStart = (e: React.DragEvent) => {

@@ -8,9 +8,11 @@ type ModalState = {
   settings: Partial<ModalSettings>;
 } | null;
 
-export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+interface ModalProviderProps {
+  children: React.ReactNode;
+}
+
+export function ModalProvider({ children }: ModalProviderProps) {
   const [modalState, setModalState] = useState<ModalState>(null);
 
   const open = useCallback(
@@ -52,4 +54,4 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
       )}
     </ModalContext.Provider>
   );
-};
+}

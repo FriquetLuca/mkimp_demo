@@ -2,12 +2,12 @@ import type { FileEntry } from '../types/fileExplorer';
 import { useTranslation } from 'react-i18next';
 import FileEditor from './FileEditor';
 
-type Props = {
+interface EditorViewProps {
   file: FileEntry | null;
   onChange: (updated: FileEntry) => void;
-};
+}
 
-export default function EditorView({ file, onChange }: Props) {
+export default function EditorView({ file, onChange }: EditorViewProps) {
   const { t } = useTranslation();
 
   if (!file) {

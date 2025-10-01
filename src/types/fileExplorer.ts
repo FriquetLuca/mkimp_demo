@@ -1,13 +1,13 @@
-export type FileEntry = {
+export interface FileEntry {
   id: string;
   name: string;
   content: string;
-};
+}
 
-export type DirectoryEntry = {
+export interface DirectoryEntry {
   id: string;
   name: string;
   nodes: DirectoryItem[];
-};
+}
 
 export type DirectoryItem = DirectoryEntry | FileEntry;

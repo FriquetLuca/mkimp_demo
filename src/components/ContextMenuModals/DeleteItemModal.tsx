@@ -4,14 +4,14 @@ import type { DirectoryItem } from '../../types/fileExplorer';
 import { deleteDirectoryItem } from '../../utils/directoryItem';
 import DisplayError from '../DisplayError';
 
-type DeleteItemModalProps = {
+interface DeleteItemModalProps {
   id: string;
   items: DirectoryItem[];
   currentName: string;
   dontAskAgain: boolean;
   onDelete: (newItems: DirectoryItem[], dontAskAgain: boolean) => void;
   onCancel: () => void;
-};
+}
 
 export default function DeleteItemModal({
   id,

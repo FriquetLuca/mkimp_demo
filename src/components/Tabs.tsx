@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRef, useState } from 'react';
 
-type TabsProps<T> = {
+interface TabsProps<T> {
   items: T[];
   activeTabId: string | null;
   setActiveTabId: (id: string | null) => void;
@@ -10,7 +10,7 @@ type TabsProps<T> = {
   tabMenu: () => React.ReactNode;
   getContent: (item: T | undefined) => React.ReactNode;
   onClose: (item: T) => void;
-};
+}
 
 export default function Tabs<T extends { id: string }>({
   items,
@@ -137,7 +137,7 @@ export default function Tabs<T extends { id: string }>({
             {items.map((item, index) => (
               <React.Fragment key={item.id}>
                 <div
-                  className={`flex shrink-0 items-center px-3 py-2 border-r border-[#333] cursor-pointer relative select-none ${item.id === activeTabId ? 'bg-[var(--md-cspan-bg-color)]' : ''}`}
+                  className={`flex shrink-0 items-center px-3 py-1 border-r border-[#333] cursor-pointer relative select-none ${item.id === activeTabId ? 'bg-[var(--md-cspan-bg-color)]' : ''}`}
                   onClick={() => setActiveTabId(item.id)}
                   draggable
                   onDragStart={(e) => onDragStart(e, item.id)}
@@ -147,7 +147,7 @@ export default function Tabs<T extends { id: string }>({
                 >
                   <span className="mr-2">{getName(item)}</span>
                   <button
-                    className="bg-transparent border-none cursor-pointer text-[14px] leading-none hover:text-red-500"
+                    className="p-1 pb-0 bg-transparent border-none cursor-pointer text-xl leading-none rounded-sm hover:bg-[var(--md-cspan-bg-color)]"
                     onClick={(e) => {
                       e.stopPropagation();
                       onClose(item);

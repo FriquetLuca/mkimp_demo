@@ -4,41 +4,19 @@ import type { DirectoryItem } from '../../types/fileExplorer';
 import { renameDirectoryItem } from '../../utils/directoryItem';
 import { useTranslation } from 'react-i18next';
 import DisplayError from '../DisplayError';
+import {
+  reservedWindowsNames,
+  validFileNameRegex,
+} from '../../utils/contextualMenu';
 
-type RenameItemModalProps = {
+interface RenameItemModalProps {
   isDirectory: boolean;
   id: string;
   currentName: string;
   items: DirectoryItem[];
   onRename: (value: DirectoryItem[]) => void;
   onCancel: () => void;
-};
-
-const validFileNameRegex = /^(?!\s)(?!\.{1,2}$)[^\\\/:*?"<>|]+(?<!\s)$/;
-const reservedWindowsNames = [
-  'CON',
-  'PRN',
-  'AUX',
-  'NUL',
-  'COM1',
-  'COM2',
-  'COM3',
-  'COM4',
-  'COM5',
-  'COM6',
-  'COM7',
-  'COM8',
-  'COM9',
-  'LPT1',
-  'LPT2',
-  'LPT3',
-  'LPT4',
-  'LPT5',
-  'LPT6',
-  'LPT7',
-  'LPT8',
-  'LPT9',
-];
+}
 
 export default function RenameItemModal({
   isDirectory,

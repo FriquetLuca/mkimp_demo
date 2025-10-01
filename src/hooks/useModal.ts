@@ -1,14 +1,14 @@
 import { createContext, useContext } from 'react';
 
-export type ModalSettings = {
+export interface ModalSettings {
   static: boolean;
   containerOnly: boolean;
-};
+}
 
-type ModalContextType = {
+interface ModalContextType {
   open: (content: React.ReactNode, settings?: Partial<ModalSettings>) => void;
   close: () => void;
-};
+}
 
 export const ModalContext = createContext<ModalContextType | undefined>(
   undefined

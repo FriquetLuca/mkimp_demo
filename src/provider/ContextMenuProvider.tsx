@@ -5,14 +5,14 @@ import ContextMenuContainer, {
   type ContextMenuState,
 } from '../components/ContextMenuContainer';
 
-type ContextMenuProviderProps = {
+interface ContextMenuProviderProps {
   children: React.ReactNode;
   createMenu: (
     target: ContextMenuValue,
     onClose: () => void
   ) => React.JSX.Element;
   className?: string;
-};
+}
 
 export function ContextMenuProvider({
   children,

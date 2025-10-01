@@ -1,9 +1,9 @@
 import { useModal } from '../../hooks/useModal';
 
-type ContextModalContainerProps = {
+interface ContextModalContainerProps {
   containerOnly?: boolean;
   children: React.ReactNode;
-};
+}
 
 export default function ContextModalContainer({
   containerOnly,

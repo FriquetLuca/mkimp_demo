@@ -4,6 +4,15 @@ import Item from './Item';
 import { useContextMenu } from '../../../hooks/useContextMenu';
 import type { DirectoryEntry, FileEntry } from '../../../types/fileExplorer';
 
+interface FolderItemProps {
+  folder: DirectoryEntry;
+  selectedFileId: string | null;
+  onSelect: (file: FileEntry) => void;
+  onOpen: (file: FileEntry) => void;
+  onMove: (itemId: string, targetDirId: string) => void;
+  depth: number;
+}
+
 export default function FolderItem({
   folder,
   selectedFileId,
@@ -11,14 +20,7 @@ export default function FolderItem({
   onOpen,
   onMove,
   depth,
-}: {
-  folder: DirectoryEntry;
-  selectedFileId: string | null;
-  onSelect: (file: FileEntry) => void;
-  onOpen: (file: FileEntry) => void;
-  onMove: (itemId: string, targetDirId: string) => void;
-  depth: number;
-}) {
+}: FolderItemProps) {
   const menuContext = useContextMenu();
 
   const [open, setOpen] = useState(false);
@@ -77,7 +79,7 @@ export default function FolderItem({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onContextMenu={handleContextMenu}
-        className={`hover:bg-[var(--md-border-color)] cursor-pointer transition-colors duration-200 ease-in-out ${isOver ? 'bg-[rgba(100,100,255,0.2)]' : ''}`}
+        className={`hover:bg-[var(--md-border-color)] w-full cursor-pointer transition-colors duration-200 ease-in-out ${isOver ? 'bg-[rgba(100,100,255,0.2)]' : ''}`}
       >
         <div onClick={() => setOpen(!open)}>
           <Item

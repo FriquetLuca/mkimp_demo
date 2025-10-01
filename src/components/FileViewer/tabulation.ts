@@ -1,10 +1,10 @@
-type singlelineTabulationProps = {
+interface singlelineTabulationProps {
   selectionStart: number;
   selectionEnd: number;
   tabIndent: number;
   startLineChar: number;
   content: string;
-};
+}
 
 function singlelineTabulation({
   selectionStart,
@@ -28,14 +28,14 @@ function singlelineTabulation({
   };
 }
 
-type multilineTabulationProps = {
+interface multilineTabulationProps {
   content: string;
   selectionStart: number;
   selectionEnd: number;
   tabIndent: number;
   startLineChar: number;
   endLineChar: number;
-};
+}
 
 function multilineTabulation({
   content,
@@ -58,10 +58,10 @@ function multilineTabulation({
   };
 }
 
-type tabulationProps = {
+interface tabulationProps {
   textarea: HTMLTextAreaElement;
   tabIndent: number;
-};
+}
 
 export function tabulation({ textarea, tabIndent }: tabulationProps) {
   const value = textarea.value;
