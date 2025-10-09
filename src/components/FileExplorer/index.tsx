@@ -21,7 +21,7 @@ export default function FileExplorer({
   return (
     <div className="w-full flex flex-col h-full bg-[var(--md-table-nth-child-bg-color)]">
       <h3 className="p-[4px]">{t('sidebar.fileExplorer.label')}</h3>
-      <div className="w-full relative flex-1 min-h-0 overflow-y-auto scrollbar-thin">
+      <div className="w-full relative flex-1 min-h-0 flex flex-col overflow-y-auto scrollbar-thin">
         <DirectoryList
           items={items}
           selectedFileId={selectedFileId}

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { allItems } from './data/files';
 import EditorView from './components/EditorView';
 import Sidebar from './components/Sidebar';
 import { useResizableSidebar } from './hooks/useResizableSidebar';
@@ -8,11 +7,10 @@ import { moveDirectoryItem, sortDirectoryItems } from './utils/directoryItem';
 import { ModalProvider } from './provider/ModalProvider';
 import Tabs from './components/Tabs';
 import EditorLayout from './components/EditorLayout';
+import HtmlRenderer from './components/HtmlRenderer';
 
 export default function App() {
-  const [filesTree, setFilesTree] = useState<DirectoryItem[]>(
-    sortDirectoryItems(allItems)
-  );
+  const [filesTree, setFilesTree] = useState<DirectoryItem[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
   const [openedFileId, setOpenedFileId] = useState<string | null>(null);
   const [openedFiles, setOpenedFiles] = useState<FileEntry[]>([]);
@@ -109,7 +107,11 @@ export default function App() {
                     setSidebarVisible(!isSidebarVisible);
                   }}
                 >
-                  👁️
+                  {isSidebarVisible ? (
+                    <img src="/preview_off.svg" alt="preview" />
+                  ) : (
+                    <img src="/preview.svg" alt="preview" />
+                  )}
                 </button>
               </div>
             )}
@@ -121,9 +123,11 @@ export default function App() {
                     direction="right"
                     size="full"
                     sidebarContent={
-                      <div className="border-t border-[var(--md-cspan-bg-color)]">
-                        Hello
-                      </div>
+                      <HtmlRenderer
+                        className="border-t border-[var(--md-cspan-bg-color)] h-full w-full"
+                        title={'Hello'}
+                        htmlcontent={''}
+                      />
                     }
                   >
                     <EditorView file={item ?? null} onChange={updateFile} />

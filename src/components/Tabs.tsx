@@ -120,7 +120,9 @@ export default function Tabs<T extends { id: string }>({
 
   return (
     <>
-      <div className="flex justify-between items-center bg-[var(--md-table-nth-child-bg-color)]">
+      <div
+        className={`flex${items.length > 0 ? '' : ' h-0'} justify-between items-center bg-[var(--md-table-nth-child-bg-color)]`}
+      >
         <div
           className="overflow-x-auto overflow-y-hidden whitespace-nowrap cursor-grab active:cursor-grabbing scrollbar-hide"
           ref={tabsWrapperRef}

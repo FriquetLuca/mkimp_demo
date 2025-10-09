@@ -55,7 +55,7 @@ export function DirectoryList({
 
   const MaybeEmpty = isRoot ? (
     <div
-      className="w-full flex-grow bg-[var(--md-table-nth-child-bg-color)]"
+      className={`w-full${items.length === 0 ? ' h-full' : ''} flex-grow bg-[var(--md-table-nth-child-bg-color)]`}
       onContextMenu={handleContextMenu}
       onDragOver={(e) => {
         e.preventDefault();
@@ -75,15 +75,15 @@ export function DirectoryList({
     />
   ) : undefined;
 
-  const currentStyle = `min-w-[calc(100%-8px)] w-max bg-[var(--md-table-nth-child-bg-color)] overflow-hidden p-0 list-none text-left ${isRoot ? 'pl-0 border-l-0' : 'pl-2 border-l border-[var(--md-cspan-bg-color)]'}`;
+  const currentStyle = ` min-w-[calc(100%-8px)] w-max bg-[var(--md-table-nth-child-bg-color)] overflow-hidden p-0 list-none text-left ${isRoot ? 'pl-0 border-l-0' : 'pl-2 border-l border-[var(--md-cspan-bg-color)]'}`;
 
   return (
     <>
       <ul
         className={
           className
-            ? `explorer-menu ${className} ${currentStyle}`
-            : `explorer-menu ${currentStyle}`
+            ? `explorer-menu ${className}${currentStyle}`
+            : `explorer-menu${currentStyle}`
         }
         onDragOver={handleRootDragOver}
         onDrop={handleRootDrop}

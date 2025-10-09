@@ -1,20 +1,9 @@
 interface HtmlRendererProps {
   title: string;
   className?: string;
-  htmlContent: string;
+  htmlcontent: string;
 }
 
-export default function HtmlRenderer({
-  className,
-  htmlContent,
-  title,
-}: HtmlRendererProps) {
-  return (
-    <iframe
-      title={title}
-      className={className}
-      srcDoc={htmlContent}
-      sandbox="allow-same-origin allow-scripts"
-    />
-  );
+export default function HtmlRenderer({ ...props }: HtmlRendererProps) {
+  return <iframe {...props} sandbox="allow-scripts" />;
 }
