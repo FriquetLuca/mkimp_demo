@@ -124,8 +124,8 @@ export default function App() {
                     size="full"
                     sidebarContent={
                       <HtmlRenderer
-                        className="border-t border-[var(--md-cspan-bg-color)] h-full w-full"
-                        title={'Hello'}
+                        className="border-t border-[var(--md-cspan-bg-color)]"
+                        title={item?.name ?? 'Undefined'}
                         htmlcontent={''}
                       />
                     }

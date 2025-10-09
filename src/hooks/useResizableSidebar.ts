@@ -41,7 +41,8 @@ export function useResizableSidebar({
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isResizing.current || !containerRef.current) return;
+      if (!isResizing.current || !containerRef.current || e.buttons === 0)
+        return;
 
       const containerRect = containerRef.current.getBoundingClientRect();
       const containerWidth = containerRect.width;
@@ -60,7 +61,7 @@ export function useResizableSidebar({
 
         // Clamp in fixed mode
         newWidth = Math.max(minWidth, Math.min(newWidth, maxWidth));
-      } else if (mode === 'calc') {
+      } else {
         if (direction === 'left') {
           newWidth = e.clientX - containerRect.left;
         } else {
@@ -75,8 +76,6 @@ export function useResizableSidebar({
           Math.min(newWidth, containerWidth - maxWidth)
         );
         //newWidth = Math.min(newWidth, maxWidth);
-      } else {
-        return;
       }
 
       if (sidebarRef.current) {
