@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 interface HtmlRendererProps {
   title: string;
   className?: string;
@@ -5,9 +7,15 @@ interface HtmlRendererProps {
 }
 
 export default function HtmlRenderer({ ...props }: HtmlRendererProps) {
+  const frame = useRef<HTMLIFrameElement | null>(null);
+
+  useEffect(() => {
+    if (frame?.current && props.srcDoc) frame.current.innerHTML = props.srcDoc;
+  }, [frame, props.srcDoc]);
+
   return (
-    <div className="h-full w-full relative -z-10">
-      <iframe {...props} sandbox="allow-scripts" />
+    <div className="h-full w-full relative">
+      <div ref={frame} className={props.className} title={props.title} />
     </div>
   );
 }
