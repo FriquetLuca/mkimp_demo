@@ -6,8 +6,8 @@ import type { DirectoryEntry, FileEntry } from '../../../types/fileExplorer';
 
 interface FolderItemProps {
   folder: DirectoryEntry;
-  selectedFileId: string | null;
-  onSelect: (file: FileEntry) => void;
+  selectedFileIds: Array<string>;
+  onSelect: (file: FileEntry, add?: boolean) => void;
   onOpen: (file: FileEntry) => void;
   onMove: (itemId: string, targetDirId: string) => void;
   depth: number;
@@ -15,7 +15,7 @@ interface FolderItemProps {
 
 export default function FolderItem({
   folder,
-  selectedFileId,
+  selectedFileIds,
   onSelect,
   onOpen,
   onMove,
@@ -85,14 +85,14 @@ export default function FolderItem({
           <Item
             icon={open ? '📂' : '📁'}
             name={folder.name}
-            isSelected={selectedFileId === folder.id}
+            isSelected={selectedFileIds.includes(folder.id)}
           />
         </div>
       </li>
       {open && (
         <DirectoryList
           items={folder.nodes}
-          selectedFileId={selectedFileId}
+          selectedFileIds={selectedFileIds}
           onSelect={onSelect}
           onOpen={onOpen}
           onMove={onMove}

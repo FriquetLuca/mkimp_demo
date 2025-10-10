@@ -15,22 +15,36 @@ import { useTranslation } from 'react-i18next';
 
 export default function App() {
   const { filesTree, setItems, loading } = usePersistentFilesTree();
-  const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
+  // const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
+  const [selectedFileIds, setSelectedFileIds] = useState<Array<string>>([]);
   const [openedFileId, setOpenedFileId] = useState<string | null>(null);
   const [openedFiles, setOpenedFiles] = useState<FileEntry[]>([]);
   const [isSidebarVisible, setSidebarVisible] = useState(false);
   const [htmlPreviews, setHtmlPreviews] = useState<Record<string, string>>({});
   const { t } = useTranslation();
 
-  const onSelect = (file: FileEntry) => {
-    if (selectedFileId !== file.id) {
-      setSelectedFileId(file.id);
+  const handleToggleSelect = (file: FileEntry, forcePush: boolean = false) => {
+    const selectedFileList = selectedFileIds;
+    if (!forcePush) {
+      if (selectedFileList.includes(file.id)) {
+        setSelectedFileIds(selectedFileList.filter((id) => id !== file.id));
+      } else {
+        setSelectedFileIds([...selectedFileList, file.id]);
+      }
+    } else {
+      if (!selectedFileList.includes(file.id))
+        setSelectedFileIds([...selectedFileList, file.id]);
     }
+  };
+
+  const onSelect = (file: FileEntry, add?: boolean) => {
+    if (add) handleToggleSelect(file, true);
+    else setSelectedFileIds([file.id]);
   };
 
   const onOpen = (file: FileEntry) => {
     setOpenedFileId(file.id);
-    setSelectedFileId(file.id);
+    handleToggleSelect(file, true);
     setOpenedFiles((prev) => {
       if (prev.find((f) => f.id === file.id)) return prev;
       return [...prev, file];
@@ -101,7 +115,7 @@ export default function App() {
     <ModalProvider>
       <EditorLayout
         items={filesTree}
-        selectedFileId={selectedFileId}
+        selectedFileIds={selectedFileIds}
         onMove={handleMove}
         setItems={setItems}
         onSelect={onSelect}

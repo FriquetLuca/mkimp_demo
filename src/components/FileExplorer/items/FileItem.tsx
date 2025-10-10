@@ -6,14 +6,14 @@ import Image from '../../Image';
 
 interface FileItemProps {
   file: FileEntry;
-  selectedFileId: string | null;
-  onSelect: (file: FileEntry) => void;
+  selectedFileIds: Array<string>;
+  onSelect: (file: FileEntry, add?: boolean) => void;
   onOpen: (file: FileEntry) => void;
 }
 
 export default function FileItem({
   file,
-  selectedFileId,
+  selectedFileIds,
   onSelect,
   onOpen,
 }: FileItemProps) {
@@ -288,12 +288,22 @@ export default function FileItem({
     return '📄';
   };
 
+  const handleFileClick = (e: React.MouseEvent) => {
+    // if ctrl or cmd key is pressed, do
+    console.log('handleFileClick', e.ctrlKey || e.metaKey);
+    if (e.ctrlKey || e.metaKey) {
+      onSelect(file, true);
+    } else {
+      onSelect(file);
+    }
+  };
+
   return (
     <>
       <li
         draggable
         onDragStart={handleDragStart}
-        onClick={() => onSelect(file)}
+        onClick={handleFileClick}
         onDoubleClick={() => onOpen(file)}
         onContextMenu={handleContextMenu}
         className="transition-colors duration-100 hover:bg-[var(--md-border-color)] cursor-pointer"
@@ -301,7 +311,7 @@ export default function FileItem({
         <Item
           icon={getFileIcon()}
           name={file.name}
-          isSelected={selectedFileId === file.id}
+          isSelected={selectedFileIds.includes(file.id)}
         />
       </li>
     </>

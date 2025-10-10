@@ -10,19 +10,19 @@ interface EditorLayoutProps {
   containerRef: React.RefObject<HTMLDivElement | null>;
   direction?: 'left' | 'right';
   items: DirectoryItem[];
-  selectedFileId: string | null;
+  selectedFileIds: Array<string>;
   children: React.ReactNode;
   onMove: (itemId: string, targetDirId: string) => void;
   setItems: (newItems: DirectoryItem[]) => void;
   onOpen: (file: FileEntry) => void;
-  onSelect: (file: FileEntry) => void;
+  onSelect: (file: FileEntry, add?: boolean) => void;
   onSeparatorMouseDown: (e: React.MouseEvent) => void;
 }
 
 export default function EditorLayout({
   items,
   setItems,
-  selectedFileId,
+  selectedFileIds,
   onMove,
   onSelect,
   onOpen,
@@ -44,7 +44,7 @@ export default function EditorLayout({
           <FileExplorer
             items={items}
             setItems={setItems}
-            selectedFileId={selectedFileId}
+            selectedFileIds={selectedFileIds}
             onSelect={onSelect}
             onOpen={onOpen}
             onMove={onMove}
