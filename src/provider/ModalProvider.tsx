@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ModalContext, type ModalSettings } from '../hooks/useModal';
-import ContextModalContainer from '../components/ContextMenuModals/ContextModalContainer';
+import { ContextModalContainer } from '../components/ContextMenuModals';
 
 type ModalState = {
   content: React.ReactNode;

@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import type { FileEntry } from '../types/fileExplorer';
-import { textAreaTab } from './FileViewer/textAreaTab';
-import { moveLine } from './FileViewer/moveLine';
-import { moveCursorToLineEdge } from './FileViewer/moveCursorToLineEdge';
-import { moveCursorWord } from './FileViewer/moveCursorWord';
+import {
+  textAreaTab,
+  moveLine,
+  moveCursorToLineEdge,
+  moveCursorWord,
+} from '../utils/textEditor';
 
 interface FileEditorProps {
   file: FileEntry;

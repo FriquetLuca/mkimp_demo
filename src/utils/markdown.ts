@@ -2,26 +2,27 @@ import type { DirectoryItem, FileEntry } from '../types/fileExplorer';
 import emojis from './emojis.json';
 import { MkImp, type EmojiRecord } from 'mkimp';
 import jsyaml from 'js-yaml';
-import { isDirectory } from './directoryItem/isDirectory';
-import { findParent } from './directoryItem/findParent';
-
-const prefix = __APP_MODE__ === 'build' ? '/mkimp_demo' : '';
+import { isDirectory, findParent } from './directoryItem';
+import { urlPrefix } from './urlPrefix';
 
 const templateHtml = `<!doctype html>
 <html>
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="${prefix}/css/mkimp.css">
-        <link rel="stylesheet" href="${prefix}/css/katex.min.css">
-        <link rel="stylesheet" href="${prefix}/css/vs2015.min.css">
-        <script type="module" src="${prefix}/loadmermaid.js"></script>
+        <link rel="stylesheet" href="${urlPrefix('/css/mkimp.css')}">
+        <link rel="stylesheet" href="${urlPrefix('/css/katex.min.css')}">
+        <link rel="stylesheet" href="${urlPrefix('/css/vs2015.min.css')}">
         <title>{{_title}}</title>
     </head>
     <body>
         <div class="content">
             %PAGE_CONTENT%
         </div>
+        <script type="module">
+          import mermaid from '${urlPrefix('/mermaid.esm.min.mjs')}';
+          mermaid.initialize({ startOnLoad: true });
+        </script>
     </body>
 </html>
 `;

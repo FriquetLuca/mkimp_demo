@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import RenameItemModal from '../components/ContextMenuModals/RenameItemModal';
 import { useModal } from '../hooks/useModal';
 import type {
   DirectoryEntry,
@@ -8,9 +7,12 @@ import type {
 } from '../types/fileExplorer';
 import { deleteDirectoryItem, isDirectory } from '../utils/directoryItem';
 import { useTranslation } from 'react-i18next';
-import DeleteItemModal from '../components/ContextMenuModals/DeleteItemModal';
-import CreateFileModal from '../components/ContextMenuModals/CreateFileModal';
-import CreateFolderModal from '../components/ContextMenuModals/CreateFolderModal';
+import {
+  CreateFileModal,
+  CreateFolderModal,
+  DeleteItemModal,
+  RenameItemModal,
+} from '../components/ContextMenuModals';
 
 interface ContextMenuFile {
   type: 'file';

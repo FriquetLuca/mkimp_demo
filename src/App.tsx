@@ -3,11 +3,16 @@ import EditorView from './components/EditorView';
 import Sidebar from './components/Sidebar';
 import { useResizableSidebar } from './hooks/useResizableSidebar';
 import type { DirectoryItem, FileEntry } from './types/fileExplorer';
-import { moveDirectoryItem, sortDirectoryItems } from './utils/directoryItem';
+import {
+  moveDirectoryItem,
+  sortDirectoryItems,
+  updateTree,
+} from './utils/directoryItem';
 import { ModalProvider } from './provider/ModalProvider';
 import Tabs from './components/Tabs';
 import EditorLayout from './components/EditorLayout';
 import HtmlRenderer from './components/HtmlRenderer';
+import Image from './components/Image';
 import { parse } from './utils/markdown';
 
 export default function App() {
@@ -55,16 +60,7 @@ export default function App() {
   };
 
   const updateFile = (updated: FileEntry) => {
-    const updateTree = (items: DirectoryItem[]): DirectoryItem[] =>
-      items.map((item) => {
-        if ('nodes' in item) {
-          return { ...item, nodes: updateTree(item.nodes) };
-        } else if (item.id === updated.id) {
-          return updated;
-        }
-        return item;
-      });
-    setItems(updateTree(filesTree));
+    setItems(updateTree(updated, filesTree));
 
     // Update the file in openedFiles too
     setOpenedFiles((prev) =>
@@ -129,23 +125,9 @@ export default function App() {
                       }}
                     >
                       {isSidebarVisible ? (
-                        <img
-                          src={
-                            __APP_MODE__ === 'build'
-                              ? '/mkimp_demo/preview_off.svg'
-                              : '/preview_off.svg'
-                          }
-                          alt="preview"
-                        />
+                        <Image src="/preview_off.svg" alt="preview off" />
                       ) : (
-                        <img
-                          src={
-                            __APP_MODE__ === 'build'
-                              ? '/mkimp_demo/preview.svg'
-                              : '/preview.svg'
-                          }
-                          alt="preview"
-                        />
+                        <Image src="/preview.svg" alt="preview" />
                       )}
                     </button>
                   </div>

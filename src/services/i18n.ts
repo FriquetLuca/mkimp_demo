@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import { urlPrefix } from '../utils/urlPrefix';
 
 i18n
   .use(HttpApi)
@@ -15,7 +16,7 @@ i18n
       escapeValue: false,
     },
     backend: {
-      loadPath: `${__APP_MODE__ === 'build' ? '/mkimp_demo' : ''}/locales/{{lng}}/{{ns}}.json`,
+      loadPath: urlPrefix('/locales/{{lng}}/{{ns}}.json'),
     },
   });
 
