@@ -1,0 +1,77 @@
+{
+  "editorView": {
+    "selectItem": "Select a file to view/edit"
+  },
+  "modal": {
+    "createDirectory": {
+      "labels": {
+        "input": "Name:",
+        "cancelButton": "Cancel",
+        "button": "Create"
+      },
+      "errors": {
+        "empty": "The name is required",
+        "tooLong": "The name is too long",
+        "invalidName": "Invalid folder name",
+        "file_exists": "This folder name already exist",
+        "target_not_found": "Unknown folder location"
+      }
+    },
+    "createFile": {
+      "labels": {
+        "input": "Name:",
+        "cancelButton": "Cancel",
+        "button": "Create"
+      },
+      "errors": {
+        "empty": "The name is required",
+        "tooLong": "The name is too long",
+        "invalidName": "Invalid file name",
+        "file_exists": "This file name already exist",
+        "target_not_found": "Unknown file location"
+      }
+    },
+    "renameItem": {
+      "labels": {
+        "input": "Rename:",
+        "cancelButton": "Cancel",
+        "button": "Rename"
+      },
+      "words": {
+        "file": "file",
+        "folder": "folder"
+      },
+      "errors": {
+        "empty": "The name is required",
+        "tooLong": "The name is too long",
+        "invalidName": "Invalid {{item}} name",
+        "name_exists": "The name {{item}} already exist",
+        "target_not_found": "Unknown {{item}}"
+      }
+    },
+    "deleteItem": {
+      "errors": {
+        "target_not_found": "Unknown item"
+      },
+      "labels": {
+        "warning": "Are you sure you want to delete '{{item}}'?",
+        "doNotAskAgain": "Do not ask again",
+        "cancelButton": "Cancel",
+        "confirmButton": "Delete"
+      }
+    }
+  },
+  "sidebar": {
+    "fileExplorer": {
+      "label": "Explorer"
+    }
+  },
+  "contextMenu": {
+    "labels": {
+      "newFile": "New File...",
+      "newFolder": "New Folder...",
+      "renameItem": "Rename...",
+      "deleteItem": "Delete"
+    }
+  }
+}
