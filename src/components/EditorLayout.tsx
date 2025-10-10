@@ -43,6 +43,7 @@ export default function EditorLayout({
         >
           <FileExplorer
             items={items}
+            setItems={setItems}
             selectedFileId={selectedFileId}
             onSelect={onSelect}
             onOpen={onOpen}
