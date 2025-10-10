@@ -7,7 +7,7 @@ interface TabsProps<T> {
   setActiveTabId: (id: string | null) => void;
   setItems: (items: T[]) => void;
   getName: (item: T) => string;
-  tabMenu: () => React.ReactNode;
+  tabMenu: (item: T | undefined) => React.ReactNode;
   getContent: (item: T | undefined) => React.ReactNode;
   onClose: (item: T) => void;
 }
@@ -168,7 +168,7 @@ export default function Tabs<T extends { id: string }>({
             )}
           </div>
         </div>
-        {items.length > 0 ? tabMenu() : null}
+        {items.length > 0 ? tabMenu(openItem) : null}
       </div>
       {getContent(openItem)}
     </>

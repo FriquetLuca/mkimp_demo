@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import EditorView from './components/EditorView';
 import Sidebar from './components/Sidebar';
 import { useResizableSidebar } from './hooks/useResizableSidebar';
@@ -8,6 +8,7 @@ import { ModalProvider } from './provider/ModalProvider';
 import Tabs from './components/Tabs';
 import EditorLayout from './components/EditorLayout';
 import HtmlRenderer from './components/HtmlRenderer';
+import { parse } from './utils/markdown';
 
 export default function App() {
   const [filesTree, setFilesTree] = useState<DirectoryItem[]>([]);
@@ -15,6 +16,7 @@ export default function App() {
   const [openedFileId, setOpenedFileId] = useState<string | null>(null);
   const [openedFiles, setOpenedFiles] = useState<FileEntry[]>([]);
   const [isSidebarVisible, setSidebarVisible] = useState(false);
+  const [htmlPreviews, setHtmlPreviews] = useState<Record<string, string>>({});
 
   const setItems = (items: DirectoryItem[]) =>
     setFilesTree(sortDirectoryItems(items));
@@ -80,6 +82,20 @@ export default function App() {
     }
   };
 
+  useEffect(() => {
+    const parseHtmlForOpenedFiles = async () => {
+      for (const file of openedFiles) {
+        if (openedFileId === file.id && file.name.endsWith('.md')) {
+          const html = await parse(file, filesTree);
+          if (!htmlPreviews[file.id] || htmlPreviews[file.id] !== html) {
+            setHtmlPreviews((prev) => ({ ...prev, [file.id]: html }));
+          }
+        }
+      }
+    };
+    parseHtmlForOpenedFiles();
+  }, [openedFiles, filesTree]);
+
   return (
     <ModalProvider>
       <EditorLayout
@@ -98,41 +114,56 @@ export default function App() {
             setActiveTabId={setOpenedFileId}
             setItems={setOpenedFiles}
             getName={(item) => item.name}
-            tabMenu={() => (
-              <div className="px-1 flex items-center h-full gap-1">
-                <button
-                  className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSidebarVisible(!isSidebarVisible);
-                  }}
-                >
-                  {isSidebarVisible ? (
-                    <img src="/preview_off.svg" alt="preview" />
-                  ) : (
-                    <img src="/preview.svg" alt="preview" />
-                  )}
-                </button>
-              </div>
-            )}
-            getContent={(item) => {
-              if (isSidebarVisible) {
+            tabMenu={(item) => {
+              if (
+                item &&
+                (item.name.endsWith('.md') || item.name.endsWith('.html'))
+              ) {
                 return (
-                  <Sidebar
-                    {...sidebarProps}
-                    direction="right"
-                    size="full"
-                    sidebarContent={
-                      <HtmlRenderer
-                        className="border-t border-[var(--md-cspan-bg-color)]"
-                        title={item?.name ?? 'Undefined'}
-                        htmlcontent={''}
-                      />
-                    }
-                  >
-                    <EditorView file={item ?? null} onChange={updateFile} />
-                  </Sidebar>
+                  <div className="px-1 flex items-center h-full gap-1">
+                    <button
+                      className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSidebarVisible(!isSidebarVisible);
+                      }}
+                    >
+                      {isSidebarVisible ? (
+                        <img src="/preview_off.svg" alt="preview" />
+                      ) : (
+                        <img src="/preview.svg" alt="preview" />
+                      )}
+                    </button>
+                  </div>
                 );
+              }
+              return <div className="px-1 flex items-center h-full gap-1" />;
+            }}
+            getContent={(item) => {
+              if (item) {
+                const html = item.name.endsWith('.md')
+                  ? (htmlPreviews[item.id] ?? '')
+                  : item.name.endsWith('.html')
+                    ? item.content
+                    : null;
+                if (html && isSidebarVisible) {
+                  return (
+                    <Sidebar
+                      {...sidebarProps}
+                      direction="right"
+                      size="full"
+                      sidebarContent={
+                        <HtmlRenderer
+                          className="absolute w-full h-full border-t border-[var(--md-cspan-bg-color)]"
+                          title={item?.name ?? 'Undefined'}
+                          srcDoc={html}
+                        />
+                      }
+                    >
+                      <EditorView file={item ?? null} onChange={updateFile} />
+                    </Sidebar>
+                  );
+                }
               }
               return <EditorView file={item ?? null} onChange={updateFile} />;
             }}
