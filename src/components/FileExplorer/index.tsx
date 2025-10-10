@@ -3,8 +3,11 @@ import type { DirectoryItem, FileEntry } from '../../types/fileExplorer';
 import { DirectoryList } from './DirectoryList';
 import { useModal } from '../../hooks/useModal';
 import { CreateFileModal, CreateFolderModal } from '../ContextMenuModals';
-import Image from '../Image';
 import { downloadFile } from '../../utils/downloadFile';
+import ExportIcon from '@icons/export.svg?react';
+import ImportIcon from '@icons/import.svg?react';
+import NewFileIcon from '@icons/new_file.svg?react';
+import NewFolderIcon from '@icons/new_folder.svg?react';
 
 interface FileExplorerProps {
   items: DirectoryItem[];
@@ -64,34 +67,39 @@ export default function FileExplorer({
     <div className="w-full flex flex-col h-full bg-[var(--md-table-nth-child-bg-color)]">
       <div className="flex justify-between items-center">
         <h3 className="p-[4px]">{t('sidebar.fileExplorer.label')}</h3>
-        <div className="select-none flex gap-0.5">
+        <div className="p-1 select-none flex gap-0.5">
           <button
-            className="px-1 py-1 w-8 h-8 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
+            className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
+            disabled={true}
+            title={t('sidebar.fileExplorer.import')}
+          >
+            <ImportIcon
+              className={`w-6 h-6 ${true ? 'fill-gray-500' : 'fill-gray-300'}`}
+            />
+          </button>
+          <button
+            className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
             onClick={download}
             disabled={items.length === 0}
             title={t('sidebar.fileExplorer.export')}
           >
-            <Image src="/export.svg" alt={t('sidebar.fileExplorer.export')} />
+            <ExportIcon
+              className={`w-6 h-6 ${items.length === 0 ? 'fill-gray-500' : 'fill-gray-300'}`}
+            />
           </button>
           <button
             className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
             onClick={newFileItem}
             title={t('sidebar.fileExplorer.newFile')}
           >
-            <Image
-              src="/new_file.svg"
-              alt={t('sidebar.fileExplorer.newFile')}
-            />
+            <NewFileIcon className="w-6 h-6 fill-gray-300" />
           </button>
           <button
             className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
             onClick={newDirectoryItem}
             title={t('sidebar.fileExplorer.newFolder')}
           >
-            <Image
-              src="/new_folder.svg"
-              alt={t('sidebar.fileExplorer.newFolder')}
-            />
+            <NewFolderIcon className="w-6 h-6 fill-gray-300" />
           </button>
         </div>
       </div>

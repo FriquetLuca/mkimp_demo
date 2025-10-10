@@ -12,11 +12,14 @@ import { ModalProvider } from './provider/ModalProvider';
 import Tabs from './components/Tabs';
 import EditorLayout from './components/EditorLayout';
 import HtmlRenderer from './components/HtmlRenderer';
-import Image from './components/Image';
 import { parse } from './utils/markdown';
 import { usePersistentFilesTree } from './hooks/useFileTree';
 import { useTranslation } from 'react-i18next';
 import { downloadFile } from './utils/downloadFile';
+import PreviewIcon from '@icons/preview.svg?react';
+import PreviewOffIcon from '@icons/preview_off.svg?react';
+import HTMLDocIcon from '@icons/html_document.svg?react';
+import DownloadIcon from '@icons/download.svg?react';
 
 export default function App() {
   const { filesTree, setItems, loading } = usePersistentFilesTree();
@@ -173,9 +176,9 @@ export default function App() {
                       )}
                     >
                       {isSidebarVisible ? (
-                        <Image src="/preview_off.svg" alt="preview off" />
+                        <PreviewOffIcon className="w-6 h-6 fill-gray-300" />
                       ) : (
-                        <Image src="/preview.svg" alt="preview" />
+                        <PreviewIcon className="w-6 h-6 fill-gray-300" />
                       )}
                     </button>
                   ) : undefined;
@@ -185,11 +188,7 @@ export default function App() {
                     onClick={downloadHtml}
                     title={t('tabs.download_html')}
                   >
-                    <Image
-                      className="h-5 w-5"
-                      src="/html_document.svg"
-                      alt={t('tabs.download_html')}
-                    />
+                    <HTMLDocIcon className="w-6 h-6 fill-gray-300" />
                   </button>
                 ) : undefined;
 
@@ -202,7 +201,7 @@ export default function App() {
                       onClick={download}
                       title={t('tabs.download')}
                     >
-                      <Image src="/download.svg" alt={t('tabs.download')} />
+                      <DownloadIcon className="w-6 h-6 fill-gray-300" />
                     </button>
                   </div>
                 );

@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+import svgr from 'vite-plugin-svgr';
+import { fileURLToPath, URL } from 'node:url';
 
 // https://vite.dev/config/
 export default defineConfig(({ command }) => {
@@ -16,9 +18,20 @@ export default defineConfig(({ command }) => {
         },
       }),
       tailwindcss(),
+      svgr({
+        svgrOptions: {
+          icon: true,
+        },
+        include: '**/*.svg?react',
+      }),
     ],
     server: {
       cors: true, // enable CORS for all origins
+    },
+    resolve: {
+      alias: {
+        '@icons': fileURLToPath(new URL('./src/icons', import.meta.url)), // ✅ add this
+      },
     },
   };
 });
