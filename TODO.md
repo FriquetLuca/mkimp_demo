@@ -1,4 +1,3 @@
 - Navbar for options (json/md/html/preview)
 - Back / Forward redo explorer + context menu
 - Copy / Paste explorer + context menu
-- Correct paths for development

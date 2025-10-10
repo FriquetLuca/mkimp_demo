@@ -129,9 +129,23 @@ export default function App() {
                       }}
                     >
                       {isSidebarVisible ? (
-                        <img src="/mkimp_demo/preview_off.svg" alt="preview" />
+                        <img
+                          src={
+                            __APP_MODE__ === 'build'
+                              ? '/mkimp_demo/preview_off.svg'
+                              : '/preview_off.svg'
+                          }
+                          alt="preview"
+                        />
                       ) : (
-                        <img src="/mkimp_demo/preview.svg" alt="preview" />
+                        <img
+                          src={
+                            __APP_MODE__ === 'build'
+                              ? '/mkimp_demo/preview.svg'
+                              : '/preview.svg'
+                          }
+                          alt="preview"
+                        />
                       )}
                     </button>
                   </div>

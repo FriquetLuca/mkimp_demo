@@ -5,15 +5,17 @@ import jsyaml from 'js-yaml';
 import { isDirectory } from './directoryItem/isDirectory';
 import { findParent } from './directoryItem/findParent';
 
+const prefix = __APP_MODE__ === 'build' ? '/mkimp_demo' : '';
+
 const templateHtml = `<!doctype html>
 <html>
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="/mkimp_demo/css/mkimp.css">
-        <link rel="stylesheet" href="/mkimp_demo/css/katex.min.css">
-        <link rel="stylesheet" href="/mkimp_demo/css/vs2015.min.css">
-        <script type="module" src="/mkimp_demo/loadmermaid.js"></script>
+        <link rel="stylesheet" href="${prefix}/css/mkimp.css">
+        <link rel="stylesheet" href="${prefix}/css/katex.min.css">
+        <link rel="stylesheet" href="${prefix}/css/vs2015.min.css">
+        <script type="module" src="${prefix}/loadmermaid.js"></script>
         <title>{{_title}}</title>
     </head>
     <body>
