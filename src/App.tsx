@@ -125,9 +125,7 @@ export default function App() {
 
                 const html = item.name.endsWith('.md')
                   ? await parse(item, filesTree, true)
-                  : item.name.endsWith('.html')
-                    ? item.content
-                    : null;
+                  : null;
                 if (html === null) return;
                 e.stopPropagation();
 
@@ -141,12 +139,27 @@ export default function App() {
                 document.body.removeChild(link);
                 URL.revokeObjectURL(url);
               };
+
+              const download = async (e: React.MouseEvent) => {
+                if (!item || isDirectory(item)) return;
+
+                e.stopPropagation();
+                const blob = new Blob([item.content], { type: 'text/text' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = item.name;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+              };
               if (
                 item &&
                 (item.name.endsWith('.md') || item.name.endsWith('.html'))
               ) {
-                return (
-                  <div className="px-1 flex items-center h-full gap-1">
+                const preview =
+                  item.name.endsWith('.md') || item.name.endsWith('.html') ? (
                     <button
                       className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
                       onClick={(e) => {
@@ -163,10 +176,29 @@ export default function App() {
                         <Image src="/preview.svg" alt="preview" />
                       )}
                     </button>
+                  ) : undefined;
+                const download_html = item.name.endsWith('.md') ? (
+                  <button
+                    className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
+                    onClick={downloadHtml}
+                    title={t('tabs.download_html')}
+                  >
+                    <Image
+                      className="h-5 w-5"
+                      src="/html_document.svg"
+                      alt="Download HTML"
+                    />
+                  </button>
+                ) : undefined;
+
+                return (
+                  <div className="px-1 flex items-center h-full gap-1">
+                    {preview}
+                    {download_html}
                     <button
                       className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
-                      onClick={downloadHtml}
-                      title={t('tabs.download_html')}
+                      onClick={download}
+                      title={t('tabs.download')}
                     >
                       <Image src="/download.svg" alt="Download" />
                     </button>

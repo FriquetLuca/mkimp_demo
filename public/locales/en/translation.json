@@ -78,6 +78,7 @@
   "tabs": {
     "preview": "Preview",
     "preview_off": "Close preview",
+    "download": "Download",
     "download_html": "Download HTML"
   }
 }
