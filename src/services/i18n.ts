@@ -15,7 +15,7 @@ i18n
       escapeValue: false,
     },
     backend: {
-      loadPath: '/locales/{{lng}}/{{ns}}.json',
+      loadPath: '/mkimp_demo/locales/{{lng}}/{{ns}}.json',
     },
   });
 

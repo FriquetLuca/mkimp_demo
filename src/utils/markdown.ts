@@ -10,10 +10,10 @@ const templateHtml = `<!doctype html>
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="/css/mkimp.css">
-        <link rel="stylesheet" href="/css/katex.min.css">
-        <link rel="stylesheet" href="/css/vs2015.min.css">
-        <script type="module" src="/loadmermaid.js"></script>
+        <link rel="stylesheet" href="/mkimp_demo/css/mkimp.css">
+        <link rel="stylesheet" href="/mkimp_demo/css/katex.min.css">
+        <link rel="stylesheet" href="/mkimp_demo/css/vs2015.min.css">
+        <script type="module" src="/mkimp_demo/loadmermaid.js"></script>
         <title>{{_title}}</title>
     </head>
     <body>
