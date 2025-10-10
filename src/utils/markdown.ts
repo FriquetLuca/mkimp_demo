@@ -70,7 +70,8 @@ const searchByPath = (
 
 export async function parse(
   file: FileEntry | undefined,
-  filesTree: DirectoryItem[]
+  filesTree: DirectoryItem[],
+  raw: boolean = false
 ) {
   if (!file) {
     const template = templateHtml.replaceAll(`{{_title}}`, 'None');
@@ -129,7 +130,9 @@ export async function parse(
       return undefined;
     },
   });
-  const template = templateHtml.replaceAll(`{{_title}}`, file.name);
   const result = await mkimp.parse(file.content);
+  if (raw) return result;
+
+  const template = templateHtml.replaceAll(`{{_title}}`, file.name);
   return template.replace(/%PAGE_CONTENT%/g, () => result);
 }

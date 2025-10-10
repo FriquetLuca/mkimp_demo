@@ -3,7 +3,11 @@ import EditorView from './components/EditorView';
 import Sidebar from './components/Sidebar';
 import { useResizableSidebar } from './hooks/useResizableSidebar';
 import type { FileEntry } from './types/fileExplorer';
-import { moveDirectoryItem, updateTree } from './utils/directoryItem';
+import {
+  isDirectory,
+  moveDirectoryItem,
+  updateTree,
+} from './utils/directoryItem';
 import { ModalProvider } from './provider/ModalProvider';
 import Tabs from './components/Tabs';
 import EditorLayout from './components/EditorLayout';
@@ -116,6 +120,27 @@ export default function App() {
             setItems={setOpenedFiles}
             getName={(item) => item.name}
             tabMenu={(item) => {
+              const downloadHtml = async (e: React.MouseEvent) => {
+                if (!item || isDirectory(item)) return;
+
+                const html = item.name.endsWith('.md')
+                  ? await parse(item, filesTree, true)
+                  : item.name.endsWith('.html')
+                    ? item.content
+                    : null;
+                if (html === null) return;
+                e.stopPropagation();
+
+                const blob = new Blob([html], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = item.name.replace(/\.(md|html)$/, '.html');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+              };
               if (
                 item &&
                 (item.name.endsWith('.md') || item.name.endsWith('.html'))
@@ -128,12 +153,22 @@ export default function App() {
                         e.stopPropagation();
                         setSidebarVisible(!isSidebarVisible);
                       }}
+                      title={t(
+                        isSidebarVisible ? 'tabs.preview_off' : 'tabs.preview'
+                      )}
                     >
                       {isSidebarVisible ? (
                         <Image src="/preview_off.svg" alt="preview off" />
                       ) : (
                         <Image src="/preview.svg" alt="preview" />
                       )}
+                    </button>
+                    <button
+                      className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
+                      onClick={downloadHtml}
+                      title={t('tabs.download_html')}
+                    >
+                      <Image src="/download.svg" alt="Download" />
                     </button>
                   </div>
                 );

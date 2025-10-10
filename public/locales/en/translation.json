@@ -74,5 +74,10 @@
       "deleteItem": "Delete"
     }
   },
-  "loadingWorkspace": "Loading your workspace..."
+  "loadingWorkspace": "Loading your workspace...",
+  "tabs": {
+    "preview": "Preview",
+    "preview_off": "Close preview",
+    "download_html": "Download HTML"
+  }
 }

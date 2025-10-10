@@ -74,5 +74,10 @@
       "deleteItem": "Supprimer"
     }
   },
-  "loadingWorkspace": "Chargement de votre espace de travail..."
+  "loadingWorkspace": "Chargement de votre espace de travail...",
+  "tabs": {
+    "preview": "Prévisualisation",
+    "preview_off": "Fermer la prévisualisation",
+    "download_html": "Télécharger le HTML"
+  }
 }
