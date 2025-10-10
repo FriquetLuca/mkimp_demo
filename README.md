@@ -1,3 +1,3 @@
 # MkImp Demo
 
-The demo of the markdown parser [MkImp](https://github.com/FriquetLuca/mkimp).
+The [demo](https://friquetluca.github.io/mkimp_demo/) of the markdown parser [MkImp](https://github.com/FriquetLuca/mkimp).

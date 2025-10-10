@@ -186,7 +186,7 @@ export default function App() {
                     <Image
                       className="h-5 w-5"
                       src="/html_document.svg"
-                      alt="Download HTML"
+                      alt={t('tabs.download_html')}
                     />
                   </button>
                 ) : undefined;
@@ -200,7 +200,7 @@ export default function App() {
                       onClick={download}
                       title={t('tabs.download')}
                     >
-                      <Image src="/download.svg" alt="Download" />
+                      <Image src="/download.svg" alt={t('tabs.download')} />
                     </button>
                   </div>
                 );
