@@ -63,7 +63,8 @@
   },
   "sidebar": {
     "fileExplorer": {
-      "label": "Explorer"
+      "label": "Explorer",
+      "export": "Export"
     }
   },
   "contextMenu": {

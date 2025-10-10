@@ -194,7 +194,7 @@ export default function App() {
                 ) : undefined;
 
                 return (
-                  <div className="px-1 flex items-center h-full gap-1">
+                  <div className="px-1 flex items-center h-full gap-1 select-none">
                     {preview}
                     {download_html}
                     <button
