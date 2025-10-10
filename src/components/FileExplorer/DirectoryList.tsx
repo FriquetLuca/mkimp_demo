@@ -4,9 +4,9 @@ import { FileItem, FolderItem } from './items/index';
 
 interface DirectoryListProps {
   items: DirectoryItem[];
-  selectedFileId: string | null;
+  selectedFileIds: Array<string>;
   onOpen: (file: FileEntry) => void;
-  onSelect: (file: FileEntry) => void;
+  onSelect: (file: FileEntry, add?: boolean) => void;
   onMove: (itemId: string, targetDirId: string) => void;
   depth: number;
   className?: string;
@@ -14,7 +14,7 @@ interface DirectoryListProps {
 
 export function DirectoryList({
   items,
-  selectedFileId,
+  selectedFileIds,
   onOpen,
   onSelect,
   onMove,
@@ -93,7 +93,7 @@ export function DirectoryList({
             <FolderItem
               key={item.id}
               folder={item}
-              selectedFileId={selectedFileId}
+              selectedFileIds={selectedFileIds}
               onSelect={onSelect}
               onOpen={onOpen}
               onMove={onMove}
@@ -103,7 +103,7 @@ export function DirectoryList({
             <FileItem
               key={item.id}
               file={item}
-              selectedFileId={selectedFileId}
+              selectedFileIds={selectedFileIds}
               onSelect={onSelect}
               onOpen={onOpen}
             />

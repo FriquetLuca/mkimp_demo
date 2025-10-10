@@ -8,16 +8,16 @@ import Image from '../Image';
 interface FileExplorerProps {
   items: DirectoryItem[];
   setItems: (newItems: DirectoryItem[]) => void;
-  selectedFileId: string | null;
+  selectedFileIds: Array<string>;
   onOpen: (file: FileEntry) => void;
-  onSelect: (file: FileEntry) => void;
+  onSelect: (file: FileEntry, add?: boolean) => void;
   onMove: (itemId: string, targetDirId: string) => void;
 }
 
 export default function FileExplorer({
   items,
   setItems,
-  selectedFileId,
+  selectedFileIds,
   onSelect,
   onOpen,
   onMove,
@@ -76,7 +76,7 @@ export default function FileExplorer({
       <div className="w-full relative flex-1 min-h-0 flex flex-col overflow-y-auto scrollbar-thin">
         <DirectoryList
           items={items}
-          selectedFileId={selectedFileId}
+          selectedFileIds={selectedFileIds}
           onSelect={onSelect}
           onOpen={onOpen}
           onMove={onMove}
