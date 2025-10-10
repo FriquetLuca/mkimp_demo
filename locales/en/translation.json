@@ -67,7 +67,9 @@
       "import": "Import",
       "export": "Export",
       "newFile": "New File",
-      "newFolder": "New Folder"
+      "newFolder": "New Folder",
+      "invalidJSON": "Invalid JSON format. Please import a valid directory JSON.",
+      "close": "Close"
     }
   },
   "contextMenu": {
