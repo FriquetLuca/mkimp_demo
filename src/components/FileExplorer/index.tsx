@@ -8,6 +8,9 @@ import ExportIcon from '@icons/export.svg?react';
 import ImportIcon from '@icons/import.svg?react';
 import NewFileIcon from '@icons/new_file.svg?react';
 import NewFolderIcon from '@icons/new_folder.svg?react';
+import { DirectoryItemArraySchema } from '../../schemas/directoryItemSchema';
+import { useRef } from 'react';
+import { importDirectory } from '../../utils/directoryItem';
 
 interface FileExplorerProps {
   items: DirectoryItem[];
@@ -28,6 +31,8 @@ export default function FileExplorer({
 }: FileExplorerProps) {
   const { t } = useTranslation();
   const { open, close } = useModal();
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const newFileItem = () => {
     open(
       <CreateFileModal
@@ -63,6 +68,30 @@ export default function FileExplorer({
     downloadFile('project.json', [JSON.stringify(items)]);
   };
 
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const text = await file.text();
+      const json = JSON.parse(text);
+      const parsed = DirectoryItemArraySchema.parse(json);
+      const newItems = importDirectory(items, parsed);
+      setItems(newItems);
+    } catch (error) {
+      console.error('❌ Invalid JSON:', error);
+      alert('Invalid file format. Please upload a valid directory JSON.');
+    } finally {
+      event.target.value = '';
+    }
+  };
+
+  const triggerUpload = () => {
+    inputRef.current?.click();
+  };
+
   return (
     <div className="w-full flex flex-col h-full bg-[var(--md-table-nth-child-bg-color)]">
       <div className="flex justify-between items-center">
@@ -70,13 +99,18 @@ export default function FileExplorer({
         <div className="p-1 select-none flex gap-0.5">
           <button
             className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
-            disabled={true}
+            onClick={triggerUpload}
             title={t('sidebar.fileExplorer.import')}
           >
-            <ImportIcon
-              className={`w-6 h-6 ${true ? 'fill-gray-500' : 'fill-gray-300'}`}
-            />
+            <ImportIcon className="w-6 h-6 fill-gray-300" />
           </button>
+          <input
+            type="file"
+            accept=".json"
+            ref={inputRef}
+            onChange={handleFileUpload}
+            className="hidden"
+          />
           <button
             className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
             onClick={download}

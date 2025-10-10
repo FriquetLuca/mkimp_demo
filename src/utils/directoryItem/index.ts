@@ -7,6 +7,7 @@ import { renameDirectoryItem } from './renameItem';
 import { moveDirectoryItem } from './moveItem';
 import { updateTree } from './updateTree';
 import { findParent } from './findParent';
+import { importDirectory } from './importDirectory';
 
 export type { CreateError } from './createFile';
 export type { DeleteError } from './deleteItem';
@@ -23,4 +24,5 @@ export {
   moveDirectoryItem,
   updateTree,
   findParent,
+  importDirectory,
 };

@@ -1,76 +1,11 @@
 import type { Result } from '../../types/defaults';
-import type { DirectoryEntry, DirectoryItem } from '../../types/fileExplorer';
+import type { DirectoryItem } from '../../types/fileExplorer';
 import { deepClone } from '../deepClone';
 import { findById } from './findById';
 import { findParent } from './findParent';
+import { getAvailableName } from './getAvailableName';
 import { isDirectory } from './isDirectory';
-
-function mergeDirectories(
-  targetDir: DirectoryEntry,
-  sourceDir: DirectoryEntry
-): void {
-  for (const sourceChild of sourceDir.nodes) {
-    const existingChild = targetDir.nodes.find(
-      (item) => item.name === sourceChild.name
-    );
-
-    // Case 1: both are directories -> recursively merge
-    if (
-      existingChild &&
-      isDirectory(existingChild) &&
-      isDirectory(sourceChild)
-    ) {
-      mergeDirectories(existingChild, sourceChild);
-    }
-    // Case 2: name conflict (e.g., same name but one is a file) -> rename source
-    else if (existingChild) {
-      const renamedChild = deepClone(sourceChild);
-      renamedChild.name = getAvailableName(sourceChild.name, targetDir.nodes);
-      targetDir.nodes.push(renamedChild);
-    }
-    // Case 3: no conflict -> add cloned source
-    else {
-      targetDir.nodes.push(deepClone(sourceChild));
-    }
-  }
-}
-
-function escapeRegExp(string: string): string {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-function getAvailableName(baseName: string, siblings: DirectoryItem[]): string {
-  const isFile = baseName.includes('.');
-
-  let nameWithoutExt = baseName;
-  let extension = '';
-
-  if (isFile) {
-    const lastDot = baseName.lastIndexOf('.');
-    nameWithoutExt = baseName.slice(0, lastDot);
-    extension = baseName.slice(lastDot); // includes the dot
-  }
-
-  const regex = new RegExp(
-    `^${escapeRegExp(nameWithoutExt)}_Copy\\((\\d+)\\)${escapeRegExp(extension)}$`
-  );
-  const usedNumbers = new Set<number>();
-
-  for (const sibling of siblings) {
-    if (sibling.name === baseName) continue;
-    const match = sibling.name.match(regex);
-    if (match) {
-      usedNumbers.add(Number(match[1]));
-    }
-  }
-
-  let copyNumber = 1;
-  while (usedNumbers.has(copyNumber)) {
-    copyNumber++;
-  }
-
-  return `${nameWithoutExt}_Copy(${copyNumber})${extension}`;
-}
+import { directoryMerge } from './directoryMerge';
 
 export type MoveError = 'target_not_found' | 'location_not_found';
 
@@ -116,7 +51,7 @@ export function moveDirectoryItem(
 
   if (existing && isDirectory(existing) && isDirectory(target)) {
     // Merge directories
-    mergeDirectories(existing, target);
+    directoryMerge(existing, target);
 
     // Remove original directory
     originalParent.nodes = originalParent.nodes.filter(
