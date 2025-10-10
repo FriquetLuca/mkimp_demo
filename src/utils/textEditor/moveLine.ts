@@ -51,14 +51,14 @@ export function moveLine({
 
   if (direction === 'up') {
     const lineAbove = beforeLines.pop();
-    if (!lineAbove) return;
+    if (lineAbove === undefined) return;
     newLines = [...beforeLines, ...selectedLines, lineAbove, ...afterLines];
     const offset = lineAbove.length + 1;
     newStart -= offset;
     newEnd -= offset;
   } else {
     const lineBelow = afterLines.shift();
-    if (!lineBelow) return;
+    if (lineBelow === undefined) return;
     newLines = [...beforeLines, lineBelow, ...selectedLines, ...afterLines];
     const offset = lineBelow.length + 1;
     newStart += offset;
