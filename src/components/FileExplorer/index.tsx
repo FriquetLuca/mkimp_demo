@@ -80,9 +80,26 @@ export default function FileExplorer({
       const parsed = DirectoryItemArraySchema.parse(json);
       const newItems = importDirectory(items, parsed);
       setItems(newItems);
-    } catch (error) {
-      console.error('❌ Invalid JSON:', error);
-      alert('Invalid file format. Please upload a valid directory JSON.');
+    } catch (_) {
+      open(
+        <div className="p-4 pt-2 flex flex-col gap-1">
+          <div className="flex gap-2 items-center">
+            <span className="text-[0.9rem]">⚠️</span>
+            <pre className="inline-block whitespace-pre-wrap text-[0.9rem] text-[color-mix(in_srgb,_red_70%,_black_30%)]">
+              {t('sidebar.fileExplorer.invalidJSON')}
+            </pre>
+          </div>
+          <div className="flex justify-center gap-4">
+            <button
+              type="button"
+              onClick={close}
+              className="px-[1.2rem] py-2.5 border-transparent rounded-[10px] confirm-btn"
+            >
+              {t('sidebar.fileExplorer.close')}
+            </button>
+          </div>
+        </div>
+      );
     } finally {
       event.target.value = '';
     }

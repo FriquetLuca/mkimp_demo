@@ -6,14 +6,14 @@ import type {
 } from '../types/fileExplorer';
 
 // Define FileEntry schema
-export const FileEntrySchema: z.ZodType<FileEntry> = z.object({
+const FileEntrySchema: z.ZodType<FileEntry> = z.object({
   id: z.string(),
   name: z.string(),
   content: z.string(),
 });
 
 // Define DirectoryEntry schema (recursive)
-export const DirectoryEntrySchema: z.ZodType<DirectoryEntry> = z.lazy(() =>
+const DirectoryEntrySchema: z.ZodType<DirectoryEntry> = z.lazy(() =>
   z.object({
     id: z.string(),
     name: z.string(),
@@ -22,7 +22,7 @@ export const DirectoryEntrySchema: z.ZodType<DirectoryEntry> = z.lazy(() =>
 );
 
 // DirectoryItem is a union of DirectoryEntry or FileEntry
-export const DirectoryItemSchema: z.ZodType<DirectoryItem> = z.lazy(() =>
+const DirectoryItemSchema: z.ZodType<DirectoryItem> = z.lazy(() =>
   z.union([FileEntrySchema, DirectoryEntrySchema])
 );
 
