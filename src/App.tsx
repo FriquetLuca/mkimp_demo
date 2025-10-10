@@ -7,7 +7,6 @@ import { moveDirectoryItem, updateTree } from './utils/directoryItem';
 import { ModalProvider } from './provider/ModalProvider';
 import Tabs from './components/Tabs';
 import EditorLayout from './components/EditorLayout';
-import HtmlRenderer from './components/HtmlRenderer';
 import Image from './components/Image';
 import { parse } from './utils/markdown';
 import { usePersistentFilesTree } from './hooks/useFileTree';
@@ -154,10 +153,11 @@ export default function App() {
                       direction="right"
                       size="full"
                       sidebarContent={
-                        <HtmlRenderer
-                          className="absolute w-full h-full border-t border-[var(--md-cspan-bg-color)]"
+                        <iframe
+                          className={`w-full h-full border-t border-[var(--md-cspan-bg-color)] ${sidebarProps.isDragging ? 'pointer-events-none' : 'pointer-events-auto'}`}
                           title={item?.name ?? 'Undefined'}
                           srcDoc={html}
+                          sandbox="allow-scripts"
                         />
                       }
                     >

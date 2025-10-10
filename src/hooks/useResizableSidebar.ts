@@ -17,6 +17,7 @@ export function useResizableSidebar({
   mode = 'fixed',
   direction = 'left',
 }: ResizableSidebarOptions = {}) {
+  const [isDragging, setIsDragging] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(initialWidth);
 
   const sidebarRef = useRef<HTMLDivElement | null>(null);
@@ -30,6 +31,7 @@ export function useResizableSidebar({
     let animationFrameId: number | null = null;
 
     const handleMouseUp = () => {
+      setIsDragging(false);
       document.body.style.userSelect = '';
       isResizing.current = false;
       dragStartX.current = null;
@@ -46,7 +48,7 @@ export function useResizableSidebar({
 
       const containerRect = containerRef.current.getBoundingClientRect();
       const containerWidth = containerRect.width;
-
+      setIsDragging(true);
       let newWidth: number;
 
       if (mode === 'fixed') {
@@ -112,6 +114,7 @@ export function useResizableSidebar({
   };
 
   return {
+    isDragging,
     sidebarWidth,
     sidebarRef,
     containerRef,
