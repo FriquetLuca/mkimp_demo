@@ -2,29 +2,25 @@ import { useEffect, useState } from 'react';
 import EditorView from './components/EditorView';
 import Sidebar from './components/Sidebar';
 import { useResizableSidebar } from './hooks/useResizableSidebar';
-import type { DirectoryItem, FileEntry } from './types/fileExplorer';
-import {
-  moveDirectoryItem,
-  sortDirectoryItems,
-  updateTree,
-} from './utils/directoryItem';
+import type { FileEntry } from './types/fileExplorer';
+import { moveDirectoryItem, updateTree } from './utils/directoryItem';
 import { ModalProvider } from './provider/ModalProvider';
 import Tabs from './components/Tabs';
 import EditorLayout from './components/EditorLayout';
 import HtmlRenderer from './components/HtmlRenderer';
 import Image from './components/Image';
 import { parse } from './utils/markdown';
+import { usePersistentFilesTree } from './hooks/useFileTree';
+import { useTranslation } from 'react-i18next';
 
 export default function App() {
-  const [filesTree, setFilesTree] = useState<DirectoryItem[]>([]);
+  const { filesTree, setItems, loading } = usePersistentFilesTree();
   const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
   const [openedFileId, setOpenedFileId] = useState<string | null>(null);
   const [openedFiles, setOpenedFiles] = useState<FileEntry[]>([]);
   const [isSidebarVisible, setSidebarVisible] = useState(false);
   const [htmlPreviews, setHtmlPreviews] = useState<Record<string, string>>({});
-
-  const setItems = (items: DirectoryItem[]) =>
-    setFilesTree(sortDirectoryItems(items));
+  const { t } = useTranslation();
 
   const onSelect = (file: FileEntry) => {
     if (selectedFileId !== file.id) {
@@ -91,6 +87,15 @@ export default function App() {
     };
     parseHtmlForOpenedFiles();
   }, [openedFiles, filesTree]);
+
+  if (loading) {
+    return (
+      <div className="w-screen h-screen flex items-center justify-center gap-2">
+        <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin mb-4" />
+        <p>{t('loadingWorkspace')}</p>
+      </div>
+    );
+  }
 
   return (
     <ModalProvider>

@@ -73,5 +73,6 @@
       "renameItem": "Renommer...",
       "deleteItem": "Supprimer"
     }
-  }
+  },
+  "loadingWorkspace": "Chargement de votre espace de travail..."
 }
