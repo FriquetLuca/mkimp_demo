@@ -1,6 +1,6 @@
 {
   "editorView": {
-    "selectItem": "Select a file to view/edit"
+    "selectItem": "Select a file to view/edit it's content or create a new file/folder using the context menu"
   },
   "modal": {
     "createDirectory": {

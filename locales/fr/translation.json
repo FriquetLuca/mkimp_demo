@@ -1,0 +1,77 @@
+{
+  "editorView": {
+    "selectItem": "Sélectionner un fichier pour voir/éditer son contenu ou créer un nouveau fichier/dossier en utilisant le menu contextuel"
+  },
+  "modal": {
+    "createDirectory": {
+      "labels": {
+        "input": "Nom :",
+        "cancelButton": "Annuler",
+        "button": "Créer"
+      },
+      "errors": {
+        "empty": "Un nom est requis",
+        "tooLong": "Le nom est trop long",
+        "invalidName": "Nom de dossier invalide",
+        "file_exists": "Ce nom de dossier est déjà utilisé",
+        "target_not_found": "Localisation du dossier inconnue"
+      }
+    },
+    "createFile": {
+      "labels": {
+        "input": "Nom :",
+        "cancelButton": "Annuler",
+        "button": "Créer"
+      },
+      "errors": {
+        "empty": "Un nom est requis",
+        "tooLong": "Le nom est trop long",
+        "invalidName": "Nom de fichier invalide",
+        "file_exists": "Ce nom de fichier est déjà utilisé",
+        "target_not_found": "Localisation du fichier inconnue"
+      }
+    },
+    "renameItem": {
+      "labels": {
+        "input": "Renommer :",
+        "cancelButton": "Annuler",
+        "button": "Renommer"
+      },
+      "words": {
+        "file": "Fichier",
+        "folder": "Dossier"
+      },
+      "errors": {
+        "empty": "Un nom est requis",
+        "tooLong": "Le nom est trop long",
+        "invalidName": "Le nom {{item}} est invalide",
+        "name_exists": "Le nom {{item}} est déjà utilisé",
+        "target_not_found": "{{item}} est inconnu"
+      }
+    },
+    "deleteItem": {
+      "errors": {
+        "target_not_found": "Objet inconnu"
+      },
+      "labels": {
+        "warning": "Êtes-vous sûr de vouloir supprimer '{{item}}'?",
+        "doNotAskAgain": "Ne plus demander",
+        "cancelButton": "Annuler",
+        "confirmButton": "Supprimer"
+      }
+    }
+  },
+  "sidebar": {
+    "fileExplorer": {
+      "label": "Explorateur"
+    }
+  },
+  "contextMenu": {
+    "labels": {
+      "newFile": "Nouveau Fichier...",
+      "newFolder": "Nouveau Dossier...",
+      "renameItem": "Renommer...",
+      "deleteItem": "Supprimer"
+    }
+  }
+}
