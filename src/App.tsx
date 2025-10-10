@@ -16,6 +16,7 @@ import Image from './components/Image';
 import { parse } from './utils/markdown';
 import { usePersistentFilesTree } from './hooks/useFileTree';
 import { useTranslation } from 'react-i18next';
+import { downloadFile } from './utils/downloadFile';
 
 export default function App() {
   const { filesTree, setItems, loading } = usePersistentFilesTree();
@@ -128,31 +129,18 @@ export default function App() {
                   : null;
                 if (html === null) return;
                 e.stopPropagation();
-
-                const blob = new Blob([html], { type: 'text/html' });
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = item.name.replace(/\.(md|html)$/, '.html');
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
+                downloadFile(
+                  item.name.replace(/\.(md|html)$/, '.html'),
+                  [html],
+                  'text/html'
+                );
               };
 
               const download = async (e: React.MouseEvent) => {
                 if (!item || isDirectory(item)) return;
 
                 e.stopPropagation();
-                const blob = new Blob([item.content], { type: 'text/text' });
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = item.name;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
+                downloadFile(item.name, [item.content]);
               };
               if (
                 item &&
