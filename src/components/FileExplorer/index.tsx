@@ -3,14 +3,16 @@ import type { DirectoryItem, FileEntry } from '../../types/fileExplorer';
 import { DirectoryList } from './DirectoryList';
 import { useModal } from '../../hooks/useModal';
 import { CreateFileModal, CreateFolderModal } from '../ContextMenuModals';
-import { downloadFile } from '../../utils/downloadFile';
+import { downloadBlob, downloadFile } from '../../utils/downloadFile';
 import ExportIcon from '@icons/export.svg?react';
 import ImportIcon from '@icons/import.svg?react';
 import NewFileIcon from '@icons/new_file.svg?react';
 import NewFolderIcon from '@icons/new_folder.svg?react';
+import DownloadIcon from '@icons/download.svg?react';
 import { DirectoryItemArraySchema } from '../../schemas/directoryItemSchema';
 import { useRef } from 'react';
-import { importDirectory } from '../../utils/directoryItem';
+import { importDirectory, toZip } from '../../utils/directoryItem';
+import JSZip from 'jszip';
 
 interface FileExplorerProps {
   items: DirectoryItem[];
@@ -32,6 +34,7 @@ export default function FileExplorer({
   const { t } = useTranslation();
   const { open, close } = useModal();
   const inputRef = useRef<HTMLInputElement>(null);
+  const tabsWrapperRef = useRef<HTMLDivElement>(null);
 
   const newFileItem = () => {
     open(
@@ -66,6 +69,16 @@ export default function FileExplorer({
   const download = async (e: React.MouseEvent) => {
     e.stopPropagation();
     downloadFile('project.json', [JSON.stringify(items)]);
+  };
+
+  const downloadDirectoryAsZip = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const zip = new JSZip();
+    toZip(zip, items);
+
+    const blob = await zip.generateAsync({ type: 'blob' });
+
+    downloadBlob('export.zip', blob);
   };
 
   const handleFileUpload = async (
@@ -109,11 +122,43 @@ export default function FileExplorer({
     inputRef.current?.click();
   };
 
+  const handleWheel = (e: React.WheelEvent) => {
+    if (tabsWrapperRef.current) {
+      // Only handle horizontal scroll if available
+      tabsWrapperRef.current.scrollLeft += e.deltaY;
+    }
+  };
+
   return (
     <div className="w-full flex flex-col h-full bg-[var(--md-table-nth-child-bg-color)]">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center border-b border-[#333]">
         <h3 className="p-[4px]">{t('sidebar.fileExplorer.label')}</h3>
-        <div className="p-1 select-none flex gap-0.5">
+        <div
+          className="overflow-x-auto p-1 select-none flex gap-0.5 border-l border-[#333] scrollbar-hide"
+          ref={tabsWrapperRef}
+          onWheel={handleWheel}
+        >
+          <button
+            className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
+            onClick={newFileItem}
+            title={t('sidebar.fileExplorer.newFile')}
+          >
+            <NewFileIcon className="w-6 h-6 fill-gray-300" />
+          </button>
+          <button
+            className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
+            onClick={newDirectoryItem}
+            title={t('sidebar.fileExplorer.newFolder')}
+          >
+            <NewFolderIcon className="w-6 h-6 fill-gray-300" />
+          </button>
+          <button
+            className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
+            onClick={downloadDirectoryAsZip}
+            title={t('sidebar.fileExplorer.download')}
+          >
+            <DownloadIcon className="w-6 h-6 fill-gray-300" />
+          </button>
           <button
             className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
             onClick={triggerUpload}
@@ -137,20 +182,6 @@ export default function FileExplorer({
             <ExportIcon
               className={`w-6 h-6 ${items.length === 0 ? 'fill-gray-500' : 'fill-gray-300'}`}
             />
-          </button>
-          <button
-            className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
-            onClick={newFileItem}
-            title={t('sidebar.fileExplorer.newFile')}
-          >
-            <NewFileIcon className="w-6 h-6 fill-gray-300" />
-          </button>
-          <button
-            className="px-1 py-1 bg-transparent border-none rounded-md cursor-pointer text-[14px] leading-none hover:bg-gray-800"
-            onClick={newDirectoryItem}
-            title={t('sidebar.fileExplorer.newFolder')}
-          >
-            <NewFolderIcon className="w-6 h-6 fill-gray-300" />
           </button>
         </div>
       </div>

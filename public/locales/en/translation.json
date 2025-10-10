@@ -69,7 +69,8 @@
       "newFile": "New File",
       "newFolder": "New Folder",
       "invalidJSON": "Invalid JSON format. Please import a valid directory JSON.",
-      "close": "Close"
+      "close": "Close",
+      "download": "Download .zip"
     }
   },
   "contextMenu": {

@@ -8,6 +8,7 @@ import { moveDirectoryItem } from './moveItem';
 import { updateTree } from './updateTree';
 import { findParent } from './findParent';
 import { importDirectory } from './importDirectory';
+import { toZip } from './toZip';
 
 export type { CreateError } from './createFile';
 export type { DeleteError } from './deleteItem';
@@ -25,4 +26,5 @@ export {
   updateTree,
   findParent,
   importDirectory,
+  toZip,
 };
