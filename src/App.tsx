@@ -158,6 +158,7 @@ export default function App() {
                           className="absolute w-full h-full border-t border-[var(--md-cspan-bg-color)]"
                           title={item?.name ?? 'Undefined'}
                           srcDoc={html}
+                          disabled={sidebarProps.isDragging}
                         />
                       }
                     >
