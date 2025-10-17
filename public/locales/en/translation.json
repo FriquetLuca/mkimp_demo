@@ -75,6 +75,7 @@
   },
   "contextMenu": {
     "labels": {
+      "open": "Open",
       "newFile": "New File...",
       "newFolder": "New Folder...",
       "renameItem": "Rename...",

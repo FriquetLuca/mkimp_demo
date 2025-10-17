@@ -6,7 +6,7 @@ interface DirectoryListProps {
   items: DirectoryItem[];
   selectedFileIds: Array<string>;
   onOpen: (file: FileEntry) => void;
-  onSelect: (file: FileEntry, add?: boolean) => void;
+  onSelect: (item: DirectoryItem, add?: boolean) => void;
   onMove: (itemId: string, targetDirId: string) => void;
   depth: number;
   className?: string;

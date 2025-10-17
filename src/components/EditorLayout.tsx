@@ -10,12 +10,13 @@ interface EditorLayoutProps {
   containerRef: React.RefObject<HTMLDivElement | null>;
   direction?: 'left' | 'right';
   items: DirectoryItem[];
-  selectedFileIds: Array<string>;
+  selectedFileIds: string[];
   children: React.ReactNode;
   onMove: (itemId: string, targetDirId: string) => void;
   setItems: (newItems: DirectoryItem[]) => void;
   onOpen: (file: FileEntry) => void;
-  onSelect: (file: FileEntry, add?: boolean) => void;
+  onOpens: (fileIds: string[]) => void;
+  onSelect: (item: DirectoryItem, add?: boolean) => void;
   onSeparatorMouseDown: (e: React.MouseEvent) => void;
 }
 
@@ -26,6 +27,7 @@ export default function EditorLayout({
   onMove,
   onSelect,
   onOpen,
+  onOpens,
   direction = 'left',
   children,
   ...options
@@ -36,6 +38,8 @@ export default function EditorLayout({
       sidebarContent={
         <ContextMenuProvider
           createMenu={createContextMenu({
+            selectedFileIds,
+            onOpens,
             items,
             setItems,
           })}

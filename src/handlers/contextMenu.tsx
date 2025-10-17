@@ -41,6 +41,8 @@ export interface ContextMenuItem {
 }
 
 interface generateDirectoryItemHandlers {
+  selectedFileIds: string[];
+  onOpens: (fileIds: string[]) => void;
   items: DirectoryItem[];
   setItems: (newItems: DirectoryItem[]) => void;
 }
@@ -48,6 +50,8 @@ interface generateDirectoryItemHandlers {
 export function generateDirectoryItemHandlers({
   items,
   setItems,
+  selectedFileIds,
+  onOpens,
 }: generateDirectoryItemHandlers): ContextMenuItem[] {
   const { t } = useTranslation();
   const [hideDelete, setHideDelete] = useState(false);
@@ -131,6 +135,18 @@ export function generateDirectoryItemHandlers({
   };
 
   return [
+    {
+      label: t('contextMenu.labels.open'),
+      filter: (v) => v.type === 'file' && selectedFileIds.length > 0,
+      handler: (t) => {
+        const fileContext = t as ContextMenuFile;
+        if (selectedFileIds.includes(fileContext.value.id)) {
+          onOpens(selectedFileIds);
+        } else {
+          onOpens([fileContext.value.id]);
+        }
+      },
+    },
     {
       label: t('contextMenu.labels.newFile'),
       handler: (target) => newFileItem(target),

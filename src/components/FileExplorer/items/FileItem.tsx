@@ -1,14 +1,14 @@
 import React from 'react';
 import Item from './Item';
 import { useContextMenu } from '../../../hooks/useContextMenu';
-import type { FileEntry } from '../../../types/fileExplorer';
+import type { DirectoryItem, FileEntry } from '../../../types/fileExplorer';
 import Image from '../../Image';
 import { fileIcons } from '../../../utils/fileIcons';
 
 interface FileItemProps {
   file: FileEntry;
-  selectedFileIds: Array<string>;
-  onSelect: (file: FileEntry, add?: boolean) => void;
+  selectedFileIds: string[];
+  onSelect: (item: DirectoryItem, add?: boolean) => void;
   onOpen: (file: FileEntry) => void;
 }
 
@@ -62,8 +62,6 @@ export default function FileItem({
   };
 
   const handleFileClick = (e: React.MouseEvent) => {
-    // if ctrl or cmd key is pressed, do
-    console.log('handleFileClick', e.ctrlKey || e.metaKey);
     if (e.ctrlKey || e.metaKey) {
       onSelect(file, true);
     } else {

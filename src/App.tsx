@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import EditorView from './components/EditorView';
 import Sidebar from './components/Sidebar';
 import { useResizableSidebar } from './hooks/useResizableSidebar';
-import type { FileEntry } from './types/fileExplorer';
+import type { DirectoryItem, FileEntry } from './types/fileExplorer';
 import {
+  findByIds,
   isDirectory,
   moveDirectoryItem,
   updateTree,
@@ -23,40 +24,60 @@ import DownloadIcon from '@icons/download.svg?react';
 
 export default function App() {
   const { filesTree, setItems, loading } = usePersistentFilesTree();
-  // const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
-  const [selectedFileIds, setSelectedFileIds] = useState<Array<string>>([]);
+  const [selectedFileIds, setSelectedFileIds] = useState<string[]>([]);
   const [openedFileId, setOpenedFileId] = useState<string | null>(null);
   const [openedFiles, setOpenedFiles] = useState<FileEntry[]>([]);
   const [isSidebarVisible, setSidebarVisible] = useState(false);
   const [htmlPreviews, setHtmlPreviews] = useState<Record<string, string>>({});
   const { t } = useTranslation();
 
-  const handleToggleSelect = (file: FileEntry, forcePush: boolean = false) => {
+  const handleToggleSelect = (file: FileEntry) => {
     const selectedFileList = selectedFileIds;
-    if (!forcePush) {
-      if (selectedFileList.includes(file.id)) {
-        setSelectedFileIds(selectedFileList.filter((id) => id !== file.id));
-      } else {
-        setSelectedFileIds([...selectedFileList, file.id]);
-      }
+    if (selectedFileList.includes(file.id)) {
+      setSelectedFileIds(selectedFileList.filter((id) => id !== file.id));
     } else {
-      if (!selectedFileList.includes(file.id))
-        setSelectedFileIds([...selectedFileList, file.id]);
+      setSelectedFileIds([...selectedFileList, file.id]);
     }
   };
 
-  const onSelect = (file: FileEntry, add?: boolean) => {
-    if (add) handleToggleSelect(file, true);
-    else setSelectedFileIds([file.id]);
+  const onSelect = (item: DirectoryItem, add?: boolean) => {
+    if (add) handleToggleSelect(item as FileEntry);
+    else setSelectedFileIds([item.id]);
   };
 
   const onOpen = (file: FileEntry) => {
     setOpenedFileId(file.id);
-    handleToggleSelect(file, true);
+    handleToggleSelect(file);
     setOpenedFiles((prev) => {
       if (prev.find((f) => f.id === file.id)) return prev;
       return [...prev, file];
     });
+  };
+
+  const onOpens = (fileIds: string[]) => {
+    if (fileIds.length === 0) {
+      return;
+    }
+
+    const unorderedFiles = findByIds(fileIds, {
+      id: 'root',
+      name: '',
+      nodes: filesTree,
+    }).filter((i) => !isDirectory(i)) as FileEntry[];
+    const files: FileEntry[] = [];
+    for (const fileId of fileIds) {
+      const item = unorderedFiles.find((f) => f.id === fileId);
+      if (item) {
+        files.push(item);
+      }
+    }
+    const unopenedFiles = files.filter(
+      (f) => openedFiles.find((o) => o.id === f.id) === undefined
+    );
+    const focusFile = files.pop()!;
+
+    setOpenedFileId(focusFile.id);
+    setOpenedFiles([...openedFiles, ...unopenedFiles]);
   };
 
   const editorSidebarProps = useResizableSidebar();
@@ -127,6 +148,7 @@ export default function App() {
         onMove={handleMove}
         setItems={setItems}
         onSelect={onSelect}
+        onOpens={onOpens}
         onOpen={onOpen}
         {...editorSidebarProps}
       >

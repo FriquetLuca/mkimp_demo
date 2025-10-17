@@ -17,9 +17,9 @@ import JSZip from 'jszip';
 interface FileExplorerProps {
   items: DirectoryItem[];
   setItems: (newItems: DirectoryItem[]) => void;
-  selectedFileIds: Array<string>;
+  selectedFileIds: string[];
   onOpen: (file: FileEntry) => void;
-  onSelect: (file: FileEntry, add?: boolean) => void;
+  onSelect: (item: DirectoryItem, add?: boolean) => void;
   onMove: (itemId: string, targetDirId: string) => void;
 }
 

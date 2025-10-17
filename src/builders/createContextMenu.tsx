@@ -5,12 +5,21 @@ import {
 import type { DirectoryItem } from '../types/fileExplorer';
 
 interface createContextMenu {
+  selectedFileIds: string[];
+  onOpens: (fileIds: string[]) => void;
   items: DirectoryItem[];
   setItems: (newItems: DirectoryItem[]) => void;
 }
 
-export function createContextMenu({ items, setItems }: createContextMenu) {
+export function createContextMenu({
+  items,
+  setItems,
+  selectedFileIds,
+  onOpens,
+}: createContextMenu) {
   const menuItems = generateDirectoryItemHandlers({
+    selectedFileIds,
+    onOpens,
     items,
     setItems,
   });

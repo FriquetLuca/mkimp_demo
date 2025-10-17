@@ -2,12 +2,16 @@ import { useState } from 'react';
 import { DirectoryList } from '../DirectoryList';
 import Item from './Item';
 import { useContextMenu } from '../../../hooks/useContextMenu';
-import type { DirectoryEntry, FileEntry } from '../../../types/fileExplorer';
+import type {
+  DirectoryEntry,
+  DirectoryItem,
+  FileEntry,
+} from '../../../types/fileExplorer';
 
 interface FolderItemProps {
   folder: DirectoryEntry;
-  selectedFileIds: Array<string>;
-  onSelect: (file: FileEntry, add?: boolean) => void;
+  selectedFileIds: string[];
+  onSelect: (item: DirectoryItem, add?: boolean) => void;
   onOpen: (file: FileEntry) => void;
   onMove: (itemId: string, targetDirId: string) => void;
   depth: number;
@@ -70,6 +74,15 @@ export default function FolderItem({
     });
   };
 
+  const handleFileClick = (e: React.MouseEvent) => {
+    if (e.ctrlKey || e.metaKey) {
+      onSelect(folder, true);
+    } else {
+      onSelect(folder);
+      setOpen(!open);
+    }
+  };
+
   return (
     <>
       <li
@@ -79,15 +92,14 @@ export default function FolderItem({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onContextMenu={handleContextMenu}
+        onClick={handleFileClick}
         className={`hover:bg-[var(--md-border-color)] w-full cursor-pointer transition-colors duration-200 ease-in-out ${isOver ? 'bg-[rgba(100,100,255,0.2)]' : ''}`}
       >
-        <div onClick={() => setOpen(!open)}>
-          <Item
-            icon={open ? '📂' : '📁'}
-            name={folder.name}
-            isSelected={selectedFileIds.includes(folder.id)}
-          />
-        </div>
+        <Item
+          icon={open ? '📂' : '📁'}
+          name={folder.name}
+          isSelected={selectedFileIds.includes(folder.id)}
+        />
       </li>
       {open && (
         <DirectoryList

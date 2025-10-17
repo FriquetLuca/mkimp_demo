@@ -9,6 +9,7 @@ import { updateTree } from './updateTree';
 import { findParent } from './findParent';
 import { importDirectory } from './importDirectory';
 import { toZip } from './toZip';
+import { findByIds } from './findByIds';
 
 export type { CreateError } from './createFile';
 export type { DeleteError } from './deleteItem';
@@ -27,4 +28,5 @@ export {
   findParent,
   importDirectory,
   toZip,
+  findByIds,
 };
