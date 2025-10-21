@@ -2,14 +2,12 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface DeleteItemModalProps {
-  count: number;
   dontAskAgain: boolean;
   onDelete: (dontAskAgain: boolean) => void;
   onCancel: () => void;
 }
 
 export default function DeleteItemsModal({
-  count,
   onDelete,
   onCancel,
   dontAskAgain,
@@ -21,9 +19,7 @@ export default function DeleteItemsModal({
   return (
     <div className="p-4 pt-2 flex flex-col gap-1">
       <p className="text-center text-lg mb-4">
-        {t('modal.deleteItems.labels.warning', {
-          count,
-        })}
+        {t('modal.deleteItems.labels.warning')}
       </p>
 
       <label className="flex items-center gap-2 ml-4 mb-4 select-none cursor-pointer">

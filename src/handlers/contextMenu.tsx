@@ -149,7 +149,6 @@ export function generateDirectoryItemHandlers({
     } else {
       open(
         <DeleteItemsModal
-          count={ids.length}
           dontAskAgain={hideDelete}
           onCancel={close}
           onDelete={(del) => {

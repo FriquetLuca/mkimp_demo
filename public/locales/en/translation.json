@@ -62,7 +62,7 @@
     },
     "deleteItems": {
       "labels": {
-        "warning": "Are you sure you want to delete {{count}} elements?"
+        "warning": "Are you sure you want to delete all the selected elements?"
       }
     }
   },
