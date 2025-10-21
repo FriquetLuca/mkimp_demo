@@ -59,6 +59,11 @@
         "cancelButton": "Cancel",
         "confirmButton": "Delete"
       }
+    },
+    "deleteItems": {
+      "labels": {
+        "warning": "Are you sure you want to delete {{count}} elements?"
+      }
     }
   },
   "sidebar": {

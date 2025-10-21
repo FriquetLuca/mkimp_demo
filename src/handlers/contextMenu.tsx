@@ -5,7 +5,11 @@ import type {
   DirectoryItem,
   FileEntry,
 } from '../types/fileExplorer';
-import { deleteDirectoryItem, isDirectory } from '../utils/directoryItem';
+import {
+  deleteDirectoryItem,
+  deleteDirectoryItems,
+  isDirectory,
+} from '../utils/directoryItem';
 import { useTranslation } from 'react-i18next';
 import {
   CreateFileModal,
@@ -13,6 +17,7 @@ import {
   DeleteItemModal,
   RenameItemModal,
 } from '../components/ContextMenuModals';
+import DeleteItemsModal from '../components/ContextMenuModals/DeleteItemsModal';
 
 interface ContextMenuFile {
   type: 'file';
@@ -23,6 +28,8 @@ interface ContextMenuDirectory {
   type: 'directory';
   value: DirectoryEntry;
 }
+
+type ContextMenuExplorerItem = ContextMenuFile | ContextMenuDirectory;
 
 interface ContextMenuRootDir {
   type: 'rootdir';
@@ -134,6 +141,29 @@ export function generateDirectoryItemHandlers({
     }
   };
 
+  const deleteItems = (ids: string[]) => {
+    if (hideDelete) {
+      const result = deleteDirectoryItems(ids, items);
+      setItems(result);
+      close();
+    } else {
+      open(
+        <DeleteItemsModal
+          count={ids.length}
+          dontAskAgain={hideDelete}
+          onCancel={close}
+          onDelete={(del) => {
+            const result = deleteDirectoryItems(ids, items);
+            setItems(result);
+            setHideDelete(del);
+            close();
+          }}
+        />,
+        { containerOnly: false, static: true }
+      );
+    }
+  };
+
   return [
     {
       label: t('contextMenu.labels.open'),
@@ -163,7 +193,14 @@ export function generateDirectoryItemHandlers({
     {
       label: t('contextMenu.labels.deleteItem'),
       filter: (v) => v.type !== 'rootdir',
-      handler: (target) => deleteItem(target),
+      handler: (t) => {
+        const item = t as ContextMenuExplorerItem;
+        if (selectedFileIds.includes(item.value.id)) {
+          deleteItems(selectedFileIds);
+        } else {
+          deleteItem(item);
+        }
+      },
       className: 'text-red-500',
     },
   ];

@@ -3,6 +3,7 @@ import { sortDirectoryItems } from './sortItems';
 import { createDirectory } from './createDirectory';
 import { createFile } from './createFile';
 import { deleteDirectoryItem } from './deleteItem';
+import { deleteDirectoryItems } from './deleteItems';
 import { renameDirectoryItem } from './renameItem';
 import { moveDirectoryItem } from './moveItem';
 import { updateTree } from './updateTree';
@@ -22,6 +23,7 @@ export {
   createFile,
   createDirectory,
   deleteDirectoryItem,
+  deleteDirectoryItems,
   renameDirectoryItem,
   moveDirectoryItem,
   updateTree,
