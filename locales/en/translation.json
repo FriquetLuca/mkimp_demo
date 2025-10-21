@@ -59,6 +59,11 @@
         "cancelButton": "Cancel",
         "confirmButton": "Delete"
       }
+    },
+    "deleteItems": {
+      "labels": {
+        "warning": "Are you sure you want to delete {{count}} elements?"
+      }
     }
   },
   "sidebar": {
@@ -75,6 +80,7 @@
   },
   "contextMenu": {
     "labels": {
+      "open": "Open",
       "newFile": "New File...",
       "newFolder": "New Folder...",
       "renameItem": "Rename...",
