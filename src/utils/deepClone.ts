@@ -11,22 +11,22 @@ export function deepClone<T>(value: T, weakMap = new WeakMap()): T {
 
   // Handle Array
   if (Array.isArray(value)) {
-    const arrClone: any[] = [];
+    const arrClone: (keyof T)[] = [];
     weakMap.set(value, arrClone);
     for (const item of value) {
       arrClone.push(deepClone(item, weakMap));
     }
-    return arrClone as any;
+    return arrClone as T;
   }
 
   // Handle Date
   if (value instanceof Date) {
-    return new Date(value.getTime()) as any;
+    return new Date(value.getTime()) as T;
   }
 
   // Handle RegExp
   if (value instanceof RegExp) {
-    return new RegExp(value.source, value.flags) as any;
+    return new RegExp(value.source, value.flags) as T;
   }
 
   // Handle Function (clone by reference)
@@ -36,7 +36,7 @@ export function deepClone<T>(value: T, weakMap = new WeakMap()): T {
 
   // Handle DOM Nodes
   if (typeof Node !== 'undefined' && value instanceof Node) {
-    return value.cloneNode(true) as any;
+    return value.cloneNode(true) as T;
   }
 
   // Handle Map
@@ -46,7 +46,7 @@ export function deepClone<T>(value: T, weakMap = new WeakMap()): T {
     value.forEach((v, k) => {
       mapClone.set(deepClone(k, weakMap), deepClone(v, weakMap));
     });
-    return mapClone as any;
+    return mapClone as T;
   }
 
   // Handle Set
@@ -56,29 +56,29 @@ export function deepClone<T>(value: T, weakMap = new WeakMap()): T {
     value.forEach((v) => {
       setClone.add(deepClone(v, weakMap));
     });
-    return setClone as any;
+    return setClone as T;
   }
 
   // Handle WeakMap (clone as same reference)
   if (value instanceof WeakMap) {
-    return value as any;
+    return value;
   }
 
   // Handle WeakSet (same as WeakMap)
   if (value instanceof WeakSet) {
-    return value as any;
+    return value;
   }
 
   // Handle plain objects
   if (value instanceof Object) {
-    const objClone: any = {};
+    const objClone = {} as Record<keyof T, T[keyof T]>;
     weakMap.set(value, objClone);
     for (const key in value) {
       if (Object.prototype.hasOwnProperty.call(value, key)) {
-        objClone[key] = deepClone((value as any)[key], weakMap);
+        objClone[key] = deepClone(value[key], weakMap);
       }
     }
-    return objClone;
+    return objClone as T;
   }
 
   throw new Error(`Unsupported type: ${Object.prototype.toString.call(value)}`);

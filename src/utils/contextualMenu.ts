@@ -23,4 +23,4 @@ export const reservedWindowsNames = [
   'LPT9',
 ];
 
-export const validFileNameRegex = /^(?!\s)(?!\.{1,2}$)[^\\\/:*?"<>|]+(?<!\s)$/;
+export const validFileNameRegex = /^(?!\s)(?!\.{1,2}$)[^\\/:*?"<>|]+(?<!\s)$/;

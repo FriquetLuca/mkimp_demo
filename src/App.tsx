@@ -119,6 +119,7 @@ export default function App() {
 
   useEffect(() => {
     const parseHtmlForOpenedFiles = async () => {
+      if (openedFileId === null) return;
       for (const file of openedFiles) {
         if (openedFileId === file.id && file.name.endsWith('.md')) {
           const html = await parse(file, filesTree);
@@ -129,7 +130,7 @@ export default function App() {
       }
     };
     parseHtmlForOpenedFiles();
-  }, [openedFiles, filesTree]);
+  }, [openedFiles, filesTree, htmlPreviews, openedFileId]);
 
   if (loading) {
     return (

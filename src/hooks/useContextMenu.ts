@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { ContextMenuValue } from '../handlers/contextMenu';
+import type { ContextMenuValue } from './useGenerateDirectoryItemHandlers';
 import type { SetContextMenuState } from '../components/ContextMenuContainer';
 
 export interface ContextMenuContextValue {

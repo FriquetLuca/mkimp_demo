@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useModal } from '../hooks/useModal';
+import { useModal } from './useModal';
 import type {
   DirectoryEntry,
   DirectoryItem,
@@ -54,7 +54,7 @@ interface generateDirectoryItemHandlers {
   setItems: (newItems: DirectoryItem[]) => void;
 }
 
-export function generateDirectoryItemHandlers({
+export function useGenerateDirectoryItemHandlers({
   items,
   setItems,
   selectedFileIds,

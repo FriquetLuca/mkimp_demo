@@ -40,19 +40,22 @@ export default function ContextMenuContainer<T>({
     const el = localRef.current;
     if (!el) return;
 
-    const { offsetWidth: width, offsetHeight: height } = el;
-    const padding = 4;
-    let newLeft = x;
-    let newTop = y;
+    const run = async () => {
+      const { offsetWidth: width, offsetHeight: height } = el;
+      const padding = 4;
+      let newLeft = x;
+      let newTop = y;
 
-    if (x + width > window.innerWidth - padding) {
-      newLeft = window.innerWidth - width - padding;
-    }
-    if (y + height > window.innerHeight - padding) {
-      newTop = window.innerHeight - height - padding;
-    }
+      if (x + width > window.innerWidth - padding) {
+        newLeft = window.innerWidth - width - padding;
+      }
+      if (y + height > window.innerHeight - padding) {
+        newTop = window.innerHeight - height - padding;
+      }
 
-    setPosition({ left: newLeft, top: newTop });
+      setPosition({ left: newLeft, top: newTop });
+    };
+    run();
   }, [x, y]);
 
   useEffect(() => {

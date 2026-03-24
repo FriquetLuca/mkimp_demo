@@ -93,7 +93,7 @@ export default function FileExplorer({
       const parsed = DirectoryItemArraySchema.parse(json);
       const newItems = importDirectory(items, parsed);
       setItems(newItems);
-    } catch (_) {
+    } catch {
       open(
         <div className="p-4 pt-2 flex flex-col gap-1">
           <div className="flex gap-2 items-center">

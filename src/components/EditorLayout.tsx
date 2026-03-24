@@ -1,6 +1,6 @@
 import { ContextMenuProvider } from '../provider/ContextMenuProvider';
 import type { DirectoryItem, FileEntry } from '../types/fileExplorer';
-import { createContextMenu } from '../builders/createContextMenu';
+import { useCreateContextMenu } from '../hooks/useCreateContextMenu';
 import FileExplorer from './FileExplorer';
 import Sidebar from './Sidebar';
 
@@ -8,7 +8,6 @@ interface EditorLayoutProps {
   sidebarWidth: number;
   sidebarRef: React.RefObject<HTMLDivElement | null>;
   containerRef: React.RefObject<HTMLDivElement | null>;
-  direction?: 'left' | 'right';
   items: DirectoryItem[];
   selectedFileIds: string[];
   children: React.ReactNode;
@@ -28,7 +27,6 @@ export default function EditorLayout({
   onSelect,
   onOpen,
   onOpens,
-  direction = 'left',
   children,
   ...options
 }: EditorLayoutProps) {
@@ -37,7 +35,7 @@ export default function EditorLayout({
       {...options}
       sidebarContent={
         <ContextMenuProvider
-          createMenu={createContextMenu({
+          createMenu={useCreateContextMenu({
             selectedFileIds,
             onOpens,
             items,
