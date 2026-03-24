@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
 import { ContextMenuContext } from '../hooks/useContextMenu';
-import type { ContextMenuValue } from '../handlers/contextMenu';
 import ContextMenuContainer, {
   type ContextMenuState,
 } from '../components/ContextMenuContainer';
+import type { ContextMenuValue } from '../hooks/useGenerateDirectoryItemHandlers';
 
 interface ContextMenuProviderProps {
   children: React.ReactNode;
