@@ -136,7 +136,7 @@ export async function parse(
       const rendered = KaTeX.renderToString(token.text, {
         strict: false,
         throwOnError: false,
-        output: 'mathml',
+        output: 'htmlAndMathml',
         displayMode: token.displayMode,
       });
       if (token.inline) {
