@@ -485,6 +485,10 @@ td.md-tablecell {
 .md-underline {
   text-decoration: underline;
 }
+
 .md-overline {
   text-decoration: overline;
+}
+.inline-math {
+  display: inline-block;
 }

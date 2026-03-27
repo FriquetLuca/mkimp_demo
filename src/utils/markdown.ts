@@ -1,9 +1,11 @@
 import type { DirectoryItem, FileEntry } from '../types/fileExplorer';
 import emojis from './emojis.json';
-import { MkImp, type EmojiRecord } from 'mkimp';
+import { MkImp, registerToHLJS, type EmojiRecord } from 'mkimp';
 import jsyaml from 'js-yaml';
 import { isDirectory, findParent } from './directoryItem';
 import { urlPrefix } from './urlPrefix';
+import KaTeX from 'katex';
+import hljs from 'highlight.js';
 
 const templateHtml = `<!doctype html>
 <html>
@@ -128,6 +130,23 @@ export async function parse(
         }
       }
       return undefined;
+    },
+    useLatex: true,
+    async latex(token) {
+      const rendered = KaTeX.renderToString(token.text, {
+        strict: false,
+        throwOnError: false,
+        output: 'mathml',
+        displayMode: token.displayMode,
+      });
+      if (token.inline) {
+        return `<span style="display: inline-block;">${rendered}</span>`;
+      }
+      return rendered;
+    },
+    useHLJS: true,
+    async highlighter() {
+      return registerToHLJS(hljs);
     },
   });
   const result = await mkimp.parse(file.content);
