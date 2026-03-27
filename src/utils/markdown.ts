@@ -140,7 +140,10 @@ export async function parse(
         displayMode: token.displayMode,
       });
       if (token.inline) {
-        return `<span style="display: inline-block;">${rendered}</span>`;
+        const style = token.displayMode
+          ? ` style="display: inline-block;"`
+          : '';
+        return `<span${style}>${rendered}</span>`;
       }
       return rendered;
     },
