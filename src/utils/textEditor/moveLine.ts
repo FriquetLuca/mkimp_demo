@@ -18,7 +18,7 @@ export function moveLine({
   onChange,
   setContent,
 }: moveLineProps) {
-  let direction: 'up' | 'down' | null = null;
+  let direction: 'up' | 'down' | null;
   if (e.altKey && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
     direction =
       e.key === 'ArrowUp' ? 'up' : e.key === 'ArrowDown' ? 'down' : null;
@@ -45,7 +45,7 @@ export function moveLine({
   const selectedLines = allLines.slice(startLineIndex, endLineIndex + 1);
   const afterLines = allLines.slice(endLineIndex + 1);
 
-  let newLines: string[] = [];
+  let newLines: string[];
   let newStart = selectionStart;
   let newEnd = selectionEnd;
 

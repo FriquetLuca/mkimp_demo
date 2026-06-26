@@ -28,8 +28,9 @@ export default function FileEditor({
   const [lineNumberWidth, setLineNumberWidth] = useState(0);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setContent(file.content);
-  }, [file]);
+  }, [file.content]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const textarea = textareaRef.current;
@@ -92,6 +93,7 @@ export default function FileEditor({
     if (ctx) {
       ctx.font = font;
       const width = ctx.measureText(lineNumberText).width;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLineNumberWidth(width + 16);
     }
   }, [totalLines]);

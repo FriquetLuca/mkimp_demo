@@ -45,7 +45,7 @@ interface MoveCursorWordProps {
 export function moveCursorWord({ e, textarea, content }: MoveCursorWordProps) {
   if (!e.ctrlKey || e.altKey || e.metaKey) return;
 
-  let newPos: number | null = null;
+  let newPos: number;
 
   if (e.key === 'ArrowRight') {
     newPos = moveCursorWordRight(content, textarea.selectionStart);
